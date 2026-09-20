@@ -37,7 +37,7 @@ tão cedo. Distribuir o texto integral sem licença inviabiliza o produto, por m
 - [ ] Definir paleta: azul-noite, marfim/areia, terracota/cobre, âmbar
 - [ ] Escolher a tipografia editorial para leitura prolongada — decisão de maior impacto no produto
 - [ ] Design system: tokens, espaçamento, modo claro e escuro
-- [ ] Guia de tom de voz e biblioteca de microcopy (ver [`mensagem-inicial.md`](./mensagem-inicial.md))
+- [ ] Guia de tom de voz e biblioteca de microcopy (ver [`tom-de-voz.md`](./tom-de-voz.md))
 
 ### Técnica
 
@@ -215,4 +215,4 @@ Ordem em que as escolhas precisam ser feitas, porque cada uma condiciona a segui
 
 ---
 
-*Documentos relacionados:* [`one-page.md`](./one-page.md) · [`domínio.md`](./domínio.md) · [`mensagem-inicial.md`](./mensagem-inicial.md) · [`livros/`](./livros/)
+*Documentos relacionados:* [`one-page.md`](./one-page.md) · [`domínio.md`](./domínio.md) · [`mensagem-inicial.md`](./mensagem-inicial.md) · [`tom-de-voz.md`](./tom-de-voz.md) · [`livros/`](./livros/)

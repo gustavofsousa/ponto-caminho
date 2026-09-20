@@ -1,213 +1,215 @@
 # Mensagem inicial
 
-O primeiro contato entre o produto e a pessoa, e o guia de voz que governa todo o texto do app.
+Briefing original do projeto, na íntegra, tal como foi enviado. É a fonte de verdade sobre a
+intenção do produto: quando algum documento derivado divergir daqui, este texto prevalece.
 
-Este documento serve a duas coisas: a **mensagem de boas-vindas** propriamente dita (§2) e o
-**vocabulário e tom** que qualquer tela, notificação ou estado vazio deve seguir (§1, §4–§7).
-
----
-
-## 1. Tom de voz
-
-| Somos | Não somos |
-| --- | --- |
-| Serenos | Apressados, urgentes |
-| Diretos | Vagos, floreados |
-| Humanos | Institucionais, solenes |
-| Exigentes | Moralistas |
-| Espiritualmente profundos | Cheios de jargão |
-| Respeitosos com o ritmo | Cobradores |
-
-Três regras que resolvem a maioria das dúvidas de escrita:
-
-1. **Frases curtas.** Se uma frase precisa de vírgula para respirar três vezes, corte-a em duas.
-2. **Segunda pessoa, sem imperativo cobrador.** "Leia devagar" convida. "Não se esqueça de ler hoje" cobra.
-3. **Nunca falar sobre ausência.** O app não sabe quanto tempo a pessoa passou longe. Não comenta.
+Documentos derivados deste briefing: [`one-page.md`](./one-page.md) · [`Roadmap.md`](./Roadmap.md) · [`domínio.md`](./domínio.md) · [`tom-de-voz.md`](./tom-de-voz.md) · [`livros/`](./livros/)
 
 ---
 
-## 2. Boas-vindas
+Quero que comece a fazer a documentação. Roadmap.md domínio.md one-page.md mensagem-inicial.md livros/*.json
 
-### Primeira abertura
+Quero projetar um aplicativo de leitura espiritual católica centrado nas obras “Caminho”, “Sulco” e “Forja”, de São Josemaría Escrivá.
 
-> **Um ponto para agora.**
->
-> *Caminho*, *Sulco* e *Forja* reunidos em pontos breves — para ler devagar,
-> voltar quando precisar e guardar o que cada um pedir de você.
+O produto não deve ser apenas um repositório de frases. A proposta é criar uma experiência premium, contemplativa, simples e muito bem desenhada para leitura diária, reflexão pessoal e acompanhamento da vida interior.
 
-`[ Começar ]`
+CONTEXTO CONCEITUAL
 
-### As três telas do início
+Os três títulos formam uma unidade simbólica:
 
-Três telas, uma ideia cada, todas puláveis. Nenhuma pede cadastro.
+- Caminho: percurso, direção, vida em movimento, vocação e avanço espiritual.
+- Sulco: a marca aberta no terreno pelo trabalho e pela repetição; simboliza constância, cultivo e profundidade.
+- Forja: transformação por fogo, esforço e golpes; simboliza formação do caráter e amadurecimento espiritual.
 
----
+O conceito central da marca e do produto é unidade de leitura dos três livros: você não lê “um capítulo genérico”; você encontra um ponto, recebe uma provocação concreta, medita e leva aquilo para a vida. As obras também permitem organização temática por pontos — como plano de vida, fé, fortaleza, dificuldades e conhecimento próprio — o que reforça essa arquitetura de produto.. Cada reflexão lida, anotada, favoritada ou revisitada deve ajudar a pessoa a construir um caminho interior, aprofundar sulcos de virtude e ser forjada na vida cotidiana.
+O território agora não é “caminho” abstrato. É: um ponto breve que orienta uma vida concreta.
 
-**1 — O que você vai encontrar**
+Ele carrega quatro leituras ao mesmo tempo, sem depender de metáfora rebuscada:
+Ponto textual: a unidade real de conteúdo em Caminho, Sulco e Forja.
+Ponto de atenção: algo em que você para para refletir.
+Ponto de orientação: uma referência que ajuda a se localizar e decidir
 
-> **Um ponto por vez.**
->
-> Nada de capítulos longos. Um texto breve, com sua referência clara,
-> e espaço para o que ele provocar em você.
 
----
+O ponto de partida simbólico é o ponto 1 de “Caminho”, cuja mensagem inclui: “Sê útil. Deixa rasto. Ilumina...”. A ideia é que o produto ajude o usuário a deixar rastros bons, concretos e pessoais em sua rotina.
 
-**2 — O que fica**
+OBJETIVO DO PRODUTO
 
-> **O que você escrever fica com você.**
->
-> Suas reflexões são suas. Ficam no seu aparelho, não são lidas por ninguém
-> e não servem a mais nada além de você poder relê-las depois.
+Criar um aplicativo mobile-first — com possibilidade futura de web e desktop — para leitura, meditação, organização e revisita dos pontos de Caminho, Sulco e Forja.
 
----
+A experiência deve transmitir:
+- Sobriedade católica e profundidade espiritual.
+- Calor humano, sem visual excessivamente religioso ou institucional.
+- Elegância editorial e foco absoluto no texto.
+- Baixa fricção: abrir o app, receber um ponto, ler, refletir e registrar algo em poucos segundos.
+- Sensação de continuidade: o usuário está percorrendo um caminho, cultivando um sulco e sendo formado ao longo do tempo.
 
-**3 — Por onde começar**
+PÚBLICO-ALVO
 
-> **Comece pelo ponto 1.**
->
-> *"Sê útil. Deixa rasto. Ilumina…"*
-> — Caminho, capítulo Caráter, ponto 1
->
-> Ou deixe que o app escolha um ponto para agora.
+Público principal:
+- Católicos que desejam criar ou fortalecer um hábito diário de oração, meditação e exame pessoal.
+- Leitores de São Josemaría Escrivá.
+- Pessoas que valorizam espiritualidade prática aplicada à vida cotidiana, trabalho, família, estudo e relações.
 
-`[ Ler o ponto 1 ]`   `[ Um ponto para agora ]`
+Público secundário:
+- Pessoas que querem conhecer os textos de Caminho, Sulco e Forja.
+- Grupos de formação, direção espiritual, círculos de estudo e comunidades católicas.
+- Usuários que buscam uma experiência de leitura reflexiva, mesmo sem prática diária consolidada.
 
-> **Nota de implementação.** O trecho citado depende da licença vigente e da tradução adotada.
-> Ver [`livros/README.md`](./livros/README.md).
+FUNCIONALIDADES
 
----
+1. Biblioteca dos três livros
+- Exibir Caminho, Sulco e Forja.
+- Navegação por livro, capítulo e número do ponto.
+- Leitura contínua ou acesso direto a um ponto específico.
+- Exibir metadados claros: livro, capítulo e número do ponto.
+- Permitir retomar a última leitura.
 
-## 3. Depois do primeiro ponto
+2. Leitura por capítulo
+- Índice organizado por livro e capítulo.
+- Progresso de leitura por capítulo e por livro.
+- Possibilidade de marcar capítulos como concluídos ou em leitura.
+- Interface editorial limpa, com tipografia confortável, bom espaçamento e modo escuro.
 
-Quando a pessoa lê o primeiro ponto, uma única sugestão aparece ao final — discreta, recusável,
-e nunca repetida:
+3. Página de cada ponto
+- Texto integral do ponto. 
+- Referência do ponto: por exemplo, Caminho, capítulo Caráter, ponto 1.
+- Ações rápidas:
+  - Favoritar.
+  - Salvar em uma lista.
+  - Escrever uma reflexão pessoal.
+  - Compartilhar referência ou trecho permitido.
+  - Abrir ponto anterior e próximo.
+  - Marcar como lido.
+- Exibir as notas pessoais do usuário relacionadas àquele ponto.
+- Exibir em quais listas o ponto foi salvo.
 
-> Se algo aqui ficou, escreva.
-> Daqui a alguns meses, você vai querer ter escrito.
+4. Reflexões e anotações
+- O usuário pode escrever pensamentos, propósitos, orações, resoluções ou contexto pessoal sobre cada ponto.
+- Cada anotação deve ter data e hora.
+- Permitir edição e exclusão pelo próprio usuário.
+- Possibilidade futura de revisão periódica das anotações.
 
-`[ Escrever uma reflexão ]`   `[ Agora não ]`
+5. Favoritos e coleções 
+- Favoritos gerais para acesso rápido.
+- Criação de coleções próprias, como:
+  - Pontos para reler.
+  - Meditação da semana.
+  - Vida profissional.
+  - Família.
+  - Direção espiritual.
+  - Preparação para confissão.
+  - Virtudes a trabalhar.
+- Um mesmo ponto pode pertencer a várias coleções.
+- Possibilidade futura de compartilhar coleções por link, sem expor anotações privadas.
 
-Este é o único momento em que o app sugere uma ação não pedida. Depois disso, ele espera.
+6. Ponto aleatório
+- Botão “Surpreenda-me” ou “Um ponto para agora”.
+- O objetivo não é gamificar a espiritualidade, mas facilitar um encontro breve e significativo com um texto.
 
----
+7. Ponto do dia
+- Um ponto diário apresentado na tela inicial.
+- O usuário pode optar por receber notificação em um horário escolhido.
+- Configurações:
+  - Escolher um dos três livros ou alternar entre todos.
+  - Receber apenas em dias definidos ou todos os dias.
+  - Definir horário da notificação.
+- Salvar o histórico dos “pontos do dia” já recebidos.
+- Possibilidade de escrever uma reflexão específica sobre o ponto diário.
 
-## 4. Microcopy de referência
+8. Busca
+- Busca por palavra-chave no conteúdo autorizado.
+- Filtros por livro, capítulo, número do ponto, favorito e lista.
+- Busca também nas anotações pessoais do usuário, sempre de modo privado.
+- futuro uma IA que usuário pergunta sobre uma ideia e a ia apresenta os principais pontos em torno daquela ideia. Muito comum em: "lembro de um ponto que fala sobre isso, mas não lembro as palavras exatas"
 
-### Tela inicial
-- Seu ponto de hoje.
-- Continue de onde parou.
-- Um ponto para agora.
+9. Perfil e privacidade
+- Conta opcional, mas possível para sincronizar anotações, favoritos e listas.
+- Privacidade como princípio de produto: anotações são pessoais e não devem ser usadas para publicidade, treinamento público de IA ou compartilhamento sem consentimento explícito.
+- Exportação futura das anotações do usuário em formato Markdown, PDF ou texto.
+- Sincronização futura entre celular, web e desktop.
 
-### Leitura
-- Leia devagar.
-- Volte a este ponto quando precisar.
-- O que este ponto pede de você hoje?
+MOTOR REUTILIZÁVEL
 
-### Reflexão
-- Deixe aqui um rastro da sua meditação.
-- Guarde esta reflexão.
-- Escrito em 12 de março de 2026, 6h40.
-- Você escreveu sobre este ponto há um ano.
+O aplicativo deve nascer com uma arquitetura desacoplada entre conteúdo, experiência de leitura e mecanismo de seleção/recomendação.
 
-### Coleções
-- Guardar em uma coleção.
-- Pontos para reler.
-- Nada aqui ainda. O que você salvar aparece nesta lista.
+Criar um “motor de pontos” reutilizável que possa alimentar outros produtos e interfaces no futuro:
+- Aplicativo mobile.
+- Aplicação web.
+- Aplicação desktop.
+- Widget.
+- Plugin para navegador.
+- Integração com ferramentas de notas.
+- API pública ou privada.
 
-### Busca
-- Busque por uma palavra, um tema ou uma ideia.
-- Nenhum ponto encontrado. Tente outra palavra.
+Esse motor deve ser capaz de:
+- Receber uma coleção estruturada de textos curtos.
+- Organizar conteúdo por obra, capítulo, tema, número e idioma.
+- Retornar um ponto por ID.
+- Retornar um ponto aleatório. 
+- Retornar um ponto diário.
+- Retornar o próximo ponto em uma sequência de leitura.
+- Registrar histórico de leituras, favoritos, listas e anotações.
+- Permitir a substituição futura da coleção “Caminho, Sulco e Forja” por outras coleções de meditações, citações, regras de vida, textos clássicos ou conteúdos próprios.
 
-### Estados vazios
 
-Estados vazios são convites, nunca constatações de falta.
+Diretrizes:
+- Tela inicial minimalista.
+- Um ponto por vez, sem excesso de cards, métricas ou distrações.
+- Tipografia de alta legibilidade para leitura prolongada.
+- Espaço em branco generoso.
+- Navegação previsível e silenciosa.
+- Uso cuidadoso de animações: discretas, lentas e significativas.
+- Modo claro e escuro.
+- Boa acessibilidade: tamanho de fonte ajustável, contraste adequado, suporte a leitor de tela.
+- Evitar notificações agressivas, streaks, rankings e mecanismos de culpa.
+- Evitar estética genérica de “app bíblico” com dourado excessivo, cruzes decorativas e excesso de ornamentos.
 
-| Contexto | Texto |
-| --- | --- |
-| Sem favoritos | Os pontos que você favoritar ficam aqui. |
-| Sem reflexões | Aqui ficam as suas reflexões, na ordem em que você escrever. |
-| Sem coleções | Crie uma coleção para reunir pontos sobre o que você quiser trabalhar. |
-| Histórico vazio | Seu percurso aparece aqui conforme você for lendo. |
+DIREÇÃO VISUAL SUGERIDA
 
-### Notificação do ponto do dia
+A identidade pode combinar:
+- O traço, a passagem e o caminho.
+- O sulco, a linha gravada ou o campo cultivado.
+- A brasa, o fogo controlado e o metal em transformação.
+- Papel, pedra, luz quente e materiais táteis.
+- Interpretações 
 
-Uma frase. Sem emoji, sem exclamação, sem urgência.
+Paleta possível:
+- Azul profundo ou azul-noite: contemplação, silêncio, profundidade.
+- Marfim ou areia: leitura, papel, humanidade e acolhimento.
+- Terracota ou cobre: terra, sulco, trabalho e forja.
+- Dourado queimado ou âmbar: luz, fogo e esperança.
+- Pesquisar capa do livro Caminho e analisar. 
 
-> **Ponto** · Seu ponto de hoje.
+TOM DE VOZ
 
-E, quando a pessoa a configura:
+- Sereno.
+- Direto.
+- Humano.
+- Exigente sem ser moralista.
+- Espiritualmente profundo sem jargão excessivo.
+- Respeitoso com a liberdade e o ritmo do usuário.
 
-> Você escolhe o horário. Se um dia não der, não tem problema —
-> o ponto continua aqui quando você voltar.
+Exemplos de microcopy:
+- “Seu ponto de hoje.”
+- “Continue de onde parou.”
+- “Guarde esta reflexão.”
+- “Volte a este ponto quando precisar.”
+- “O que este ponto pede de você hoje?”
+- “Deixe aqui um rastro da sua meditação.”
+- “Leia devagar.”
+- “Um ponto para agora.”
 
----
+DIFERENCIAL
 
-## 5. O que nunca escrevemos
+O diferencial não é ter os textos disponíveis — eles já podem ser encontrados em outros canais. O diferencial é transformar a leitura em um percurso pessoal e organizado:
 
-| Nunca | Porque |
-| --- | --- |
-| "Você está há 5 dias sem ler" | Cobrança disfarçada de informação |
-| "Não perca sua sequência!" | Culpa como mecanismo de retenção |
-| "Transforme sua vida espiritual em 30 dias" | Promessa que o produto não pode cumprir |
-| "Parabéns! Você desbloqueou…" | Mérito não pertence a este domínio |
-| "Veja o que outros usuários estão lendo" | A vida interior aqui é pessoal |
-| "A IA sugere que você reflita sobre…" | O app não dá direção espiritual |
-| "Compartilhe sua reflexão" | Anotações são privadas por princípio |
+texto → silêncio → reflexão → anotação → releitura → vida prática.
 
----
+O app deve ajudar o usuário a construir uma memória espiritual pessoal ao longo dos meses e anos. 
 
-## 6. Sobre privacidade, quando o assunto aparece
+RESTRIÇÕES E CUIDADOS
 
-Dito uma vez, com clareza, sem juridiquês:
-
-> **Suas reflexões são suas.**
->
-> Ficam no seu aparelho. Não são usadas para publicidade, não treinam
-> inteligência artificial e não são compartilhadas com ninguém.
->
-> Você pode exportar tudo ou apagar tudo, quando quiser.
-
-E quando a conta opcional é oferecida:
-
-> Criar uma conta serve para uma coisa só: não perder o que você escreveu
-> se trocar de aparelho. O app funciona inteiro sem ela.
-
----
-
-## 7. Limites que o texto precisa respeitar
-
-O app é um lugar de leitura e registro. Não é diretor espiritual, não é confessor, não é terapeuta.
-
-- Nunca interpretar um ponto pelo usuário.
-- Nunca sugerir o que ele "deveria" sentir ou concluir.
-- Nunca prometer resultado espiritual.
-- Nunca usar a leitura como medida de virtude.
-- Jargão só quando é o termo certo — e a obra já o traz.
-
-Quando uma tela precisar de uma frase e nenhuma das acima servir, o critério é:
-**o que um amigo sério e discreto diria, em voz baixa, sem querer nada em troca?**
-
----
-
-## 8. Mensagem de apresentação do projeto
-
-Para quando o projeto precisar ser apresentado a um colaborador, designer, editora ou detentor
-de direitos:
-
-> **Ponto** é um aplicativo de leitura espiritual construído em torno de *Caminho*, *Sulco* e
-> *Forja*, de São Josemaría Escrivá.
->
-> Esses textos já circulam em muitos lugares. O que não existe é um lugar onde a leitura
-> vire percurso: onde a pessoa encontre um ponto, medite, registre o que ele pediu dela e
-> reencontre aquilo meses depois.
->
-> A proposta é uma experiência sóbria, contemplativa e muito bem desenhada, com foco absoluto
-> no texto — sem gamificação, sem cobrança, sem publicidade, e tratando as anotações pessoais
-> com a sensibilidade que dados religiosos exigem.
->
-> O ponto de partida é o ponto 1 de *Caminho*: deixar rastro.
-> É exatamente isso que o produto ajuda alguém a fazer na própria rotina.
-
----
-
-*Documentos relacionados:* [`one-page.md`](./one-page.md) · [`Roadmap.md`](./Roadmap.md) · [`domínio.md`](./domínio.md)
+- Tratar anotações como dados altamente sensíveis do ponto de vista pessoal e religioso.
+- Não usar linguagem que prometa transformação automática, aconselhamento espiritual profissional ou substituição de acompanhamento humano.
+- Não manipular o usuário com gamificação, culpa ou notificações excessivas.
+- Priorizar uma primeira versão extremamente bem executada em leitura, favoritos, coleções e ponto aleatório, em vez de tentar lançar muitas funcionalidades superficiais.

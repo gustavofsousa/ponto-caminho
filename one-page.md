@@ -129,4 +129,4 @@ sequência de dias consecutivos.
 
 ---
 
-*Documentos relacionados:* [`Roadmap.md`](./Roadmap.md) · [`domínio.md`](./domínio.md) · [`mensagem-inicial.md`](./mensagem-inicial.md) · [`livros/`](./livros/)
+*Documentos relacionados:* [`Roadmap.md`](./Roadmap.md) · [`domínio.md`](./domínio.md) · [`mensagem-inicial.md`](./mensagem-inicial.md) · [`tom-de-voz.md`](./tom-de-voz.md) · [`livros/`](./livros/)
