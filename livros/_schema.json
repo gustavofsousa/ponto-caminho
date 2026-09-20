@@ -1,0 +1,143 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://ponto.app/schema/colecao.json",
+  "title": "Obra de uma coleção de pontos",
+  "description": "Estrutura de uma obra consumida pelo motor de pontos. O motor é agnóstico ao conteúdo: qualquer corpus de textos curtos que satisfaça este schema pode substituir Caminho, Sulco e Forja.",
+  "type": "object",
+  "required": ["id", "versaoDados", "status", "colecaoId", "obra", "direitos", "capitulos", "pontos"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Identificador da obra, usado no PontoId."
+    },
+    "versaoDados": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semver. Incrementa sempre que texto ou estruturação mudam. Referências guardadas pelo usuário são estáveis dentro de uma versão."
+    },
+    "status": {
+      "enum": ["estrutura", "parcial", "completo"],
+      "description": "estrutura = só metadados e índice, sem texto dos pontos. parcial = subconjunto licenciado. completo = obra integral sob licença vigente."
+    },
+    "colecaoId": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Coleção a que a obra pertence."
+    },
+    "obra": {
+      "type": "object",
+      "required": ["titulo", "idioma", "totalPontos", "totalCapitulos"],
+      "additionalProperties": false,
+      "properties": {
+        "titulo": { "type": "string" },
+        "tituloOriginal": { "type": "string" },
+        "subtitulo": { "type": ["string", "null"] },
+        "idioma": { "type": "string", "description": "BCP-47, ex.: pt-BR" },
+        "idiomaOriginal": { "type": "string" },
+        "autor": {
+          "type": "object",
+          "required": ["nome"],
+          "additionalProperties": false,
+          "properties": {
+            "nome": { "type": "string" },
+            "nomeCompleto": { "type": "string" },
+            "nascimento": { "type": ["integer", "null"] },
+            "falecimento": { "type": ["integer", "null"] }
+          }
+        },
+        "edicao": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Edição concreta da qual o texto é ingerido. Obrigatória quando status != estrutura.",
+          "properties": {
+            "editora": { "type": ["string", "null"] },
+            "ano": { "type": ["integer", "null"] },
+            "tradutor": { "type": ["string", "null"] },
+            "isbn": { "type": ["string", "null"] },
+            "observacoes": { "type": ["string", "null"] }
+          }
+        },
+        "primeiraPublicacao": { "type": ["integer", "null"] },
+        "totalPontos": { "type": "integer", "minimum": 1 },
+        "totalCapitulos": { "type": ["integer", "null"], "minimum": 1 },
+        "sinopse": { "type": ["string", "null"] }
+      }
+    },
+    "direitos": {
+      "type": "object",
+      "required": ["dominioPublico", "licenciado"],
+      "additionalProperties": false,
+      "description": "Estado jurídico da obra. O campo texto de um ponto só pode ser populado quando licenciado = true.",
+      "properties": {
+        "dominioPublico": { "type": "boolean" },
+        "licenciado": { "type": "boolean" },
+        "titular": { "type": ["string", "null"] },
+        "licenca": { "type": ["string", "null"], "description": "Instrumento que autoriza o uso." },
+        "escopo": { "type": ["string", "null"], "description": "Territórios, idiomas e plataformas cobertos." },
+        "limiteCitacao": {
+          "type": ["integer", "null"],
+          "description": "Número máximo de pontos que podem ser compartilhados integralmente fora do app. null = apenas a referência."
+        },
+        "atribuicaoExigida": { "type": ["string", "null"] },
+        "validoAte": { "type": ["string", "null"], "format": "date" },
+        "observacoes": { "type": ["string", "null"] }
+      }
+    },
+    "capitulos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["numero", "slug", "titulo"],
+        "additionalProperties": false,
+        "properties": {
+          "numero": { "type": "integer", "minimum": 1 },
+          "slug": { "type": ["string", "null"], "pattern": "^[a-z0-9-]+$" },
+          "titulo": { "type": ["string", "null"] },
+          "tituloOriginal": { "type": ["string", "null"] },
+          "pontoInicial": { "type": ["integer", "null"], "minimum": 1 },
+          "pontoFinal": { "type": ["integer", "null"], "minimum": 1 },
+          "validado": {
+            "type": "boolean",
+            "description": "true quando título, ordem e intervalo foram conferidos contra a edição oficial impressa."
+          },
+          "nota": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "pontos": {
+      "type": "array",
+      "description": "Vazio enquanto status = estrutura. Populado pelo pipeline de ingestão a partir da fonte licenciada.",
+      "items": {
+        "type": "object",
+        "required": ["numero", "capituloNumero", "ordem", "texto"],
+        "additionalProperties": false,
+        "properties": {
+          "numero": { "type": "integer", "minimum": 1, "description": "Numeração do autor, única dentro da obra." },
+          "capituloNumero": { "type": "integer", "minimum": 1 },
+          "ordem": { "type": "integer", "minimum": 1, "description": "Posição absoluta na obra, para navegação sequencial." },
+          "texto": { "type": "string" },
+          "temas": { "type": "array", "items": { "type": "string", "pattern": "^[a-z0-9-]+$" } },
+          "referenciasBiblicas": { "type": "array", "items": { "type": "string" } },
+          "nota": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "fontes": {
+      "type": "array",
+      "description": "Procedência dos metadados deste arquivo, para auditoria.",
+      "items": {
+        "type": "object",
+        "required": ["descricao"],
+        "additionalProperties": false,
+        "properties": {
+          "descricao": { "type": "string" },
+          "url": { "type": ["string", "null"] },
+          "consultadoEm": { "type": ["string", "null"], "format": "date" }
+        }
+      }
+    }
+  }
+}

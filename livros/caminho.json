@@ -1,0 +1,477 @@
+{
+  "$schema": "./_schema.json",
+  "id": "caminho",
+  "versaoDados": "0.1.0",
+  "status": "estrutura",
+  "colecaoId": "caminho-sulco-forja",
+  "obra": {
+    "titulo": "Caminho",
+    "tituloOriginal": "Camino",
+    "subtitulo": null,
+    "idioma": "pt-BR",
+    "idiomaOriginal": "es",
+    "autor": {
+      "nome": "São Josemaría Escrivá",
+      "nomeCompleto": "Josemaría Escrivá de Balaguer",
+      "nascimento": 1902,
+      "falecimento": 1975
+    },
+    "edicao": {
+      "editora": null,
+      "ano": null,
+      "tradutor": null,
+      "isbn": null,
+      "observacoes": "A definir junto com a licença. O índice abaixo deve ser conferido contra a edição efetivamente adotada."
+    },
+    "primeiraPublicacao": 1939,
+    "totalPontos": 999,
+    "totalCapitulos": 46,
+    "sinopse": "Percurso, direção, vida em movimento. Noventa e nove dezenas mais nove de considerações breves sobre vida interior, oração, virtudes humanas, trabalho e apostolado."
+  },
+  "direitos": {
+    "dominioPublico": false,
+    "licenciado": false,
+    "titular": null,
+    "licenca": null,
+    "escopo": null,
+    "limiteCitacao": null,
+    "atribuicaoExigida": null,
+    "validoAte": null,
+    "observacoes": "Obra protegida por direito autoral. O autor faleceu em 1975; a obra não está em domínio público e não estará tão cedo. O array 'pontos' permanece vazio e 'status' permanece 'estrutura' ate que uma licenca formal seja obtida e registrada aqui. Ver Fase 0 do Roadmap."
+  },
+  "capitulos": [
+    {
+      "numero": 1,
+      "slug": "carater",
+      "titulo": "Caráter",
+      "tituloOriginal": "Carácter",
+      "pontoInicial": 1,
+      "pontoFinal": 55,
+      "validado": false
+    },
+    {
+      "numero": 2,
+      "slug": "direcao",
+      "titulo": "Direção",
+      "tituloOriginal": "Dirección",
+      "pontoInicial": 56,
+      "pontoFinal": 80,
+      "validado": false
+    },
+    {
+      "numero": 3,
+      "slug": "oracao",
+      "titulo": "Oração",
+      "tituloOriginal": "Oración",
+      "pontoInicial": 81,
+      "pontoFinal": 117,
+      "validado": true
+    },
+    {
+      "numero": 4,
+      "slug": "santa-pureza",
+      "titulo": "Santa Pureza",
+      "tituloOriginal": "Santa Pureza",
+      "pontoInicial": 118,
+      "pontoFinal": 145,
+      "validado": true
+    },
+    {
+      "numero": 5,
+      "slug": "coracao",
+      "titulo": "Coração",
+      "tituloOriginal": "Corazón",
+      "pontoInicial": 146,
+      "pontoFinal": 171,
+      "validado": true
+    },
+    {
+      "numero": 6,
+      "slug": "mortificacao",
+      "titulo": "Mortificação",
+      "tituloOriginal": "Mortificación",
+      "pontoInicial": 172,
+      "pontoFinal": 207,
+      "validado": true
+    },
+    {
+      "numero": 7,
+      "slug": "penitencia",
+      "titulo": "Penitência",
+      "tituloOriginal": "Penitencia",
+      "pontoInicial": 208,
+      "pontoFinal": 234,
+      "validado": true
+    },
+    {
+      "numero": 8,
+      "slug": "exame",
+      "titulo": "Exame",
+      "tituloOriginal": "Examen",
+      "pontoInicial": 235,
+      "pontoFinal": 246,
+      "validado": true
+    },
+    {
+      "numero": 9,
+      "slug": "propositos",
+      "titulo": "Propósitos",
+      "tituloOriginal": "Propósitos",
+      "pontoInicial": 247,
+      "pontoFinal": 255,
+      "validado": false,
+      "nota": "Divisão entre Propósitos e Escrúpulos dentro do intervalo 247-264 a conferir."
+    },
+    {
+      "numero": 10,
+      "slug": "escrupulos",
+      "titulo": "Escrúpulos",
+      "tituloOriginal": "Escrúpulos",
+      "pontoInicial": 256,
+      "pontoFinal": 264,
+      "validado": false,
+      "nota": "Ver nota do capítulo 9."
+    },
+    {
+      "numero": 11,
+      "slug": "presenca-de-deus",
+      "titulo": "Presença de Deus",
+      "tituloOriginal": "Presencia de Dios",
+      "pontoInicial": 265,
+      "pontoFinal": 278,
+      "validado": true
+    },
+    {
+      "numero": 12,
+      "slug": "vida-sobrenatural",
+      "titulo": "Vida sobrenatural",
+      "tituloOriginal": "Vida sobrenatural",
+      "pontoInicial": 279,
+      "pontoFinal": 300,
+      "validado": true
+    },
+    {
+      "numero": 13,
+      "slug": "mais-de-vida-interior",
+      "titulo": "Mais de vida interior",
+      "tituloOriginal": "Más de vida interior",
+      "pontoInicial": 301,
+      "pontoFinal": 324,
+      "validado": true
+    },
+    {
+      "numero": 14,
+      "slug": "tibieza",
+      "titulo": "Tibieza",
+      "tituloOriginal": "Tibieza",
+      "pontoInicial": 325,
+      "pontoFinal": 331,
+      "validado": true
+    },
+    {
+      "numero": 15,
+      "slug": "estudo",
+      "titulo": "Estudo",
+      "tituloOriginal": "Estudio",
+      "pontoInicial": 332,
+      "pontoFinal": 359,
+      "validado": true
+    },
+    {
+      "numero": 16,
+      "slug": "formacao",
+      "titulo": "Formação",
+      "tituloOriginal": "Formación",
+      "pontoInicial": 360,
+      "pontoFinal": 386,
+      "validado": true
+    },
+    {
+      "numero": 17,
+      "slug": null,
+      "titulo": null,
+      "tituloOriginal": null,
+      "pontoInicial": 387,
+      "pontoFinal": null,
+      "validado": false,
+      "nota": "LACUNA CONHECIDA: o intervalo 387-416 corresponde a dois capítulos (17 e 18), cujos títulos e ponto de corte não foi possível confirmar remotamente. Conferir na edição impressa. Uma das partes corresponde ao capítulo conhecido em espanhol como 'El plano de tu santidad'."
+    },
+    {
+      "numero": 18,
+      "slug": null,
+      "titulo": null,
+      "tituloOriginal": null,
+      "pontoInicial": null,
+      "pontoFinal": 416,
+      "validado": false,
+      "nota": "Ver nota do capítulo 17."
+    },
+    {
+      "numero": 19,
+      "slug": "caridade",
+      "titulo": "Caridade",
+      "tituloOriginal": "Caridad",
+      "pontoInicial": 417,
+      "pontoFinal": 439,
+      "validado": true
+    },
+    {
+      "numero": 20,
+      "slug": "os-meios",
+      "titulo": "Os meios",
+      "tituloOriginal": "Los medios",
+      "pontoInicial": 440,
+      "pontoFinal": 469,
+      "validado": true
+    },
+    {
+      "numero": 21,
+      "slug": "a-virgem",
+      "titulo": "A Virgem",
+      "tituloOriginal": "La Virgen",
+      "pontoInicial": 470,
+      "pontoFinal": 491,
+      "validado": true
+    },
+    {
+      "numero": 22,
+      "slug": "a-igreja",
+      "titulo": "A Igreja",
+      "tituloOriginal": "La Iglesia",
+      "pontoInicial": 492,
+      "pontoFinal": 516,
+      "validado": true
+    },
+    {
+      "numero": 23,
+      "slug": "santa-missa",
+      "titulo": "Santa Missa",
+      "tituloOriginal": "Santa Misa",
+      "pontoInicial": 517,
+      "pontoFinal": 527,
+      "validado": true
+    },
+    {
+      "numero": 24,
+      "slug": "comunhao-dos-santos",
+      "titulo": "Comunhão dos Santos",
+      "tituloOriginal": "Comunión de los Santos",
+      "pontoInicial": 528,
+      "pontoFinal": 543,
+      "validado": true
+    },
+    {
+      "numero": 25,
+      "slug": "devocoes",
+      "titulo": "Devoções",
+      "tituloOriginal": "Devociones",
+      "pontoInicial": 544,
+      "pontoFinal": 550,
+      "validado": true
+    },
+    {
+      "numero": 26,
+      "slug": "fe",
+      "titulo": "Fé",
+      "tituloOriginal": "Fe",
+      "pontoInicial": 551,
+      "pontoFinal": 574,
+      "validado": true
+    },
+    {
+      "numero": 27,
+      "slug": "humildade",
+      "titulo": "Humildade",
+      "tituloOriginal": "Humildad",
+      "pontoInicial": 575,
+      "pontoFinal": 588,
+      "validado": true
+    },
+    {
+      "numero": 28,
+      "slug": "obediencia",
+      "titulo": "Obediência",
+      "tituloOriginal": "Obediencia",
+      "pontoInicial": 589,
+      "pontoFinal": 613,
+      "validado": true
+    },
+    {
+      "numero": 29,
+      "slug": "pobreza",
+      "titulo": "Pobreza",
+      "tituloOriginal": "Pobreza",
+      "pontoInicial": 614,
+      "pontoFinal": 629,
+      "validado": true
+    },
+    {
+      "numero": 30,
+      "slug": "discricao",
+      "titulo": "Discrição",
+      "tituloOriginal": "Discreción",
+      "pontoInicial": 630,
+      "pontoFinal": 638,
+      "validado": true
+    },
+    {
+      "numero": 31,
+      "slug": "alegria",
+      "titulo": "Alegria",
+      "tituloOriginal": "Alegría",
+      "pontoInicial": 639,
+      "pontoFinal": 666,
+      "validado": false,
+      "nota": "Fim do intervalo (656 ou 666) a conferir; 666 é o valor consistente com o início de 'Outras virtudes' em 667."
+    },
+    {
+      "numero": 32,
+      "slug": "outras-virtudes",
+      "titulo": "Outras virtudes",
+      "tituloOriginal": "Otras virtudes",
+      "pontoInicial": 667,
+      "pontoFinal": 684,
+      "validado": true
+    },
+    {
+      "numero": 33,
+      "slug": "tribulacoes",
+      "titulo": "Tribulações",
+      "tituloOriginal": "Tribulaciones",
+      "pontoInicial": 685,
+      "pontoFinal": 706,
+      "validado": true
+    },
+    {
+      "numero": 34,
+      "slug": "luta-interior",
+      "titulo": "Luta interior",
+      "tituloOriginal": "Lucha interior",
+      "pontoInicial": 707,
+      "pontoFinal": 733,
+      "validado": true
+    },
+    {
+      "numero": 35,
+      "slug": "postrimerias",
+      "titulo": "Postrimerias",
+      "tituloOriginal": "Postrimerías",
+      "pontoInicial": 734,
+      "pontoFinal": 753,
+      "validado": true,
+      "nota": "Capítulo sobre os novíssimos. Título em português a definir conforme a tradução adotada."
+    },
+    {
+      "numero": 36,
+      "slug": "a-vontade-de-deus",
+      "titulo": "A vontade de Deus",
+      "tituloOriginal": "La voluntad de Dios",
+      "pontoInicial": 754,
+      "pontoFinal": 778,
+      "validado": true
+    },
+    {
+      "numero": 37,
+      "slug": "a-gloria-de-deus",
+      "titulo": "A glória de Deus",
+      "tituloOriginal": "La gloria de Dios",
+      "pontoInicial": 779,
+      "pontoFinal": 789,
+      "validado": true
+    },
+    {
+      "numero": 38,
+      "slug": "proselitismo",
+      "titulo": "Proselitismo",
+      "tituloOriginal": "Proselitismo",
+      "pontoInicial": 790,
+      "pontoFinal": 812,
+      "validado": true
+    },
+    {
+      "numero": 39,
+      "slug": "coisas-pequenas",
+      "titulo": "Coisas pequenas",
+      "tituloOriginal": "Cosas pequeñas",
+      "pontoInicial": 813,
+      "pontoFinal": 830,
+      "validado": true
+    },
+    {
+      "numero": 40,
+      "slug": "tatica",
+      "titulo": "Tática",
+      "tituloOriginal": "Táctica",
+      "pontoInicial": 831,
+      "pontoFinal": 851,
+      "validado": true
+    },
+    {
+      "numero": 41,
+      "slug": "infancia-espiritual",
+      "titulo": "Infância espiritual",
+      "tituloOriginal": "Infancia espiritual",
+      "pontoInicial": 852,
+      "pontoFinal": 874,
+      "validado": true
+    },
+    {
+      "numero": 42,
+      "slug": "vida-de-infancia",
+      "titulo": "Vida de infância",
+      "tituloOriginal": "Vida de infancia",
+      "pontoInicial": 875,
+      "pontoFinal": 901,
+      "validado": true
+    },
+    {
+      "numero": 43,
+      "slug": "chamamento",
+      "titulo": "Chamamento",
+      "tituloOriginal": "Llamamiento",
+      "pontoInicial": 902,
+      "pontoFinal": 928,
+      "validado": true
+    },
+    {
+      "numero": 44,
+      "slug": "o-apostolo",
+      "titulo": "O apóstolo",
+      "tituloOriginal": "El apóstol",
+      "pontoInicial": 929,
+      "pontoFinal": 959,
+      "validado": true
+    },
+    {
+      "numero": 45,
+      "slug": "o-apostolado",
+      "titulo": "O apostolado",
+      "tituloOriginal": "El apostolado",
+      "pontoInicial": 960,
+      "pontoFinal": 982,
+      "validado": true
+    },
+    {
+      "numero": 46,
+      "slug": "perseveranca",
+      "titulo": "Perseverança",
+      "tituloOriginal": "Perseverancia",
+      "pontoInicial": 983,
+      "pontoFinal": 999,
+      "validado": true
+    }
+  ],
+  "pontos": [],
+  "fontes": [
+    {
+      "descricao": "Índice de capítulos e intervalos de pontos reconstituídos a partir das páginas públicas de escriva.org e leercamino.org (edição crítico-histórica de Pedro Rodríguez), cruzados entre si.",
+      "url": "https://escriva.org/pt-br/camino/",
+      "consultadoEm": "2026-09-20"
+    },
+    {
+      "descricao": "Total de 999 pontos em 46 capítulos; primeira edição como 'Consideraciones espirituales' (1934) e como 'Camino' (Valência, 1939).",
+      "url": "https://opusdei.org/pt-br/article/caminho/",
+      "consultadoEm": "2026-09-20"
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+{
+  "$schema": "./_schema.json",
+  "id": "forja",
+  "versaoDados": "0.1.0",
+  "status": "estrutura",
+  "colecaoId": "caminho-sulco-forja",
+  "obra": {
+    "titulo": "Forja",
+    "tituloOriginal": "Forja",
+    "subtitulo": null,
+    "idioma": "pt-BR",
+    "idiomaOriginal": "es",
+    "autor": {
+      "nome": "São Josemaría Escrivá",
+      "nomeCompleto": "Josemaría Escrivá de Balaguer",
+      "nascimento": 1902,
+      "falecimento": 1975
+    },
+    "edicao": {
+      "editora": null,
+      "ano": null,
+      "tradutor": null,
+      "isbn": null,
+      "observacoes": "A definir junto com a licença."
+    },
+    "primeiraPublicacao": 1987,
+    "totalPontos": 1055,
+    "totalCapitulos": 13,
+    "sinopse": "Transformação por fogo, esforço e golpes. Formação do caráter e amadurecimento espiritual: o último dos três livros de pontos, publicado postumamente."
+  },
+  "direitos": {
+    "dominioPublico": false,
+    "licenciado": false,
+    "titular": null,
+    "licenca": null,
+    "escopo": null,
+    "limiteCitacao": null,
+    "atribuicaoExigida": null,
+    "validoAte": null,
+    "observacoes": "Obra protegida por direito autoral. O array 'pontos' permanece vazio e 'status' permanece 'estrutura' até que uma licença formal seja obtida e registrada aqui. Ver Fase 0 do Roadmap."
+  },
+  "capitulos": [],
+  "pontos": [],
+  "fontes": [
+    {
+      "descricao": "Total de 1055 pontos distribuídos em 13 capítulos; publicação póstuma em 1987. O número de capítulos (13) vem de fonte secundária e deve ser conferido na edição impressa. Índice de capítulos PENDENTE: páginas de índice bloqueadas pelo proxy de egresso desta sessão.",
+      "url": "https://escriva.org/es/forja/",
+      "consultadoEm": "2026-09-20"
+    }
+  ]
+}

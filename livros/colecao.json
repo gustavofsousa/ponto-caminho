@@ -1,0 +1,16 @@
+{
+  "id": "caminho-sulco-forja",
+  "titulo": "Caminho, Sulco e Forja",
+  "idioma": "pt-BR",
+  "versaoDados": "0.1.0",
+  "descricao": "Os três livros de pontos de São Josemaría Escrivá, lidos como uma unidade: o percurso (Caminho), o cultivo (Sulco) e a formação (Forja).",
+  "obras": [
+    "caminho",
+    "sulco",
+    "forja"
+  ],
+  "totalPontos": 3054,
+  "notaTotal": "999 + 1000 + 1055. Recalcular a partir dos arquivos das obras sempre que 'totalPontos' de uma delas mudar.",
+  "substituivel": true,
+  "notaSubstituicao": "O motor de pontos não conhece esta coleção em particular. Qualquer corpus que satisfaça livros/_schema.json pode substituí-la sem alteração no aplicativo."
+}

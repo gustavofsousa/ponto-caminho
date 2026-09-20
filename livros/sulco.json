@@ -1,0 +1,51 @@
+{
+  "$schema": "./_schema.json",
+  "id": "sulco",
+  "versaoDados": "0.1.0",
+  "status": "estrutura",
+  "colecaoId": "caminho-sulco-forja",
+  "obra": {
+    "titulo": "Sulco",
+    "tituloOriginal": "Surco",
+    "subtitulo": null,
+    "idioma": "pt-BR",
+    "idiomaOriginal": "es",
+    "autor": {
+      "nome": "São Josemaría Escrivá",
+      "nomeCompleto": "Josemaría Escrivá de Balaguer",
+      "nascimento": 1902,
+      "falecimento": 1975
+    },
+    "edicao": {
+      "editora": null,
+      "ano": null,
+      "tradutor": null,
+      "isbn": null,
+      "observacoes": "A definir junto com a licença."
+    },
+    "primeiraPublicacao": 1986,
+    "totalPontos": 1000,
+    "totalCapitulos": null,
+    "sinopse": "A marca aberta no terreno pelo trabalho e pela repetição. Constância, cultivo e profundidade: mil pontos sobre as virtudes humanas vividas na vida corrente. Publicado postumamente."
+  },
+  "direitos": {
+    "dominioPublico": false,
+    "licenciado": false,
+    "titular": null,
+    "licenca": null,
+    "escopo": null,
+    "limiteCitacao": null,
+    "atribuicaoExigida": null,
+    "validoAte": null,
+    "observacoes": "Obra protegida por direito autoral. O array 'pontos' permanece vazio e 'status' permanece 'estrutura' até que uma licença formal seja obtida e registrada aqui. Ver Fase 0 do Roadmap."
+  },
+  "capitulos": [],
+  "pontos": [],
+  "fontes": [
+    {
+      "descricao": "Total de 1000 pontos; publicação póstuma em 1986. Índice de capítulos PENDENTE: as páginas de índice de escriva.org/escrivaobras.org estão bloqueadas pelo proxy de egresso desta sessão. Confirmado apenas que existe um capítulo 'Sinceridade' (índice 10 na numeração de escrivaobras.org).",
+      "url": "https://escriva.org/pt-br/surco/",
+      "consultadoEm": "2026-09-20"
+    }
+  ]
+}
