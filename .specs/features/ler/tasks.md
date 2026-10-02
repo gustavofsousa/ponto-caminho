@@ -286,6 +286,11 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Tests**: widget · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): read on with previous and next`
 
+> **Ruling (execução):** o teste de abertura da v0.1 foi movido intacto para `test/app_test.dart`
+> já aqui (não na T16), para não ficar sem cobertura entre T12 e T16; `main.dart` passou a abrir a
+> nova `PontoPage`. O teste de 320 px com texto grande achou um transbordo real na barra
+> Anterior/Próximo → `OverflowBar`. Custo se errado: nenhum.
+
 ### T13: Tela do capítulo
 
 **What**: `CapituloPage`: pontos disponíveis com número e prévia; estado vazio; toque abre o ponto.

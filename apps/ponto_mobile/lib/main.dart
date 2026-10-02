@@ -44,11 +44,10 @@ class PontoApp extends StatelessWidget {
 
   Widget _inicio(Colecao colecao) {
     final ponto = primeiroPonto(colecao);
-    final referencia = ponto == null ? null : colecao.referenciaDe(ponto.id);
-    if (ponto == null || referencia == null) {
+    if (ponto == null) {
       return const _Mensagem('Nenhum ponto disponível.');
     }
-    return PontoPage(ponto: ponto, referencia: referencia);
+    return PontoPage(colecao: colecao, inicial: ponto);
   }
 }
 
