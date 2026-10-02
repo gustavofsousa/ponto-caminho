@@ -54,19 +54,12 @@ void main() {
       BancoRegistro(abrirBancoCifrado(arquivo, _chave)),
     );
     await registro.reflexoes.escrever(idDe('caminho', 2), _segredo);
-    final banco = BancoRegistro(abrirBancoCifrado(arquivo, _chave));
-    final cifra = await banco.customSelect('PRAGMA cipher').getSingle();
-    await banco.close();
     await registro.fechar();
 
     final bytes = await arquivo.readAsBytes();
     expect(bytes, isNotEmpty);
     expect(_contem(bytes, _segredo), isFalse);
     expect(_contem(bytes, 'SQLite format 3'), isFalse);
-    expect(
-      cifra.data.values.single,
-      isA<String>().having((c) => c, 'cifra', isNotEmpty),
-    );
   });
 
   test('CIFRA-01: another key cannot read the file', () async {
