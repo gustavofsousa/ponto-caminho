@@ -52,5 +52,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Caminho, capítulo Oração, ponto 82'), findsOneWidget);
+    expect(find.text('Segundo ponto da oração.'), findsOneWidget);
   });
 }
