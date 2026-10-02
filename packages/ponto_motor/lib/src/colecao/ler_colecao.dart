@@ -3,8 +3,8 @@ import 'ponto_id.dart';
 
 /// Monta uma [Colecao] a partir do JSON de `livros/` já decodificado.
 ///
-/// Fronteira de dado não confiável: valida a forma e lança [FormatException]
-/// com o caminho do problema. Não lê arquivo — quem chama faz o I/O.
+/// Fronteira de dado não confiável: tudo ou nada. Qualquer forma inválida lança
+/// [FormatException] nomeando obra e campo — nunca `TypeError`, nunca coleção parcial.
 Colecao lerColecao(
   Map<String, Object?> colecaoJson,
   Map<String, Object?> obrasJson,
@@ -15,21 +15,13 @@ Colecao lerColecao(
     'versaoDados': String versaoDados,
     'obras': List<Object?> obraIds,
   }) {
-    final obras = [
-      for (final obraId in obraIds.cast<String>())
-        _lerObra(
-          id,
-          obrasJson[obraId] ??
-              (throw FormatException(
-                'obra "$obraId" listada mas não fornecida',
-              )),
-        ),
-    ];
     return Colecao(
       id: id,
       titulo: titulo,
       versaoDados: versaoDados,
-      obras: obras,
+      obras: [
+        for (final obraId in obraIds) _lerObraListada(id, obraId, obrasJson),
+      ],
     );
   }
   throw const FormatException(
@@ -37,38 +29,80 @@ Colecao lerColecao(
   );
 }
 
+Obra _lerObraListada(
+  String colecaoId,
+  Object? obraId,
+  Map<String, Object?> obrasJson,
+) {
+  if (obraId is! String) {
+    throw FormatException('colecao.json: id de obra não é texto', obraId);
+  }
+  final json = obrasJson[obraId];
+  if (json == null) {
+    throw FormatException('obra "$obraId" listada mas não fornecida');
+  }
+  return _lerObra(colecaoId, json);
+}
+
 Obra _lerObra(String colecaoId, Object? json) {
   if (json case {
     'id': String id,
     'obra': {'titulo': String titulo},
-    'capitulos': List<Object?> capitulos,
-    'pontos': List<Object?> pontos,
+    'capitulos': List<Object?> capitulosJson,
+    'pontos': List<Object?> pontosJson,
   }) {
-    return Obra(
-      id: id,
-      titulo: titulo,
-      capitulos: [for (final c in capitulos) _lerCapitulo(id, c)],
-      pontos: [for (final p in pontos) _lerPonto(colecaoId, id, p)],
-    );
+    final capitulos = [for (final c in capitulosJson) _lerCapitulo(id, c)];
+    final pontos = [for (final p in pontosJson) _lerPonto(colecaoId, id, p)];
+    _conferirPontos(id, capitulos, pontos);
+    return Obra(id: id, titulo: titulo, capitulos: capitulos, pontos: pontos);
   }
   throw const FormatException(
     'obra: faltam id, obra.titulo, capitulos ou pontos',
   );
 }
 
+/// INVARIANT: o número identifica o ponto no PontoId e todo ponto pertence a um
+/// capítulo do índice — senão uma anotação apontaria para dois textos, ou para nenhum.
+void _conferirPontos(
+  String obraId,
+  List<Capitulo> capitulos,
+  List<Ponto> pontos,
+) {
+  final capitulosExistentes = {for (final c in capitulos) c.numero};
+  final numerosVistos = <int>{};
+  for (final ponto in pontos) {
+    final numero = ponto.id.numero;
+    if (!numerosVistos.add(numero)) {
+      throw FormatException('$obraId: ponto $numero repetido');
+    }
+    if (!capitulosExistentes.contains(ponto.capituloNumero)) {
+      throw FormatException(
+        '$obraId: ponto $numero está no capítulo ${ponto.capituloNumero}, '
+        'que não existe no índice',
+      );
+    }
+  }
+}
+
 Capitulo _lerCapitulo(String obraId, Object? json) {
+  if (json is! Map<String, Object?>) {
+    throw FormatException('$obraId: capítulo não é um objeto', json);
+  }
   if (json case {'numero': int numero}) {
-    final campos = json as Map<String, Object?>;
+    final onde = '$obraId, capítulo $numero';
     return Capitulo(
       numero: numero,
-      slug: campos['slug'] as String?,
-      titulo: campos['titulo'] as String?,
+      slug: _textoOpcional(json, 'slug', onde),
+      titulo: _textoOpcional(json, 'titulo', onde),
     );
   }
   throw FormatException('$obraId: capítulo sem número', json);
 }
 
 Ponto _lerPonto(String colecaoId, String obraId, Object? json) {
+  if (json is! Map<String, Object?>) {
+    throw FormatException('$obraId: ponto não é um objeto', json);
+  }
   if (json case {
     'numero': int numero,
     'capituloNumero': int capituloNumero,
@@ -80,7 +114,7 @@ Ponto _lerPonto(String colecaoId, String obraId, Object? json) {
       capituloNumero: capituloNumero,
       ordem: ordem,
       texto: texto,
-      isMock: (json as Map<String, Object?>)['nota'] == 'mock',
+      isMock: json['nota'] == 'mock',
     );
   }
   throw FormatException(
@@ -88,3 +122,13 @@ Ponto _lerPonto(String colecaoId, String obraId, Object? json) {
     json,
   );
 }
+
+String? _textoOpcional(Map<String, Object?> json, String campo, String onde) =>
+    switch (json[campo]) {
+      null => null,
+      final String texto => texto,
+      final outro => throw FormatException(
+        '$onde: "$campo" deveria ser texto',
+        outro,
+      ),
+    };
