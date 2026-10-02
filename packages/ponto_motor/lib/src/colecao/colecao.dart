@@ -15,12 +15,7 @@ final class Colecao {
   final String versaoDados;
   final List<Obra> obras;
 
-  Obra? obra(String id) {
-    for (final obra in obras) {
-      if (obra.id == id) return obra;
-    }
-    return null;
-  }
+  Obra? obra(String id) => obras.where((o) => o.id == id).firstOrNull;
 
   Referencia? referenciaDe(PontoId id) {
     if (id.colecao != this.id) return null;
@@ -77,12 +72,12 @@ final class Obra {
 
   Ponto? ponto(int numero) => _porNumero[numero];
 
-  Capitulo? capitulo(int numero) {
-    for (final capitulo in capitulos) {
-      if (capitulo.numero == numero) return capitulo;
-    }
-    return null;
-  }
+  Capitulo? capitulo(int numero) =>
+      capitulos.where((c) => c.numero == numero).firstOrNull;
+
+  /// Os pontos disponíveis daquele capítulo, em ordem de leitura.
+  List<Ponto> pontosDoCapitulo(int numero) =>
+      pontos.where((p) => p.capituloNumero == numero).toList();
 }
 
 final class Capitulo {
@@ -90,11 +85,23 @@ final class Capitulo {
     required this.numero,
     required this.slug,
     required this.titulo,
+    required this.pontoInicial,
+    required this.pontoFinal,
   });
 
   final int numero;
   final String? slug;
   final String? titulo;
+
+  /// Intervalo editorial do autor. Um extremo nulo = ainda não conferido.
+  final int? pontoInicial;
+  final int? pontoFinal;
+
+  /// Quantos pontos o capítulo tem no livro — estrutura, não disponibilidade.
+  int? get totalPontos => switch ((pontoInicial, pontoFinal)) {
+    (final inicial?, final fim?) => fim - inicial + 1,
+    _ => null,
+  };
 }
 
 final class Ponto {

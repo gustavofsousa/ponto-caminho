@@ -94,6 +94,8 @@ Capitulo _lerCapitulo(String obraId, Object? json) {
       numero: numero,
       slug: _textoOpcional(json, 'slug', onde),
       titulo: _textoOpcional(json, 'titulo', onde),
+      pontoInicial: _inteiroOpcional(json, 'pontoInicial', onde),
+      pontoFinal: _inteiroOpcional(json, 'pontoFinal', onde),
     );
   }
   throw FormatException('$obraId: capítulo sem número', json);
@@ -129,6 +131,16 @@ String? _textoOpcional(Map<String, Object?> json, String campo, String onde) =>
       final String texto => texto,
       final outro => throw FormatException(
         '$onde: "$campo" deveria ser texto',
+        outro,
+      ),
+    };
+
+int? _inteiroOpcional(Map<String, Object?> json, String campo, String onde) =>
+    switch (json[campo]) {
+      null => null,
+      final int inteiro => inteiro,
+      final outro => throw FormatException(
+        '$onde: "$campo" deveria ser inteiro',
         outro,
       ),
     };
