@@ -12,7 +12,7 @@ Verifier, discrimination sensor).
 ---
 
 **Design**: `.specs/features/ler/design.md`
-**Status**: Approved (delegado) · In Progress
+**Status**: Done — T1–T17 commitados; aguardando Verifier
 
 ---
 
@@ -90,9 +90,9 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: — (achado de revisão R8)
 **Tools**: Skill `dart:dart-core-engineering`
 **Done when**:
-- [ ] Três modos estritos ligados nos dois pacotes
-- [ ] `dart analyze --fatal-infos` e `flutter analyze --fatal-infos`: zero issues
-- [ ] Build gate passa; contagem de testes inalterada (18 + 1)
+- [x] Três modos estritos ligados nos dois pacotes
+- [x] `dart analyze --fatal-infos` e `flutter analyze --fatal-infos`: zero issues
+- [x] Build gate passa; contagem de testes inalterada (18 + 1)
 **Tests**: none · **Gate**: build
 **Commit**: `🔧 chore: enable strict analysis in motor and app`
 
@@ -105,11 +105,11 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: BASE-02, BASE-03 (metade do validador)
 **Tools**: NONE
 **Done when**:
-- [ ] Número repetido → erro citando o número
-- [ ] Capítulo inexistente → erro citando ponto e capítulo
-- [ ] Caso válido sem esses erros (teste)
-- [ ] `python3 livros/validar.py` segue exit 0
-- [ ] Quick (dados) passa; 3 testes novos
+- [x] Número repetido → erro citando o número
+- [x] Capítulo inexistente → erro citando ponto e capítulo
+- [x] Caso válido sem esses erros (teste)
+- [x] `python3 livros/validar.py` segue exit 0
+- [x] Quick (dados) passa; 3 testes novos
 **Tests**: unit · **Gate**: quick (dados)
 **Commit**: `✨ feat(livros): reject duplicate points and unknown chapters`
 
@@ -122,11 +122,11 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: BASE-01, BASE-02, BASE-03 (metade do motor)
 **Tools**: Skill `dart:dart-core-engineering`
 **Done when**:
-- [ ] id de obra não-texto em `colecao.json` → `FormatException`
-- [ ] `titulo`/`slug` de capítulo não-texto → `FormatException` nomeando a obra
-- [ ] número repetido → `FormatException` com obra e número
-- [ ] `capituloNumero` inexistente → `FormatException` com ponto e capítulo
-- [ ] Quick (motor) passa; 18 + 4 testes
+- [x] id de obra não-texto em `colecao.json` → `FormatException`
+- [x] `titulo`/`slug` de capítulo não-texto → `FormatException` nomeando a obra
+- [x] número repetido → `FormatException` com obra e número
+- [x] `capituloNumero` inexistente → `FormatException` com ponto e capítulo
+- [x] Quick (motor) passa; 18 + 4 testes
 **Tests**: unit · **Gate**: quick (motor)
 **Commit**: `🐛 fix(motor): reject malformed collections at the boundary`
 
@@ -140,11 +140,11 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: BASE-04
 **Tools**: NONE
 **Done when**:
-- [ ] Pede `colecao.json` e depois `<id>.json` de cada obra listada, na ordem
-- [ ] Exceção de `lerArquivo` propaga sem virar coleção parcial
-- [ ] JSON que não é objeto → `FormatException`
-- [ ] Contrato usa `carregarColecao`
-- [ ] Quick (motor) passa; +3 testes
+- [x] Pede `colecao.json` e depois `<id>.json` de cada obra listada, na ordem
+- [x] Exceção de `lerArquivo` propaga sem virar coleção parcial
+- [x] JSON que não é objeto → `FormatException`
+- [x] Contrato usa `carregarColecao`
+- [x] Quick (motor) passa; +3 testes
 **Tests**: unit + integration · **Gate**: quick (motor)
 **Commit**: `✨ feat(motor): own the livros file layout behind a reader port`
 
@@ -162,10 +162,10 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: LER-06
 **Tools**: NONE
 **Done when**:
-- [ ] Com título: `"Caminho, capítulo Caráter, ponto 1"`
-- [ ] Sem título: `"Caminho, ponto 387"`
-- [ ] `ponto_page.dart` sem formatação própria; teste do app segue verde
-- [ ] Quick (motor) + Quick (app) passam; +2 testes motor
+- [x] Com título: `"Caminho, capítulo Caráter, ponto 1"`
+- [x] Sem título: `"Caminho, ponto 387"`
+- [x] `ponto_page.dart` sem formatação própria; teste do app segue verde
+- [x] Quick (motor) + Quick (app) passam; +2 testes motor
 **Tests**: unit · **Gate**: quick (motor) + quick (app)
 **Commit**: `♻️ refactor(motor): make the reference format a domain rule`
 
@@ -178,11 +178,11 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: LER-02 (contagem), LER-03 (motor)
 **Tools**: NONE
 **Done when**:
-- [ ] Intervalo 1–55 → `totalPontos == 55`
-- [ ] Intervalo sem fim ou sem início → `totalPontos == null`
-- [ ] `pontosDoCapitulo` só do capítulo pedido, em `ordem`; capítulo sem pontos → lista vazia
-- [ ] Intervalo de tipo errado → `FormatException`
-- [ ] Quick (motor) passa; +4 testes
+- [x] Intervalo 1–55 → `totalPontos == 55`
+- [x] Intervalo sem fim ou sem início → `totalPontos == null`
+- [x] `pontosDoCapitulo` só do capítulo pedido, em `ordem`; capítulo sem pontos → lista vazia
+- [x] Intervalo de tipo errado → `FormatException`
+- [x] Quick (motor) passa; +4 testes
 **Tests**: unit · **Gate**: quick (motor)
 **Commit**: `✨ feat(motor): expose chapter ranges and points per chapter`
 
@@ -195,11 +195,11 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: LER-07, LER-08, LER-09 (motor)
 **Tools**: NONE
 **Done when**:
-- [ ] Último do capítulo → primeiro disponível do capítulo seguinte com pontos (atravessa buraco)
-- [ ] Anterior é o espelho
-- [ ] Primeiro da obra → anterior nulo; último da obra → próximo nulo (não atravessa obras)
-- [ ] Id desconhecido → nulo nos dois
-- [ ] Build gate passa (fim da fase 1); +5 testes
+- [x] Último do capítulo → primeiro disponível do capítulo seguinte com pontos (atravessa buraco)
+- [x] Anterior é o espelho
+- [x] Primeiro da obra → anterior nulo; último da obra → próximo nulo (não atravessa obras)
+- [x] Id desconhecido → nulo nos dois
+- [x] Build gate passa (fim da fase 1); +5 testes
 **Tests**: unit · **Gate**: build
 **Commit**: `✨ feat(motor): step to the next and previous point`
 
@@ -212,10 +212,10 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: TIPO-01, TIPO-02
 **Tools**: NONE
 **Done when**:
-- [ ] Contraste ≥ 4,5:1 de texto principal e secundário sobre o fundo, nos dois temas
-- [ ] Estilo de leitura (`bodyLarge`) e títulos com `fontFamily == 'Literata'`
-- [ ] Fonte declarada no pubspec; licença OFL junto
-- [ ] Quick (app) passa; +3 testes
+- [x] Contraste ≥ 4,5:1 de texto principal e secundário sobre o fundo, nos dois temas
+- [x] Estilo de leitura (`bodyLarge`) e títulos com `fontFamily == 'Literata'`
+- [x] Fonte declarada no pubspec; licença OFL junto
+- [x] Quick (app) passa; +3 testes
 **Tests**: unit · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): add the provisional reading theme`
 
@@ -229,10 +229,10 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: PREF-02 (fatores), PREF-03, PREF-04
 **Tools**: NONE
 **Done when**:
-- [ ] Fatores 0,9 / 1,0 / 1,15 / 1,3; padrão Sistema + Médio
-- [ ] Gravar Escuro + Grande → ler devolve Escuro + Grande
-- [ ] Valor desconhecido ou ausente em cada chave → padrão daquele campo
-- [ ] Quick (app) passa; +4 testes
+- [x] Fatores 0,9 / 1,0 / 1,15 / 1,3; padrão Sistema + Médio
+- [x] Gravar Escuro + Grande → ler devolve Escuro + Grande
+- [x] Valor desconhecido ou ausente em cada chave → padrão daquele campo
+- [x] Quick (app) passa; +4 testes
 **Tests**: unit · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): store reading preferences locally`
 
@@ -245,10 +245,10 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: PREF-03 (controller grava)
 **Tools**: NONE
 **Done when**:
-- [ ] `mudarTema(escuro)` → `value.tema == escuro` e repositório devolve escuro
-- [ ] `mudarTamanho(grande)` idem
-- [ ] Widget sob o escopo reconstrói com o novo valor
-- [ ] Quick (app) passa; +3 testes
+- [x] `mudarTema(escuro)` → `value.tema == escuro` e repositório devolve escuro
+- [x] `mudarTamanho(grande)` idem
+- [x] Widget sob o escopo reconstrói com o novo valor
+- [x] Quick (app) passa; +3 testes
 **Tests**: unit/widget · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): share reading preferences across the app`
 
@@ -261,10 +261,10 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: PREF-01 (escolha), PREF-02 (escolha)
 **Tools**: NONE
 **Done when**:
-- [ ] Tocar "Escuro" → controller com escuro, opção selecionada
-- [ ] Tocar "Grande" → controller com grande
-- [ ] UX DoD: rótulos de texto (não só ícone); alvo ≥ 48 px (padrão Material); funciona em 320 px sem rolagem horizontal
-- [ ] Build gate passa (fim da fase 2); +2 testes
+- [x] Tocar "Escuro" → controller com escuro, opção selecionada
+- [x] Tocar "Grande" → controller com grande
+- [x] UX DoD: rótulos de texto (não só ícone); alvo ≥ 48 px (padrão Material); funciona em 320 px sem rolagem horizontal
+- [x] Build gate passa (fim da fase 2); +2 testes
 **Tests**: widget · **Gate**: build
 **Commit**: `✨ feat(mobile): let the reader choose theme and text size`
 
@@ -277,12 +277,12 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: LER-07, LER-08, LER-09 (tela), TIPO-01 (uso)
 **Tools**: NONE
 **Done when**:
-- [ ] Próximo no último ponto do cap. 1 → abre o primeiro disponível do cap. seguinte; referência atualiza
-- [ ] Anterior volta
-- [ ] Primeiro da obra: sem "Anterior"; último: sem "Próximo"
-- [ ] Texto do ponto com família "Literata"
-- [ ] UX DoD: botões com rótulo de texto; referência como cabeçalho semântico; página rola com texto grande
-- [ ] Quick (app) passa
+- [x] Próximo no último ponto do cap. 1 → abre o primeiro disponível do cap. seguinte; referência atualiza
+- [x] Anterior volta
+- [x] Primeiro da obra: sem "Anterior"; último: sem "Próximo"
+- [x] Texto do ponto com família "Literata"
+- [x] UX DoD: botões com rótulo de texto; referência como cabeçalho semântico; página rola com texto grande
+- [x] Quick (app) passa
 **Tests**: widget · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): read on with previous and next`
 
@@ -300,10 +300,10 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: LER-03, LER-04, LER-05
 **Tools**: NONE
 **Done when**:
-- [ ] Itens = pontos do capítulo em ordem, com número e prévia (máx. 2 linhas)
-- [ ] Capítulo sem pontos → "Os pontos deste capítulo ainda não estão disponíveis."
-- [ ] Toque no ponto N → `PontoPage` com a referência de N
-- [ ] Quick (app) passa; +3 testes
+- [x] Itens = pontos do capítulo em ordem, com número e prévia (máx. 2 linhas)
+- [x] Capítulo sem pontos → "Os pontos deste capítulo ainda não estão disponíveis."
+- [x] Toque no ponto N → `PontoPage` com a referência de N
+- [x] Quick (app) passa; +3 testes
 **Tests**: widget · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): list the points of a chapter`
 
@@ -316,11 +316,11 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: LER-02
 **Tools**: NONE
 **Done when**:
-- [ ] Capítulo com título e intervalo → "Caráter" e "55 pontos" (na fixture equivalente)
-- [ ] Sem título → "Capítulo N"; sem intervalo completo → sem contagem
-- [ ] Capítulo sem pontos disponíveis aparece
-- [ ] Toque → `CapituloPage` daquele capítulo
-- [ ] Quick (app) passa; +3 testes
+- [x] Capítulo com título e intervalo → "Caráter" e "55 pontos" (na fixture equivalente)
+- [x] Sem título → "Capítulo N"; sem intervalo completo → sem contagem
+- [x] Capítulo sem pontos disponíveis aparece
+- [x] Toque → `CapituloPage` daquele capítulo
+- [x] Quick (app) passa; +3 testes
 **Tests**: widget · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): show a work's chapters`
 
@@ -333,10 +333,10 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: LER-01
 **Tools**: NONE
 **Done when**:
-- [ ] Obras na ordem da coleção (fixture com ordem não alfabética)
-- [ ] Toque → `ObraPage` da obra
-- [ ] Botão de preferências com rótulo acessível abre `PreferenciasPage`
-- [ ] Quick (app) passa; +3 testes
+- [x] Obras na ordem da coleção (fixture com ordem não alfabética)
+- [x] Toque → `ObraPage` da obra
+- [x] Botão de preferências com rótulo acessível abre `PreferenciasPage`
+- [x] Quick (app) passa; +3 testes
 **Tests**: widget · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): open on the library`
 
@@ -349,14 +349,14 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: BASE-04 (app), BASE-05, PREF-01 (aplicado), PREF-02 (aplicado)
 **Tools**: NONE
 **Done when**:
-- [ ] Carregador que lança → "Não foi possível abrir os livros. Feche o app e abra de novo."; texto da exceção ausente
-- [ ] Sucesso → biblioteca
-- [ ] Escuro escolhido → `Theme.of(context).brightness == dark`; Sistema segue o brilho do aparelho
-- [ ] Escala do sistema 1,5 × Grande → escala efetiva 1,725
-- [ ] Abertura com `livros/` real pelo `rootBundle` mostra "Caminho", "Sulco", "Forja"
+- [x] Carregador que lança → "Não foi possível abrir os livros. Feche o app e abra de novo."; texto da exceção ausente
+- [x] Sucesso → biblioteca
+- [x] Escuro escolhido → `Theme.of(context).brightness == dark`; Sistema segue o brilho do aparelho
+- [x] Escala do sistema 1,5 × Grande → escala efetiva 1,725
+- [x] Abertura com `livros/` real pelo `rootBundle` mostra "Caminho", "Sulco", "Forja"
 - [x] App não lê mais `colecao.json` por conta própria *(antecipado na T4)*
-- [ ] Licença OFL da Literata registrada no `LicenseRegistry` (o arquivo já vai como asset desde a T8) — exigência da OFL ao distribuir a fonte
-- [ ] Quick (app) passa
+- [x] Licença OFL da Literata registrada no `LicenseRegistry` (o arquivo já vai como asset desde a T8) — exigência da OFL ao distribuir a fonte
+- [x] Quick (app) passa
 **Tests**: widget · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): open through the motor with a humane failure screen`
 
@@ -369,8 +369,8 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Requirement**: — (R9)
 **Tools**: NONE
 **Done when**:
-- [ ] `grep -r primeiroPonto` vazio em `packages/` e `apps/`
-- [ ] Build gate passa (fim da feature); contagem de testes = antes − 1 (o teste removido) + novos
+- [x] `grep -r primeiroPonto` vazio em `packages/` e `apps/`
+- [x] Build gate passa (fim da feature); contagem de testes = antes − 1 (o teste removido) + novos
 **Tests**: unit (existentes) · **Gate**: build
 **Commit**: `♻️ refactor(motor): drop the unused first-point helper`
 

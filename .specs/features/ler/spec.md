@@ -329,26 +329,26 @@ AC-20: Contraste AA nos dois temas
 
 | ID | Story | AC | Status |
 | --- | --- | --- | --- |
-| BASE-01 | P1 Livros seguros | AC-01 | In Tasks |
-| BASE-02 | P1 Livros seguros | AC-02 | In Tasks |
-| BASE-03 | P1 Livros seguros | AC-03 | In Tasks |
-| BASE-04 | P1 Livros seguros | AC-04 | In Tasks |
-| BASE-05 | P1 Livros seguros | AC-05 | In Tasks |
-| LER-01 | P1 Biblioteca | AC-06 | In Tasks |
-| LER-02 | P1 Biblioteca | AC-07 | In Tasks |
-| LER-03 | P1 Biblioteca | AC-08 | In Tasks |
-| LER-04 | P1 Biblioteca | AC-09 | In Tasks |
-| LER-05 | P1 Biblioteca | AC-10 | In Tasks |
-| LER-06 | P1 Página do ponto | AC-11 | In Tasks |
-| LER-07 | P1 Página do ponto | AC-12 | In Tasks |
-| LER-08 | P1 Página do ponto | AC-13 | In Tasks |
-| LER-09 | P1 Página do ponto | AC-14 | In Tasks |
-| PREF-01 | P2 Conforto | AC-15 | In Tasks |
-| PREF-02 | P2 Conforto | AC-16 | In Tasks |
-| PREF-03 | P2 Conforto | AC-17 | In Tasks |
-| PREF-04 | P2 Conforto | AC-18 | In Tasks |
-| TIPO-01 | P2 Tipografia | AC-19 | In Tasks |
-| TIPO-02 | P2 Tipografia | AC-20 | In Tasks |
+| BASE-01 | P1 Livros seguros | AC-01 | Implementing |
+| BASE-02 | P1 Livros seguros | AC-02 | Implementing |
+| BASE-03 | P1 Livros seguros | AC-03 | Implementing |
+| BASE-04 | P1 Livros seguros | AC-04 | Implementing |
+| BASE-05 | P1 Livros seguros | AC-05 | Implementing |
+| LER-01 | P1 Biblioteca | AC-06 | Implementing |
+| LER-02 | P1 Biblioteca | AC-07 | Implementing |
+| LER-03 | P1 Biblioteca | AC-08 | Implementing |
+| LER-04 | P1 Biblioteca | AC-09 | Implementing |
+| LER-05 | P1 Biblioteca | AC-10 | Implementing |
+| LER-06 | P1 Página do ponto | AC-11 | Implementing |
+| LER-07 | P1 Página do ponto | AC-12 | Implementing |
+| LER-08 | P1 Página do ponto | AC-13 | Implementing |
+| LER-09 | P1 Página do ponto | AC-14 | Implementing |
+| PREF-01 | P2 Conforto | AC-15 | Implementing |
+| PREF-02 | P2 Conforto | AC-16 | Implementing |
+| PREF-03 | P2 Conforto | AC-17 | Implementing |
+| PREF-04 | P2 Conforto | AC-18 | Implementing |
+| TIPO-01 | P2 Tipografia | AC-19 | Implementing |
+| TIPO-02 | P2 Tipografia | AC-20 | Implementing |
 
 **Coverage:** 20 total, 20 mapped to tasks (ver `tasks.md` › Requirement → Task).
 
