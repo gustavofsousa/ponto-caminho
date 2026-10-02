@@ -114,6 +114,28 @@ void main() {
       });
     });
 
+    testWidgetsComRegistro('counts only the points that exist in the books', (
+      tester,
+    ) async {
+      await prepararColecoes(
+        tester,
+        ['Pontos para reler'],
+        pontos: {
+          'Pontos para reler': [idDe('caminho', 3), caminho2],
+        },
+      );
+
+      await abrirColecoes(tester);
+
+      expect(
+        find.descendant(
+          of: find.widgetWithText(ListTile, 'Pontos para reler'),
+          matching: find.text('1 ponto'),
+        ),
+        findsOneWidget,
+      );
+    });
+
     testWidgetsComRegistro('with no collection, invites to create one', (
       tester,
     ) async {
@@ -169,6 +191,27 @@ void main() {
 
       expect(find.byType(PontoPage), findsOneWidget);
       expect(find.text('O único ponto do sulco.'), findsOneWidget);
+    });
+
+    testWidgetsComRegistro('a point missing from the books is not listed', (
+      tester,
+    ) async {
+      await prepararColecoes(
+        tester,
+        ['Pontos para reler'],
+        pontos: {
+          'Pontos para reler': [idDe('caminho', 3), caminho2],
+        },
+      );
+
+      await abrirColecao(tester, 'Pontos para reler');
+
+      expect(find.byType(ListTile), findsOneWidget);
+      expect(find.text('Caminho, capítulo Caráter, ponto 2'), findsOneWidget);
+      final guardadas = await tester.runAsync(
+        () => lerColecoesGuardadas(banco),
+      );
+      expect(guardadas!['Pontos para reler'], hasLength(2));
     });
 
     testWidgetsComRegistro('an empty collection invites', (tester) async {
