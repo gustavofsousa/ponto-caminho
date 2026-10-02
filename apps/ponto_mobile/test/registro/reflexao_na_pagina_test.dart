@@ -212,4 +212,45 @@ void main() {
       );
     },
   );
+
+  testWidgetsComRegistro(
+    'REF-01: a long reflection scrolls in the editor and shows whole on the '
+    'page at 320 px with very large text',
+    (tester) async {
+      usarTelaEstreita(tester);
+      tester.platformDispatcher.textScaleFactorTestValue = 2.6;
+      addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+      final longa = List.filled(
+        30,
+        'Uma linha da meditação que segue.',
+      ).join(' ');
+      await abrirPonto(tester, 'caminho', 2);
+      final escrever = find.text('Escrever uma reflexão');
+      await tester.scrollUntilVisible(escrever, 200);
+      await tester.ensureVisible(escrever);
+      await tester.pumpAndSettle();
+      await abrirEditor(tester);
+
+      await tester.enterText(find.byType(TextField), longa);
+      await tester.pump();
+
+      expect(tester.takeException(), isNull);
+      final lista = find.descendant(
+        of: find.byType(EditorDeReflexaoPage),
+        matching: find.byType(Scrollable),
+      );
+      expect(
+        tester.state<ScrollableState>(lista.first).position.maxScrollExtent,
+        greaterThan(0),
+      );
+
+      await tester.tap(guardar());
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      final guardada = tester.widget<Text>(find.text(longa));
+      expect(guardada.maxLines, isNull);
+      expect(guardada.overflow, isNot(TextOverflow.ellipsis));
+    },
+  );
 }
