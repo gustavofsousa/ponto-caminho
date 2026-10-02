@@ -24,6 +24,10 @@ BancoRegistro abrirBancoDeTela() {
 /// `testWidgets` para telas que assinam streams do registro. No fim, descarta a
 /// árvore e avança o relógio falso: ao perder o último ouvinte, o drift agenda
 /// um `Timer.run`, e o teste falharia com um timer pendente.
+///
+/// Dentro destes testes, conferir o banco só com consultas diretas (`get()`),
+/// nunca com `observar()` em `runAsync`: o drift reaproveita a mesma consulta, e
+/// a tela passaria a receber as atualizações na zona real — ou seja, nunca.
 void testWidgetsComRegistro(
   String descricao,
   Future<void> Function(WidgetTester tester) corpo,
@@ -42,4 +46,22 @@ final class RelogioDeTeste {
   DateTime agora;
 
   DateTime call() => agora;
+}
+
+/// As coleções guardadas, em ordem de criação, com os `PontoId` de cada uma —
+/// lidas direto das tabelas, sem stream (ver [testWidgetsComRegistro]).
+Future<Map<String, List<String>>> lerColecoesGuardadas(
+  BancoRegistro banco,
+) async {
+  final colecoes = await (banco.select(
+    banco.colecoesPessoais,
+  )..orderBy([(c) => OrderingTerm.asc(c.criadaEm)])).get();
+  final vinculos = await banco.select(banco.pontosDaColecao).get();
+  return {
+    for (final colecao in colecoes)
+      colecao.nome: [
+        for (final vinculo in vinculos)
+          if (vinculo.colecaoId == colecao.id) vinculo.pontoId,
+      ],
+  };
 }

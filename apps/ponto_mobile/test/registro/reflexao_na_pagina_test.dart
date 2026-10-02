@@ -196,7 +196,10 @@ void main() {
       await tester.pumpAndSettle();
       expect(tester.takeException(), isNull);
 
-      await tester.scrollUntilVisible(find.text('Escrever uma reflexão'), 200);
+      final escrever = find.text('Escrever uma reflexão');
+      await tester.scrollUntilVisible(escrever, 200);
+      await tester.ensureVisible(escrever);
+      await tester.pumpAndSettle();
       await abrirEditor(tester);
       expect(tester.takeException(), isNull);
       expect(

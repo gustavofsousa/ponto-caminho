@@ -4,6 +4,7 @@ import 'package:ponto_motor/ponto_motor.dart';
 import 'data_da_reflexao.dart';
 import 'editor_de_reflexao_page.dart';
 import 'falha_no_registro.dart';
+import 'guardar_em_colecao_page.dart';
 import 'registro.dart';
 import 'registro_escopo.dart';
 
@@ -49,6 +50,7 @@ class _RegistroAbertoState extends State<_RegistroAberto> {
   // Criado uma vez por ponto: no `build`, cada reconstrução refaria a consulta (AD-007).
   late final _reflexoes = widget.registro.reflexoes.observar(widget.ponto);
   late final _favoritos = widget.registro.favoritos.observar();
+  late final _colecoes = widget.registro.colecoes.observar();
 
   @override
   Widget build(BuildContext context) => Column(
@@ -65,10 +67,31 @@ class _RegistroAbertoState extends State<_RegistroAberto> {
             ),
           ),
           TextButton(
+            onPressed: _guardarEmColecao,
+            child: const Text('Guardar em uma coleção'),
+          ),
+          TextButton(
             onPressed: () => _abrirEditor(null),
             child: const Text('Escrever uma reflexão'),
           ),
         ],
+      ),
+      StreamBuilder<List<ColecaoPessoal>>(
+        stream: _colecoes,
+        builder: (context, instantaneo) {
+          final nomes = [
+            for (final colecao in instantaneo.data ?? const <ColecaoPessoal>[])
+              if (colecao.contem(widget.ponto)) colecao.nome,
+          ];
+          if (nomes.isEmpty) return const SizedBox.shrink();
+          return Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text(
+              'Nas coleções: ${nomes.join(' · ')}',
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          );
+        },
       ),
       StreamBuilder<List<Reflexao>>(
         stream: _reflexoes,
@@ -102,6 +125,12 @@ class _RegistroAbertoState extends State<_RegistroAberto> {
       );
     }
   }
+
+  void _guardarEmColecao() => Navigator.of(context).push(
+    MaterialPageRoute<void>(
+      builder: (_) => GuardarEmColecaoPage(ponto: widget.ponto),
+    ),
+  );
 
   /// [reflexao] nula escreve uma nova.
   void _abrirEditor(Reflexao? reflexao) => Navigator.of(context).push(
