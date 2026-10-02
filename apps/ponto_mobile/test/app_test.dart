@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ponto_mobile/app.dart';
 import 'package:ponto_mobile/colecao/biblioteca_page.dart';
@@ -52,6 +53,32 @@ void main() {
       expect(
         tester.takeException(),
         isA<FormatException>(),
+        reason: 'vai para o log',
+      );
+    },
+  );
+
+  testWidgets(
+    'BASE-05: any load failure, such as a missing asset, shows the humane message',
+    (tester) async {
+      await _abrirApp(
+        tester,
+        carregarLivros: () => carregarColecao(
+          (arquivo) =>
+              rootBundle.loadString('assets/livros/nao-existe-$arquivo'),
+        ),
+      );
+
+      expect(
+        find.text(
+          'Não foi possível abrir os livros. Feche o app e abra de novo.',
+        ),
+        findsOneWidget,
+      );
+      expect(find.textContaining('nao-existe'), findsNothing);
+      expect(
+        tester.takeException(),
+        isA<FlutterError>(),
         reason: 'vai para o log',
       );
     },
