@@ -65,12 +65,12 @@ A primeira versão faz **poucas coisas, muito bem executadas**:
 3. **Favoritos e coleções** — listas próprias, um ponto em várias listas.
 4. **Reflexões** — anotações pessoais datadas, editáveis, privadas por padrão.
 5. **Um ponto para agora** — ponto aleatório.
-6. **Ponto do dia** — na tela inicial, com notificação opcional em horário escolhido.
-7. **Busca** por palavra-chave, com filtros e busca nas próprias anotações.
-8. **Retomar a leitura** de onde parou.
+6. **Retomar a leitura** de onde parou.
 
-Fora da v1, por decisão: IA de busca semântica, compartilhamento de coleções, sincronização
-multiplataforma, exportação, web e desktop. Todos previstos na arquitetura — nenhum na primeira entrega.
+Logo depois da v1: **ponto do dia** com notificação opcional (v1.1) e **busca** por palavra-chave
+(v1.2). Fora, por decisão: IA de busca semântica, compartilhamento de coleções, sincronização,
+exportação, web e desktop — previstos na arquitetura, nenhum na primeira entrega. Ordem completa em
+[`roadmap.md`](./roadmap.md).
 
 ## Diferencial
 
@@ -91,7 +91,7 @@ Consequência prática: a coleção *Caminho, Sulco e Forja* pode ser substituí
 regras de vida, textos clássicos, conteúdo próprio — sem reescrever o aplicativo. O mesmo motor pode
 alimentar web, desktop, widget, extensão de navegador, integração com ferramentas de notas e API.
 
-Ver [`domínio.md`](./domínio.md) para o modelo completo.
+Ver [`modelo.md`](./modelo.md) para o modelo completo.
 
 ## Princípios de produto
 
@@ -109,7 +109,7 @@ Ver [`domínio.md`](./domínio.md) para o modelo completo.
 
 | Risco | Resposta |
 | --- | --- |
-| **Direitos autorais sobre as três obras** | Bloqueante. Licença formal antes de qualquer distribuição — ver Fase 0 do roadmap. |
+| **Direitos autorais sobre as três obras** | Bloqueante. Licença formal antes de qualquer distribuição pública — ver Riscos em [`roadmap.md`](./roadmap.md). |
 | Sensibilidade das anotações | Criptografia em repouso, sem telemetria de conteúdo, exportação e exclusão desde cedo. |
 | Virar "mais um app de citações" | Foco na v1 em releitura e registro, não em volume de features. |
 | Gamificação entrando pela porta dos fundos | Princípio explícito no design system e no review de produto. |
@@ -129,4 +129,4 @@ sequência de dias consecutivos.
 
 ---
 
-*Documentos relacionados:* [`Roadmap.md`](./Roadmap.md) · [`domínio.md`](./domínio.md) · [`mensagem-inicial.md`](./mensagem-inicial.md) · [`tom-de-voz.md`](./tom-de-voz.md) · [`livros/`](./livros/)
+*Documentos relacionados:* [`roadmap.md`](./roadmap.md) · [`modelo.md`](./modelo.md) · [`mensagem-inicial.md`](./mensagem-inicial.md) · [`tom-de-voz.md`](./tom-de-voz.md) · [`livros/`](../livros/)

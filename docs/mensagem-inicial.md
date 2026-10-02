@@ -3,7 +3,7 @@
 Briefing original do projeto, na íntegra, tal como foi enviado. É a fonte de verdade sobre a
 intenção do produto: quando algum documento derivado divergir daqui, este texto prevalece.
 
-Documentos derivados deste briefing: [`one-page.md`](./one-page.md) · [`Roadmap.md`](./Roadmap.md) · [`domínio.md`](./domínio.md) · [`tom-de-voz.md`](./tom-de-voz.md) · [`livros/`](./livros/)
+Documentos derivados deste briefing: [`onepager.md`](./onepager.md) · [`roadmap.md`](./roadmap.md) · [`modelo.md`](./modelo.md) · [`tom-de-voz.md`](./tom-de-voz.md) · [`livros/`](../livros/)
 
 ---
 

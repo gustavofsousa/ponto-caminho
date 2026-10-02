@@ -2,8 +2,8 @@
 
 **Um ponto para refletir.**
 
-Aplicativo de leitura espiritual católica construído em torno de *Caminho*, *Sulco* e *Forja*,
-de São Josemaría Escrivá.
+Aplicativo mobile de leitura espiritual católica construído em torno de *Caminho*, *Sulco* e
+*Forja*, de São Josemaría Escrivá.
 
 Não um repositório de frases. Um lugar onde a leitura vira percurso:
 
@@ -11,25 +11,29 @@ Não um repositório de frases. Um lugar onde a leitura vira percurso:
 texto → silêncio → reflexão → anotação → releitura → vida prática
 ```
 
+## Estado
+
+**v0.1 — Fundações.** Dados das obras com schema, validador e **pontos mock** para desenvolver.
+Motor em Dart puro + app Flutter abrindo no primeiro ponto. Ver [`docs/roadmap.md`](docs/roadmap.md).
+
 ## Documentação
 
 | Documento | O que contém |
 | --- | --- |
-| [`one-page.md`](./one-page.md) | Visão geral: problema, proposta, público, escopo da v1, riscos e métricas |
-| [`Roadmap.md`](./Roadmap.md) | Fases de construção, da licença das obras à extensão do motor |
-| [`domínio.md`](./domínio.md) | Modelo conceitual e linguagem do projeto — motor de pontos, registro pessoal, direitos |
-| [`mensagem-inicial.md`](./mensagem-inicial.md) | Briefing original do projeto, na íntegra — fonte de verdade sobre a intenção do produto |
-| [`tom-de-voz.md`](./tom-de-voz.md) | Boas-vindas, tom de voz e biblioteca de microcopy |
-| [`livros/`](./livros/) | Dados das três obras: schema, índices e validação |
-
-## Estado do projeto
-
-**Fase 0 — fundações.** Documentação de produto escrita; conteúdo ainda não licenciado.
-
-> ⚠️ As três obras são protegidas por direito autoral e **não estão em domínio público**.
-> Os arquivos em `livros/` contêm metadados e índices, nunca o texto dos pontos.
-> Ver [`livros/README.md`](./livros/README.md).
+| [`AGENTS.md`](AGENTS.md) | Regras do repositório para humanos e agentes |
+| [`docs/roadmap.md`](docs/roadmap.md) | Ordem de construção, por versão |
+| [`docs/dominios.md`](docs/dominios.md) | Domínios, regras de fronteira e onde mora o código |
+| [`docs/backlog.md`](docs/backlog.md) | O que cada domínio pode virar, e as decisões pendentes |
+| [`docs/modelo.md`](docs/modelo.md) | Modelo conceitual e vocabulário — motor de pontos, registro pessoal, privacidade |
+| [`docs/onepager.md`](docs/onepager.md) | Visão geral: problema, proposta, público, riscos e métricas |
+| [`docs/tom-de-voz.md`](docs/tom-de-voz.md) | Boas-vindas, tom de voz e microcopy |
+| [`docs/mensagem-inicial.md`](docs/mensagem-inicial.md) | Briefing original, na íntegra |
+| [`docs/adr/`](docs/adr/) | Decisões de arquitetura (ADR) |
+| [`docs/LESSONS.md`](docs/LESSONS.md) | O que aprendemos construindo |
+| [`livros/`](livros/) | Dados das três obras: schema, índices, mock e validação |
 
 ```bash
 python3 livros/validar.py
+(cd packages/ponto_motor && dart test)
+(cd apps/ponto_mobile && flutter test && flutter run)
 ```

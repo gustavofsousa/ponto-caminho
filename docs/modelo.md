@@ -131,7 +131,7 @@ O tema é o que permite a pergunta que motiva boa parte do uso:
 | `pontos` | PontoId[] |
 
 Temas são **dado de conteúdo**, não etiquetas do usuário. Etiquetas pessoais vivem em Coleções
-pessoais (§4). Na v1 os temas alimentam filtros de busca; a partir da Fase 3 alimentam a busca
+pessoais (§4). Na v1 os temas alimentam filtros de busca; a partir da v2.0 alimentam a busca
 semântica.
 
 ---
@@ -228,7 +228,7 @@ Exemplos que o onboarding sugere: *Pontos para reler* · *Meditação da semana*
 | `id` | uuid |
 | `nome` | texto |
 | `pontos` | PontoId[] |
-| `compartilhavel` | booleano — Fase 4 |
+| `compartilhavel` | booleano — v3.0 |
 
 > Quando o compartilhamento chegar, ele expõe **apenas a lista de pontos**. Anotações nunca
 > acompanham uma coleção compartilhada. Essa separação é estrutural, não uma opção de privacidade
@@ -296,7 +296,7 @@ Consequências no produto:
   texto integral.
 - A atribuição aparece na página do ponto e em qualquer exportação.
 
-Ver [`livros/README.md`](./livros/README.md) para o estado atual dos direitos e o processo de ingestão.
+Ver [`livros/README.md`](../livros/README.md) para o estado atual dos direitos e o processo de ingestão.
 
 ### Anotações
 
@@ -309,7 +309,7 @@ Anotações são **dados pessoais sensíveis de natureza religiosa**. O tratamen
 - Exportáveis e excluíveis pelo usuário, integralmente.
 - Telemetria registra **eventos**, nunca **conteúdo** de anotação.
 
-Quando a busca semântica chegar (Fase 3), ela opera sobre o corpus autorizado. Buscar dentro das
+Quando a busca semântica chegar (v2.0), ela opera sobre o corpus autorizado. Buscar dentro das
 próprias anotações é uma operação local, distinta, e nunca envia texto pessoal a um serviço externo
 sem consentimento explícito daquela funcionalidade.
 

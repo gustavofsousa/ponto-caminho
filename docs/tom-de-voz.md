@@ -75,7 +75,7 @@ Três telas, uma ideia cada, todas puláveis. Nenhuma pede cadastro.
 `[ Ler o ponto 1 ]`   `[ Um ponto para agora ]`
 
 > **Nota de implementação.** O trecho citado depende da licença vigente e da tradução adotada.
-> Ver [`livros/README.md`](./livros/README.md).
+> Ver [`livros/README.md`](../livros/README.md).
 
 ---
 
@@ -212,4 +212,4 @@ de direitos:
 
 ---
 
-*Documentos relacionados:* [`one-page.md`](./one-page.md) · [`Roadmap.md`](./Roadmap.md) · [`domínio.md`](./domínio.md)
+*Documentos relacionados:* [`onepager.md`](./onepager.md) · [`roadmap.md`](./roadmap.md) · [`modelo.md`](./modelo.md)
