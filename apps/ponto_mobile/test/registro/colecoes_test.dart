@@ -311,6 +311,13 @@ void main() {
       });
       expect(favoritos.map((f) => f.pontoId), ['$caminho2']);
       expect(reflexoes.map((r) => r.texto), ['Quero ser útil hoje.']);
+
+      await tester.tap(find.text('Família'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Caminho, capítulo Caráter, ponto 2'));
+      await tester.pumpAndSettle();
+      expect(find.text('Nas coleções: Família'), findsOneWidget);
+      expect(find.textContaining('Trabalho'), findsNothing);
     });
   });
 }
