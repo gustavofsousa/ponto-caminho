@@ -2,9 +2,9 @@
 
 **Date**: 2026-10-02
 **Spec**: `.specs/features/ler/spec.md`
-**Diff range**: `3b0b864..92d6755` (b61e6da … 92d6755, branch `feat/v0.2-ler`)
+**Diff range**: rodada 0 `3b0b864..92d6755` (b61e6da … 92d6755) · rodada 1 `5641593..696de12` (f57fd81 … 696de12), branch `feat/v0.2-ler`
 **Verifier**: independent sub-agent (author ≠ verifier)
-**Verdict**: ❌ FAIL — o código se comporta como o spec pede (provas abaixo), mas 2 mutantes sobreviveram: a suíte não segura AC-05 ("qualquer exceção") nem AC-15 ("Sistema segue o aparelho") nos dois sentidos. Os consertos mexem só nos testes (~20 min no total).
+**Verdict**: ✅ PASS (rodada 1). Na rodada 0 deu ❌ FAIL: o comportamento estava certo, mas M12 e M13 sobreviveram e AC-10 e AC-01 tinham lacunas. A rodada 1 fechou os 4 gaps só com testes e uma revisão do spec; os 9 mutantes reaplicados foram todos mortos e o gate passou. Ver "Round 1".
 
 ---
 
@@ -146,7 +146,7 @@ Não realizado (Verifier sub-agente). Pendente com o usuário: A1, A3, A4, A5, A
 
 ---
 
-## Fix Plans
+## Fix Plans (rodada 0 — todos fechados na rodada 1)
 
 ### Fix 1: AC-05 só é provado para `FormatException`
 
@@ -175,25 +175,76 @@ Não realizado (Verifier sub-agente). Pendente com o usuário: A1, A3, A4, A5, A
 
 ---
 
+## Round 1 — Re-verification (fix diff)
+
+**Diff**: `5641593..696de12` (f57fd81, 246e5e3, a87eca9, 4a7ed7d, 696de12). Mudou só teste, o spec do AC-01 (`[revised r1]`) e um parâmetro `raiz` em `validar.main`, com o padrão inalterado. Nenhum comportamento do app ou do motor mudou.
+
+### Gaps da rodada 0
+
+| Gap | Commit | `file:line` + asserção | Mutante | Result |
+| --- | --- | --- | --- | --- |
+| 1 · AC-05 / BASE-05: só `FormatException` era testada | f57fd81 | `apps/ponto_mobile/test/app_test.dart:66-69`: o carregador lê um asset inexistente (`rootBundle.loadString('assets/livros/nao-existe-$arquivo')` → `FlutterError`). `:72-76`: frase exata, `findsOneWidget`. `:78`: `find.textContaining('nao-existe'), findsNothing`. `:79-83`: `takeException(), isA<FlutterError>()` | M12 morto pelo teste novo. M10b morto pelos dois testes BASE-05; o novo falha em `:78` com "Found 1 widget with text containing nao-existe" | ✅ Closed |
+| 2 · AC-15 / PREF-01: Sistema só era testado com aparelho escuro | 246e5e3 | `app_test.dart:124-135`: `for (final aparelho in Brightness.values)` … `expect(_brilho(tester), aparelho)` | M13 (`sistema` → `ThemeMode.dark`) morto: "Sistema follows a light device". M13b (`→ ThemeMode.light`) morto: "… a dark device" | ✅ Closed |
+| 3 · AC-10 / LER-05: o texto do 82 não era afirmado | a87eca9 | `apps/ponto_mobile/test/colecao/capitulo_page_test.dart:55`: `find.text('Segundo ponto da oração.'), findsOneWidget` | T-AC10 (`ponto_page.dart:41` mostra o `PontoId` no lugar do texto) morto em `capitulo_page_test.dart:55`; a asserção da referência (`:54`) segue passando sob esse mutante | ✅ Closed |
+| 4 · AC-01 / BASE-01: spec-precision gap | 4a7ed7d | spec `AC-01 [revised r1]` + linha "Revisões" sob Assumptions: id de obra inválido → mensagem cita `colecao.json`; slug e título seguem exigindo obra e campo. `packages/ponto_motor/test/colecao/ler_colecao_test.dart:57-60`: `throwsA(_formatoCom(['colecao.json', 'id de obra']))` | A-AC01 (`ler_colecao.dart:38` sem `colecao.json` na mensagem) morto | ✅ Closed. A revisão define o caso que o spec deixava aberto e não afrouxa os outros |
+| nota · AC-02/03: exit 1 do validar.py | 696de12 | `livros/validar.py:105`: `def main(raiz=RAIZ)`. `livros/test_validar.py:63`: repetido → `1`. `:66`: capítulo inexistente → `1`. `:69`: obra válida → `0` | V1 (`return 0`), V2 (sem checagem de repetido) e V3 (sem checagem de capítulo inexistente) mortos, cada um com 2 falhas | ✅ Closed. `python3 livros/validar.py` sem argumento segue lendo `livros/` (caminho, forja e sulco ok; exit 0) |
+
+**ACs depois da rodada 1**: 20/20 com o resultado do spec afirmado por inteiro · 0 spec-precision gaps abertos · edge cases 6/6, sem mudança.
+
+### Discrimination Sensor (rodada 1)
+
+Worktree descartável em `696de12`. Uma mutação por vez, e o arquivo restaurado depois de cada uma. Worktree removido no fim.
+
+| # | File:line | Description | Killed? |
+| --- | --- | --- | --- |
+| M12 | `apps/ponto_mobile/lib/app.dart:37` | `on Object catch` → `on FormatException catch` | ✅ Killed: "BASE-05: any load failure, such as a missing asset…" |
+| M13 | `apps/ponto_mobile/lib/preferencias/preferencias.dart:4` | `Tema.sistema` → `ThemeMode.dark` | ✅ Killed: "PREF-01: Sistema follows a light device" |
+| M13b | `preferencias.dart:4` | `Tema.sistema` → `ThemeMode.light` | ✅ Killed: "PREF-01: Sistema follows a dark device" |
+| M10b | `app.dart:48` | mensagem humana intacta + `Text('$erro')` abaixo | ✅ Killed: os dois BASE-05 (o novo em `app_test.dart:78`) |
+| T-AC10 | `apps/ponto_mobile/lib/colecao/ponto_page.dart:41` | texto do ponto → `'${_ponto.id}'` | ✅ Killed: `capitulo_page_test.dart:55` |
+| A-AC01 | `packages/ponto_motor/lib/src/colecao/ler_colecao.dart:38` | mensagem sem `colecao.json` | ✅ Killed: BASE-01 "an obra id in colecao.json that is not text" |
+| V1 | `livros/validar.py:119` | `return 1 if falhou else 0` → `return 0` | ✅ Killed: 2 falhas |
+| V2 | `validar.py:53` | sem o erro de número repetido | ✅ Killed: 2 falhas |
+| V3 | `validar.py:59` | sem o erro de capítulo inexistente | ✅ Killed: 2 falhas |
+
+**Result**: 9/9 killed ✅. Somando as duas rodadas, os 21 mutantes da rodada 0 ficam mortos: M12 e M13 morreram agora, e os outros 19 já estavam mortos e o fix diff não mexeu no código que eles cobrem.
+
+### Gate Check (rodada 1)
+
+- **Gate command**: o mesmo Build gate de `tasks.md`
+- **Result**: exit 0. `validar.py` ok nas 3 obras. Validador **6** OK. Motor: format com 0 arquivos mudados, analyze "No issues found!", **38** passed. App: format com 0 arquivos mudados, analyze "No issues found!", **46** passed. `✓ Built build/app/outputs/flutter-apk/app-debug.apk`
+- **Delta vs rodada 0**: validador +3, motor 0, app +2 (+1 BASE-05 novo; o teste de Sistema virou 2)
+- **Delta vs antes da feature**: motor 18 → 38 (+20) · app 1 → 46 (+45) · validador 0 → 6 (+6)
+- **Weakened assertions**: nenhuma. O teste de Sistema manteve o caso escuro e ganhou o claro
+- **Failures / skips**: nenhum
+
+### Escopo da rodada
+
+- O fix diff fica dentro dos 4 gaps e da nota. A única linha de produto que mudou foi o parâmetro `raiz` em `validar.main`, um ponto de injeção para o teste com o padrão inalterado.
+- Edições não commitadas em `AGENTS.md`, `README.md` e `docs/{LESSONS,backlog,dominios,roadmap}.md` apareceram na árvore durante esta rodada (mtime ~14:36). Elas não fazem parte do fix diff e não foram revisadas aqui. Parecem ser a reconciliação do "Done means" apontada na rodada 0, e não tocam nenhum arquivo coberto pelo gate.
+- Lessons: nenhuma nova. A rodada saiu limpa: nenhum mutante sobreviveu e nenhum gap ficou aberto.
+
+---
+
 ## Requirement Traceability Update
 
 | Requirement | Previous Status | New Status |
 | --- | --- | --- |
-| BASE-01 | Implementing | ✅ Verified (spec-precision gap no caso do id não-texto) |
+| BASE-01 | ✅ Verified (r0, spec-precision gap) | ✅ Verified |
 | BASE-02 | Implementing | ✅ Verified |
 | BASE-03 | Implementing | ✅ Verified |
 | BASE-04 | Implementing | ✅ Verified |
-| BASE-05 | Implementing | ❌ Needs Fix (Fix 1 — só teste) |
+| BASE-05 | ❌ Needs Fix (r0) | ✅ Verified |
 | LER-01 | Implementing | ✅ Verified |
 | LER-02 | Implementing | ✅ Verified |
 | LER-03 | Implementing | ✅ Verified |
 | LER-04 | Implementing | ✅ Verified |
-| LER-05 | Implementing | ❌ Needs Fix (Fix 3 — só teste, menor) |
+| LER-05 | ❌ Needs Fix (r0) | ✅ Verified |
 | LER-06 | Implementing | ✅ Verified |
 | LER-07 | Implementing | ✅ Verified |
 | LER-08 | Implementing | ✅ Verified |
 | LER-09 | Implementing | ✅ Verified |
-| PREF-01 | Implementing | ❌ Needs Fix (Fix 2 — só teste) |
+| PREF-01 | ❌ Needs Fix (r0) | ✅ Verified |
 | PREF-02 | Implementing | ✅ Verified |
 | PREF-03 | Implementing | ✅ Verified |
 | PREF-04 | Implementing | ✅ Verified |
@@ -206,14 +257,28 @@ Não realizado (Verifier sub-agente). Pendente com o usuário: A1, A3, A4, A5, A
 
 ## Summary
 
-**Overall**: ❌ Not Ready — o comportamento está certo; a suíte ainda não segura dois ACs.
+**Overall**: ✅ Ready (automated verification). Faltam o UAT interativo e um teste no aparelho (TD-004).
 
-**Spec-anchored check**: 17/20 ACs com o resultado afirmado por inteiro | 3 parciais (AC-05, AC-15, AC-10) | 1 spec-precision gap (AC-01)
-**Sensor**: 19/21 mutations killed (M12, M13 survived)
-**Gate**: exit 0 — motor 38 · app 44 · validador 3 passed, 0 failed; APK debug gerado com Literata e livros/
+**Spec-anchored check**: 20/20 ACs com o resultado do spec afirmado (rodada 0: 17/20, com 3 parciais e 1 spec-precision gap, todos fechados na rodada 1)
+**Sensor**: rodada 0 com 19/21 mortos; rodada 1 com 9/9 mortos, M12 e M13 incluídos. Nenhum sobrevivente aberto
+**Gate**: exit 0. Motor 38 · app 46 · validador 6 passed, 0 failed. APK debug gerado com Literata e livros/
 
-**What works**: fronteira do motor (tipo errado, repetido, capítulo inexistente) e validar.py (exit 1); porta `carregarColecao` usada pelo app e pelo contrato; biblioteca → obra → capítulo → ponto; anterior/próximo atravessando capítulos e escondidos nas pontas; tema, escala multiplicativa, persistência e fallback das preferências; Literata empacotada; contraste AA.
+**What works**:
+- Fronteira do motor: recusa tipo errado, número repetido e capítulo inexistente.
+- `validar.py`: dá erro e sai com 1, agora travado por teste.
+- Porta `carregarColecao`: usada pelo app e pelo contrato.
+- Navegação biblioteca → obra → capítulo → ponto.
+- Anterior/próximo atravessam capítulos e ficam escondidos nas pontas.
+- Abertura: qualquer falha vira a mensagem humana.
+- Tema Sistema segue o aparelho, claro ou escuro.
+- Escala de texto multiplica a do sistema.
+- Preferências persistem e voltam ao padrão quando o valor é inválido.
+- Literata empacotada; contraste AA nos dois temas.
 
-**Issues found**: Fix 1 (AC-05, M12), Fix 2 (AC-15, M13), Fix 3 (AC-10, menor), decisão de spec para AC-01.
+**Issues found**: nenhum aberto. O histórico da rodada 0 está em "Fix Plans".
 
-**Next steps**: aplicar Fix 1–3 (~20 min, só testes) → re-verificar (rodada 1 de 3). Depois do merge, o "Done means" do `AGENTS.md` ainda está pendente: o diff não toca `docs/` (`roadmap.md` v0.2 segue 🗓️; `backlog.md` não tem o gesto de deslizar nem as telas de boas-vindas que o Out of Scope do spec manda para lá; `dominios.md`; `docs/LESSONS.md`). Também falta o UAT no aparelho (TD-004).
+**Next steps**:
+1. Aplicar a tabela de rastreio acima no `spec.md` (todos ✅ Verified).
+2. UAT interativo das suposições marcadas "não — UAT": A1, A3, A4, A5, A7, A10, A11, A12.
+3. Rodar no aparelho (TD-004).
+4. Revisar e commitar a reconciliação de `docs/` que está pendente na árvore.

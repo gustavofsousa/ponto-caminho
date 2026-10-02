@@ -12,7 +12,7 @@ Verifier, discrimination sensor).
 ---
 
 **Design**: `.specs/features/ler/design.md`
-**Status**: Done — T1–T17 commitados; aguardando Verifier
+**Status**: Done — T1–T17 + fixes F1–F5; Verifier PASS na rodada 1 (`validation.md`)
 
 ---
 

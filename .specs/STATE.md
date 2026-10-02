@@ -54,11 +54,11 @@
 
 ## Handoff
 
-- **Feature**: `.specs/features/ler`
-- **Phase / Task**: Tasks escritas; Execute começa pela Fase 1 / T1
-- **Completed**: none
+- **Feature**: `.specs/features/ler` — **verificada** (Verifier PASS, rodada 1)
+- **Phase / Task**: Execute concluído (T1–T17 + F1–F5); consolidação nos docs feita
+- **Completed**: T1–T17, F1–F5
 - **In-progress** (file:line): none
-- **Next step**: executar T1 (análise estática estrita)
-- **Blockers**: none
-- **Uncommitted files**: `.specs/` (commit no fim da fase de planejamento)
-- **Branch**: `feat/v0.2-ler`
+- **Next step**: UAT num Android real (TD-004) das premissas A1, A3, A4, A5, A7, A10, A11, A12; depois puxar v0.3 "Guardar" (`registro`) — rever AD-002 (gatilho)
+- **Blockers**: nenhum aparelho/emulador nesta máquina
+- **Uncommitted files**: none
+- **Branch**: `feat/v0.2-ler` (empilhada sobre `feat/v0.1-fundacoes`; nada enviado ao remoto)
