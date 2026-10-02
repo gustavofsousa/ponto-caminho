@@ -26,3 +26,13 @@ flutter:
     - assets/livros/caminho.json
     - assets/livros/sulco.json
     - assets/livros/forja.json
+    - assets/fonts/OFL.txt
+
+  # Literata (SIL OFL 1.1, assets/fonts/OFL.txt) — fonte variável; FontWeight ajusta o eixo wght.
+  fonts:
+    - family: Literata
+      fonts:
+        - asset: assets/fonts/Literata-Variable.ttf
+        - asset: assets/fonts/Literata-Italic-Variable.ttf
+          style: italic
+

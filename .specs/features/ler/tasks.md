@@ -350,6 +350,7 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 - [ ] Escala do sistema 1,5 × Grande → escala efetiva 1,725
 - [ ] Abertura com `livros/` real pelo `rootBundle` mostra "Caminho", "Sulco", "Forja"
 - [x] App não lê mais `colecao.json` por conta própria *(antecipado na T4)*
+- [ ] Licença OFL da Literata registrada no `LicenseRegistry` (o arquivo já vai como asset desde a T8) — exigência da OFL ao distribuir a fonte
 - [ ] Quick (app) passa
 **Tests**: widget · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): open through the motor with a humane failure screen`
