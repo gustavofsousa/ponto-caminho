@@ -31,6 +31,12 @@ void main() {
   Future<ColecaoPessoal> chamada(String nome) async =>
       (await atuais()).singleWhere((c) => c.nome == nome);
 
+  /// Faz falhar todo insert em [tabela] — a escrita seguinte da transação.
+  Future<void> falharAoInserirEm(String tabela) => banco.customStatement(
+    'CREATE TRIGGER falhar_$tabela BEFORE INSERT ON $tabela '
+    "BEGIN SELECT RAISE(ABORT, 'falha provocada'); END",
+  );
+
   Matcher recusadoPor<T extends NomeDeColecao>() => throwsA(
     isA<NomeDeColecaoInvalido>().having((e) => e.motivo, 'motivo', isA<T>()),
   );
@@ -59,6 +65,20 @@ void main() {
 
         final [familia] = await atuais();
         expect(familia.pontos, [caminho2]);
+      },
+    );
+
+    test(
+      'COL-01: a failure while keeping the point leaves no collection',
+      () async {
+        await falharAoInserirEm('pontos_da_colecao');
+
+        await expectLater(
+          colecoes.criar('Família', comPonto: caminho2),
+          throwsA(isA<SqliteException>()),
+        );
+
+        expect(await atuais(), isEmpty);
       },
     );
 
@@ -234,6 +254,21 @@ void main() {
           'Família',
         ]);
         expect(await colecoes.sugestoesRespondidas(), isTrue);
+      },
+    );
+
+    test(
+      'SUG-02: a failure while recording the answer creates nothing',
+      () async {
+        await falharAoInserirEm('marcos');
+
+        await expectLater(
+          colecoes.responderSugestoes(['Pontos para reler', 'Família']),
+          throwsA(isA<SqliteException>()),
+        );
+
+        expect(await atuais(), isEmpty);
+        expect(await colecoes.sugestoesRespondidas(), isFalse);
       },
     );
 
