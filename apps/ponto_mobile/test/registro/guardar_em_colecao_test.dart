@@ -22,27 +22,13 @@ void main() {
     registro = Registro(banco, agora: relogio.call);
   });
 
-  /// Sugestões já respondidas (cenário das ACs) e as coleções dadas, em ordem.
   Future<void> prepararColecoes(
     WidgetTester tester,
     List<String> nomes, {
     Map<String, List<PontoId>> pontos = const {},
-  }) async {
-    await tester.runAsync(() async {
-      await registro.colecoes.responderSugestoes([]);
-      for (final nome in nomes) {
-        relogio.agora = relogio.agora.add(const Duration(minutes: 1));
-        await registro.colecoes.criar(nome);
-      }
-      final colecoes = await banco.select(banco.colecoesPessoais).get();
-      for (final MapEntry(key: nome, value: ids) in pontos.entries) {
-        final colecao = colecoes.singleWhere((c) => c.nome == nome);
-        for (final id in ids) {
-          await registro.colecoes.guardar(colecao.id, id);
-        }
-      }
-    });
-  }
+  }) async => tester.runAsync(
+    () => semearColecoes(registro, banco, relogio, nomes, pontos: pontos),
+  );
 
   Future<void> abrirPonto(WidgetTester tester, PontoId id) async {
     await montarTela(

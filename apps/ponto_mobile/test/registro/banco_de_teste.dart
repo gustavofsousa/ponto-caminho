@@ -3,6 +3,8 @@ import 'package:drift/native.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ponto_mobile/registro/banco_registro.dart';
+import 'package:ponto_mobile/registro/registro.dart';
+import 'package:ponto_motor/ponto_motor.dart';
 
 /// Banco do registro em memória, novo a cada teste e fechado no fim dele.
 /// Sem cifra: a cifra tem testes próprios em test/infra.
@@ -64,4 +66,32 @@ Future<Map<String, List<String>>> lerColecoesGuardadas(
           if (vinculo.colecaoId == colecao.id) vinculo.pontoId,
       ],
   };
+}
+
+/// Sugestões já respondidas e as coleções [nomes] criadas nesta ordem; depois
+/// guarda os [pontos] de cada uma, na ordem dada. O relógio anda um minuto a
+/// cada escrita, para a ordem não depender de empate. Chamar dentro de `runAsync`.
+Future<void> semearColecoes(
+  Registro registro,
+  BancoRegistro banco,
+  RelogioDeTeste relogio,
+  List<String> nomes, {
+  Map<String, List<PontoId>> pontos = const {},
+}) async {
+  void avancar() =>
+      relogio.agora = relogio.agora.add(const Duration(minutes: 1));
+
+  await registro.colecoes.responderSugestoes([]);
+  for (final nome in nomes) {
+    avancar();
+    await registro.colecoes.criar(nome);
+  }
+  final colecoes = await banco.select(banco.colecoesPessoais).get();
+  for (final MapEntry(key: nome, value: ids) in pontos.entries) {
+    final colecao = colecoes.singleWhere((c) => c.nome == nome);
+    for (final id in ids) {
+      avancar();
+      await registro.colecoes.guardar(colecao.id, id);
+    }
+  }
 }

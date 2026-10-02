@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ponto_motor/ponto_motor.dart';
 
 import '../preferencias/botao_preferencias.dart';
+import '../registro/colecoes_page.dart';
 import '../registro/favoritos_page.dart';
 import 'obra_page.dart';
 
@@ -36,6 +37,14 @@ class BibliotecaPage extends StatelessWidget {
             onTap: () => Navigator.of(context).push(
               MaterialPageRoute<void>(
                 builder: (_) => FavoritosPage(colecao: colecao),
+              ),
+            ),
+          ),
+          ListTile(
+            title: const Text('Coleções'),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => ColecoesPage(colecao: colecao),
               ),
             ),
           ),
