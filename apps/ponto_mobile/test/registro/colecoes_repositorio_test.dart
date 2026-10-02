@@ -93,6 +93,16 @@ void main() {
       expect((await chamada('Pontos para reler')).pontos, [caminho2]);
     });
 
+    test('COL-02: taking one point out keeps the other points', () async {
+      await colecoes.criar('Família', comPonto: caminho2);
+      final familia = await chamada('Família');
+      await colecoes.guardar(familia.id, caminho81);
+
+      await colecoes.tirar(familia.id, caminho2);
+
+      expect((await chamada('Família')).pontos, [caminho81]);
+    });
+
     test(
       'COL-02: keeping a point twice in a collection keeps it once',
       () async {
