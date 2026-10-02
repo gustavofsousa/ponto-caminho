@@ -46,7 +46,7 @@ final class Obra {
     required this.capitulos,
     required List<Ponto> pontos,
   }) : pontos = List.unmodifiable(
-         [...pontos]..sort((a, b) => a.ordem.compareTo(b.ordem)),
+         <Ponto>[...pontos]..sort((a, b) => a.ordem.compareTo(b.ordem)),
        ),
        _porNumero = {for (final p in pontos) p.id.numero: p};
 
