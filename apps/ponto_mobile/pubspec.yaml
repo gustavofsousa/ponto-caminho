@@ -13,6 +13,7 @@ dependencies:
   ponto_motor:
     path: ../../packages/ponto_motor
   shared_preferences: ^2.5.5
+  sqlite3: ^3.5.0
   uuid: ^4.6.0
 
 dev_dependencies:
@@ -23,6 +24,13 @@ dev_dependencies:
   # resolve 2.34.0 sozinho. Subir junto com o Flutter.
   drift_dev: ^2.34.0
   build_runner: ^2.15.0
+
+# SECURITY: o SQLite empacotado é o SQLite3MultipleCiphers — o registro só abre cifrado
+# (lib/infra/banco_cifrado.dart recusa um SQLite sem cifra). ADR-002.
+hooks:
+  user_defines:
+    sqlite3:
+      source: sqlite3mc
 
 flutter:
   uses-material-design: true
