@@ -7,7 +7,8 @@ de schema genérico não pegaria:
   - campos obrigatórios presentes;
   - capítulos numerados de 1..N sem buracos;
   - intervalos de pontos contíguos e dentro do total da obra;
-  - cada ponto dentro do intervalo do seu capítulo;
+  - cada ponto dentro do intervalo do seu capítulo, que precisa existir;
+  - número de ponto único na obra;
   - totalCapitulos batendo com o índice;
   - pontos e capítulos marcados com nota "mock" (dado de desenvolvimento).
 
@@ -44,6 +45,18 @@ def validar(caminho, estrito=False):
         erros.append("status = 'estrutura' mas o array 'pontos' não está vazio")
     if doc["status"] == "completo" and len(pontos) != total:
         erros.append(f"status = 'completo' mas há {len(pontos)} pontos para um total de {total}")
+
+    # INVARIANT: o número identifica o ponto no PontoId — repetido, uma anotação apontaria para dois textos.
+    vistos = set()
+    for p in pontos:
+        if p["numero"] in vistos:
+            erros.append(f"ponto {p['numero']} repetido")
+        vistos.add(p["numero"])
+
+    capitulos_existentes = {c["numero"] for c in caps}
+    for p in pontos:
+        if p["capituloNumero"] not in capitulos_existentes:
+            erros.append(f"ponto {p['numero']}: capítulo {p['capituloNumero']} não existe no índice")
 
     if not caps:
         avisos.append("índice de capítulos vazio")
