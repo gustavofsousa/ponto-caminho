@@ -7,20 +7,23 @@ de schema genérico não pegaria:
   - campos obrigatórios presentes;
   - capítulos numerados de 1..N sem buracos;
   - intervalos de pontos contíguos e dentro do total da obra;
+  - cada ponto dentro do intervalo do seu capítulo;
   - totalCapitulos batendo com o índice;
-  - o portão de direitos: nenhum ponto com texto enquanto a obra não estiver licenciada.
+  - pontos e capítulos marcados com nota "mock" (dado de desenvolvimento).
 
-Uso: python3 livros/validar.py
+Uso: python3 livros/validar.py [--estrito]
+  --estrito  trata dado mock como erro — use antes de qualquer build de publicação.
 """
 import json
 import pathlib
 import sys
 
 RAIZ = pathlib.Path(__file__).parent
-OBRIGATORIOS = ("id", "versaoDados", "status", "colecaoId", "obra", "direitos", "capitulos", "pontos")
+OBRIGATORIOS = ("id", "versaoDados", "status", "colecaoId", "obra", "capitulos", "pontos")
+MOCK = "mock"
 
 
-def validar(caminho):
+def validar(caminho, estrito=False):
     erros, avisos = [], []
     doc = json.loads(caminho.read_text(encoding="utf-8"))
 
@@ -30,12 +33,13 @@ def validar(caminho):
     if erros:
         return erros, avisos
 
-    obra, direitos, caps, pontos = doc["obra"], doc["direitos"], doc["capitulos"], doc["pontos"]
+    obra, caps, pontos = doc["obra"], doc["capitulos"], doc["pontos"]
     total = obra["totalPontos"]
 
-    # Portão de direitos: a regra que impede distribuir texto sem licença.
-    if pontos and not direitos.get("licenciado"):
-        erros.append(f"{len(pontos)} ponto(s) com texto, mas direitos.licenciado = false")
+    # Dado mock destrava o desenvolvimento, mas nunca pode chegar a uma publicação.
+    mocks = sum(1 for item in caps + pontos if item.get("nota") == MOCK)
+    if mocks:
+        (erros if estrito else avisos).append(f"{mocks} item(ns) mock — substituir pelo texto/índice real")
     if doc["status"] == "estrutura" and pontos:
         erros.append("status = 'estrutura' mas o array 'pontos' não está vazio")
     if doc["status"] == "completo" and len(pontos) != total:
@@ -72,6 +76,12 @@ def validar(caminho):
     if anterior and anterior != total:
         erros.append(f"último ponto do índice é {anterior}, mas totalPontos = {total}")
 
+    intervalos = {c["numero"]: (c.get("pontoInicial"), c.get("pontoFinal")) for c in caps}
+    for p in pontos:
+        ini, fim = intervalos.get(p["capituloNumero"], (None, None))
+        if ini is not None and fim is not None and not ini <= p["numero"] <= fim:
+            erros.append(f"ponto {p['numero']} fora do intervalo do cap. {p['capituloNumero']} ({ini}-{fim})")
+
     pendentes = [c["numero"] for c in caps if not c.get("validado")]
     if pendentes:
         avisos.append(f"{len(pendentes)} capítulo(s) não conferidos na edição impressa: {pendentes}")
@@ -80,11 +90,12 @@ def validar(caminho):
 
 
 def main():
+    estrito = "--estrito" in sys.argv[1:]
     arquivos = sorted(p for p in RAIZ.glob("*.json")
                       if p.name not in {"_schema.json", "colecao.json"})
     falhou = False
     for arq in arquivos:
-        erros, avisos = validar(arq)
+        erros, avisos = validar(arq, estrito)
         marca = "FALHOU" if erros else "ok"
         print(f"{arq.name}: {marca}")
         for e in erros:

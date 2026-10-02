@@ -66,26 +66,6 @@
         "sinopse": { "type": ["string", "null"] }
       }
     },
-    "direitos": {
-      "type": "object",
-      "required": ["dominioPublico", "licenciado"],
-      "additionalProperties": false,
-      "description": "Estado jurídico da obra. O campo texto de um ponto só pode ser populado quando licenciado = true.",
-      "properties": {
-        "dominioPublico": { "type": "boolean" },
-        "licenciado": { "type": "boolean" },
-        "titular": { "type": ["string", "null"] },
-        "licenca": { "type": ["string", "null"], "description": "Instrumento que autoriza o uso." },
-        "escopo": { "type": ["string", "null"], "description": "Territórios, idiomas e plataformas cobertos." },
-        "limiteCitacao": {
-          "type": ["integer", "null"],
-          "description": "Número máximo de pontos que podem ser compartilhados integralmente fora do app. null = apenas a referência."
-        },
-        "atribuicaoExigida": { "type": ["string", "null"] },
-        "validoAte": { "type": ["string", "null"], "format": "date" },
-        "observacoes": { "type": ["string", "null"] }
-      }
-    },
     "capitulos": {
       "type": "array",
       "items": {

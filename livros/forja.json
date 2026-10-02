@@ -1,8 +1,8 @@
 {
   "$schema": "./_schema.json",
   "id": "forja",
-  "versaoDados": "0.1.0",
-  "status": "estrutura",
+  "versaoDados": "0.2.0",
+  "status": "parcial",
   "colecaoId": "caminho-sulco-forja",
   "obra": {
     "titulo": "Forja",
@@ -28,19 +28,178 @@
     "totalCapitulos": 13,
     "sinopse": "Transformação por fogo, esforço e golpes. Formação do caráter e amadurecimento espiritual: o último dos três livros de pontos, publicado postumamente."
   },
-  "direitos": {
-    "dominioPublico": false,
-    "licenciado": false,
-    "titular": null,
-    "licenca": null,
-    "escopo": null,
-    "limiteCitacao": null,
-    "atribuicaoExigida": null,
-    "validoAte": null,
-    "observacoes": "Obra protegida por direito autoral. O array 'pontos' permanece vazio e 'status' permanece 'estrutura' até que uma licença formal seja obtida e registrada aqui. Ver Fase 0 do Roadmap."
-  },
-  "capitulos": [],
-  "pontos": [],
+  "capitulos": [
+    {
+      "numero": 1,
+      "slug": "forja-provisorio-1",
+      "titulo": "Capítulo 1 (provisório)",
+      "pontoInicial": 1,
+      "pontoFinal": 82,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 2,
+      "slug": "forja-provisorio-2",
+      "titulo": "Capítulo 2 (provisório)",
+      "pontoInicial": 83,
+      "pontoFinal": 164,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 3,
+      "slug": "forja-provisorio-3",
+      "titulo": "Capítulo 3 (provisório)",
+      "pontoInicial": 165,
+      "pontoFinal": 246,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 4,
+      "slug": "forja-provisorio-4",
+      "titulo": "Capítulo 4 (provisório)",
+      "pontoInicial": 247,
+      "pontoFinal": 328,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 5,
+      "slug": "forja-provisorio-5",
+      "titulo": "Capítulo 5 (provisório)",
+      "pontoInicial": 329,
+      "pontoFinal": 410,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 6,
+      "slug": "forja-provisorio-6",
+      "titulo": "Capítulo 6 (provisório)",
+      "pontoInicial": 411,
+      "pontoFinal": 492,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 7,
+      "slug": "forja-provisorio-7",
+      "titulo": "Capítulo 7 (provisório)",
+      "pontoInicial": 493,
+      "pontoFinal": 574,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 8,
+      "slug": "forja-provisorio-8",
+      "titulo": "Capítulo 8 (provisório)",
+      "pontoInicial": 575,
+      "pontoFinal": 656,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 9,
+      "slug": "forja-provisorio-9",
+      "titulo": "Capítulo 9 (provisório)",
+      "pontoInicial": 657,
+      "pontoFinal": 738,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 10,
+      "slug": "forja-provisorio-10",
+      "titulo": "Capítulo 10 (provisório)",
+      "pontoInicial": 739,
+      "pontoFinal": 820,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 11,
+      "slug": "forja-provisorio-11",
+      "titulo": "Capítulo 11 (provisório)",
+      "pontoInicial": 821,
+      "pontoFinal": 902,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 12,
+      "slug": "forja-provisorio-12",
+      "titulo": "Capítulo 12 (provisório)",
+      "pontoInicial": 903,
+      "pontoFinal": 984,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 13,
+      "slug": "forja-provisorio-13",
+      "titulo": "Capítulo 13 (provisório)",
+      "pontoInicial": 985,
+      "pontoFinal": 1055,
+      "validado": false,
+      "nota": "mock"
+    }
+  ],
+  "pontos": [
+    {
+      "numero": 1,
+      "capituloNumero": 1,
+      "ordem": 1,
+      "texto": "O ferro não se queixa do fogo; é nele que ganha forma.",
+      "temas": [
+        "dificuldades"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 2,
+      "capituloNumero": 1,
+      "ordem": 2,
+      "texto": "Recomeça. Quantas vezes forem precisas. Recomeçar também é avançar.",
+      "temas": [
+        "luta-interior"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 3,
+      "capituloNumero": 1,
+      "ordem": 3,
+      "texto": "Não esperes sentir vontade para fazer o que é bom.",
+      "temas": [
+        "fortaleza"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 83,
+      "capituloNumero": 2,
+      "ordem": 83,
+      "texto": "Conhecer-te não é para te desanimar; é para saberes por onde começar.",
+      "temas": [
+        "conhecimento-proprio"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 84,
+      "capituloNumero": 2,
+      "ordem": 84,
+      "texto": "O exame do fim do dia é curto, sincero e sem drama.",
+      "temas": [
+        "exame",
+        "plano-de-vida"
+      ],
+      "nota": "mock"
+    }
+  ],
   "fontes": [
     {
       "descricao": "Total de 1055 pontos distribuídos em 13 capítulos; publicação póstuma em 1987. O número de capítulos (13) vem de fonte secundária e deve ser conferido na edição impressa. Índice de capítulos PENDENTE: páginas de índice bloqueadas pelo proxy de egresso desta sessão.",

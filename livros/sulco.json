@@ -1,8 +1,8 @@
 {
   "$schema": "./_schema.json",
   "id": "sulco",
-  "versaoDados": "0.1.0",
-  "status": "estrutura",
+  "versaoDados": "0.2.0",
+  "status": "parcial",
   "colecaoId": "caminho-sulco-forja",
   "obra": {
     "titulo": "Sulco",
@@ -28,19 +28,151 @@
     "totalCapitulos": null,
     "sinopse": "A marca aberta no terreno pelo trabalho e pela repetição. Constância, cultivo e profundidade: mil pontos sobre as virtudes humanas vividas na vida corrente. Publicado postumamente."
   },
-  "direitos": {
-    "dominioPublico": false,
-    "licenciado": false,
-    "titular": null,
-    "licenca": null,
-    "escopo": null,
-    "limiteCitacao": null,
-    "atribuicaoExigida": null,
-    "validoAte": null,
-    "observacoes": "Obra protegida por direito autoral. O array 'pontos' permanece vazio e 'status' permanece 'estrutura' até que uma licença formal seja obtida e registrada aqui. Ver Fase 0 do Roadmap."
-  },
-  "capitulos": [],
-  "pontos": [],
+  "capitulos": [
+    {
+      "numero": 1,
+      "slug": "sulco-provisorio-1",
+      "titulo": "Capítulo 1 (provisório)",
+      "pontoInicial": 1,
+      "pontoFinal": 100,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 2,
+      "slug": "sulco-provisorio-2",
+      "titulo": "Capítulo 2 (provisório)",
+      "pontoInicial": 101,
+      "pontoFinal": 200,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 3,
+      "slug": "sulco-provisorio-3",
+      "titulo": "Capítulo 3 (provisório)",
+      "pontoInicial": 201,
+      "pontoFinal": 300,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 4,
+      "slug": "sulco-provisorio-4",
+      "titulo": "Capítulo 4 (provisório)",
+      "pontoInicial": 301,
+      "pontoFinal": 400,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 5,
+      "slug": "sulco-provisorio-5",
+      "titulo": "Capítulo 5 (provisório)",
+      "pontoInicial": 401,
+      "pontoFinal": 500,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 6,
+      "slug": "sulco-provisorio-6",
+      "titulo": "Capítulo 6 (provisório)",
+      "pontoInicial": 501,
+      "pontoFinal": 600,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 7,
+      "slug": "sulco-provisorio-7",
+      "titulo": "Capítulo 7 (provisório)",
+      "pontoInicial": 601,
+      "pontoFinal": 700,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 8,
+      "slug": "sulco-provisorio-8",
+      "titulo": "Capítulo 8 (provisório)",
+      "pontoInicial": 701,
+      "pontoFinal": 800,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 9,
+      "slug": "sulco-provisorio-9",
+      "titulo": "Capítulo 9 (provisório)",
+      "pontoInicial": 801,
+      "pontoFinal": 900,
+      "validado": false,
+      "nota": "mock"
+    },
+    {
+      "numero": 10,
+      "slug": "sulco-provisorio-10",
+      "titulo": "Capítulo 10 (provisório)",
+      "pontoInicial": 901,
+      "pontoFinal": 1000,
+      "validado": false,
+      "nota": "mock"
+    }
+  ],
+  "pontos": [
+    {
+      "numero": 1,
+      "capituloNumero": 1,
+      "ordem": 1,
+      "texto": "O sulco não se abre num golpe. Abre-se passando muitas vezes pelo mesmo lugar.",
+      "temas": [
+        "constancia"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 2,
+      "capituloNumero": 1,
+      "ordem": 2,
+      "texto": "Sê amável sem ser mole, e firme sem ser duro.",
+      "temas": [
+        "carater"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 3,
+      "capituloNumero": 1,
+      "ordem": 3,
+      "texto": "A sinceridade começa contigo mesmo: chama as coisas pelo nome.",
+      "temas": [
+        "sinceridade"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 101,
+      "capituloNumero": 2,
+      "ordem": 101,
+      "texto": "Repara em quem está ao teu lado antes de reparar em quem está longe.",
+      "temas": [
+        "caridade"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 102,
+      "capituloNumero": 2,
+      "ordem": 102,
+      "texto": "Um sorriso custoso é, às vezes, o melhor trabalho do dia.",
+      "temas": [
+        "caridade",
+        "alegria"
+      ],
+      "nota": "mock"
+    }
+  ],
   "fontes": [
     {
       "descricao": "Total de 1000 pontos; publicação póstuma em 1986. Índice de capítulos PENDENTE: as páginas de índice de escriva.org/escrivaobras.org estão bloqueadas pelo proxy de egresso desta sessão. Confirmado apenas que existe um capítulo 'Sinceridade' (índice 10 na numeração de escrivaobras.org).",

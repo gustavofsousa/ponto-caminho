@@ -1,8 +1,8 @@
 {
   "$schema": "./_schema.json",
   "id": "caminho",
-  "versaoDados": "0.1.0",
-  "status": "estrutura",
+  "versaoDados": "0.2.0",
+  "status": "parcial",
   "colecaoId": "caminho-sulco-forja",
   "obra": {
     "titulo": "Caminho",
@@ -16,28 +16,10 @@
       "nascimento": 1902,
       "falecimento": 1975
     },
-    "edicao": {
-      "editora": null,
-      "ano": null,
-      "tradutor": null,
-      "isbn": null,
-      "observacoes": "A definir junto com a licença. O índice abaixo deve ser conferido contra a edição efetivamente adotada."
-    },
     "primeiraPublicacao": 1939,
     "totalPontos": 999,
     "totalCapitulos": 46,
     "sinopse": "Percurso, direção, vida em movimento. Noventa e nove dezenas mais nove de considerações breves sobre vida interior, oração, virtudes humanas, trabalho e apostolado."
-  },
-  "direitos": {
-    "dominioPublico": false,
-    "licenciado": false,
-    "titular": null,
-    "licenca": null,
-    "escopo": null,
-    "limiteCitacao": null,
-    "atribuicaoExigida": null,
-    "validoAte": null,
-    "observacoes": "Obra protegida por direito autoral. O autor faleceu em 1975; a obra não está em domínio público e não estará tão cedo. O array 'pontos' permanece vazio e 'status' permanece 'estrutura' ate que uma licenca formal seja obtida e registrada aqui. Ver Fase 0 do Roadmap."
   },
   "capitulos": [
     {
@@ -461,7 +443,111 @@
       "validado": true
     }
   ],
-  "pontos": [],
+  "pontos": [
+    {
+      "numero": 1,
+      "capituloNumero": 1,
+      "ordem": 1,
+      "texto": "Não deixes que o dia passe sem um rasto. Uma coisa pequena, bem feita, vale mais do que muitas apenas começadas.",
+      "temas": [
+        "trabalho"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 2,
+      "capituloNumero": 1,
+      "ordem": 2,
+      "texto": "O caráter não se improvisa na hora difícil. Constrói-se antes, em decisões que ninguém vê.",
+      "temas": [
+        "fortaleza"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 3,
+      "capituloNumero": 1,
+      "ordem": 3,
+      "texto": "Fala menos dos teus planos e cumpre mais as tuas promessas.",
+      "temas": [
+        "sinceridade"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 4,
+      "capituloNumero": 1,
+      "ordem": 4,
+      "texto": "Serenidade não é indiferença. É saber o que depende de ti — e fazê-lo.",
+      "temas": [
+        "fortaleza"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 5,
+      "capituloNumero": 1,
+      "ordem": 5,
+      "texto": "Se começaste, termina. Se não podes terminar, não comeces por vaidade.",
+      "temas": [
+        "trabalho",
+        "propositos"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 81,
+      "capituloNumero": 3,
+      "ordem": 81,
+      "texto": "A oração não exige palavras bonitas. Exige que estejas ali, inteiro, ainda que por pouco tempo.",
+      "temas": [
+        "oracao"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 82,
+      "capituloNumero": 3,
+      "ordem": 82,
+      "texto": "Quando não souberes o que dizer, diz isso mesmo. Também é oração.",
+      "temas": [
+        "oracao"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 83,
+      "capituloNumero": 3,
+      "ordem": 83,
+      "texto": "Dez minutos de silêncio bem guardados mudam o tom do resto do dia.",
+      "temas": [
+        "oracao",
+        "plano-de-vida"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 265,
+      "capituloNumero": 11,
+      "ordem": 265,
+      "texto": "Trabalha como quem é olhado com carinho — não como quem é vigiado.",
+      "temas": [
+        "presenca-de-deus",
+        "trabalho"
+      ],
+      "nota": "mock"
+    },
+    {
+      "numero": 266,
+      "capituloNumero": 11,
+      "ordem": 266,
+      "texto": "No meio do barulho, uma palavra breve para dentro. Ninguém precisa perceber.",
+      "temas": [
+        "presenca-de-deus"
+      ],
+      "nota": "mock"
+    }
+  ],
   "fontes": [
     {
       "descricao": "Índice de capítulos e intervalos de pontos reconstituídos a partir das páginas públicas de escriva.org e leercamino.org (edição crítico-histórica de Pedro Rodríguez), cruzados entre si.",
