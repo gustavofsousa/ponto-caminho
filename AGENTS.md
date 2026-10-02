@@ -40,6 +40,7 @@ python3 livros/validar.py --estrito  # release: mock data is an error
 python3 -m unittest discover -s livros -p 'test_*.py'
 (cd packages/ponto_motor && dart analyze --fatal-infos && dart test)
 (cd apps/ponto_mobile && flutter analyze --fatal-infos && flutter test)
+(cd apps/ponto_mobile && dart run build_runner build)  # after editing lib/registro/banco_registro.dart; commit the .g.dart
 (cd apps/ponto_mobile && flutter run)       # with an Android phone on adb
 ```
 
@@ -57,8 +58,9 @@ python3 -m unittest discover -s livros -p 'test_*.py'
 - **The engine doesn't know São Josemaría.** No work id (`caminho`, `sulco`, `forja`) outside
   `livros/` and tests.
 - **User data anchors on `PontoId`** (`ponto:<colecao>/<obra>/<numero>`), never on position.
-- **Reflections are sensitive religious personal data:** encrypted at rest, never in telemetry,
-  never read by AI, never attached to a shared collection.
+- **Reflections are sensitive religious personal data:** encrypted at rest, never in telemetry
+  or logs (log the error type only — AD-009), never read by AI, never attached to a shared
+  collection. A new database key only for a new database (ADR-002).
 - **No guilt mechanics:** no streaks, badges, rankings, "you've been away" copy.
 - **AI only finds the author's text.** It never explains, paraphrases or advises.
 

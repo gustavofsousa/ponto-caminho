@@ -79,11 +79,11 @@
 
 ## Handoff
 
-- **Feature**: `.specs/features/ler` — **verificada** (Verifier PASS, rodada 1)
-- **Phase / Task**: Execute concluído (T1–T17 + F1–F5); consolidação nos docs feita
-- **Completed**: T1–T17, F1–F5
+- **Feature**: `.specs/features/guardar` (v0.3) — Execute concluído; falta o Verifier
+- **Phase / Task**: T1–T21 feitos
+- **Completed**: T1–T21
 - **In-progress** (file:line): none
-- **Next step**: UAT num Android real (TD-004) das premissas A1, A3, A4, A5, A7, A10, A11, A12; depois puxar v0.3 "Guardar" (`registro`) — rever AD-002 (gatilho)
-- **Blockers**: nenhum aparelho/emulador nesta máquina
+- **Next step**: Verifier independente (`validation.md`); depois consolidar roadmap/backlog/dominios e LESSONS
+- **Blockers**: nenhum aparelho/emulador nesta máquina (TD-004)
 - **Uncommitted files**: none
-- **Branch**: `feat/v0.2-ler` (empilhada sobre `feat/v0.1-fundacoes`; nada enviado ao remoto)
+- **Branch**: `feat/v0.3-guardar` (sobre `main` local com a v0.2; nada enviado ao remoto)
