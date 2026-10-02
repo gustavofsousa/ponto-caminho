@@ -1,0 +1,11 @@
+name: ponto_motor
+description: Motor de pontos — conteúdo, seleção e (depois) registro. Dart puro, sem Flutter nem I/O.
+version: 0.1.0
+publish_to: "none"
+
+environment:
+  sdk: ^3.11.0
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.6
