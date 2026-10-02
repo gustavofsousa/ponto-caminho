@@ -1,0 +1,28 @@
+name: ponto_mobile
+description: Ponto do Caminho — app mobile. Só orquestra telas; a regra vive em ponto_motor.
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  ponto_motor:
+    path: ../../packages/ponto_motor
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  # OPS: assets/livros é symlink para /livros — a fonte única do conteúdo, validada por livros/validar.py.
+  # Arquivo a arquivo: o diretório também tem validar.py e README, que não vão para o app.
+  assets:
+    - assets/livros/colecao.json
+    - assets/livros/caminho.json
+    - assets/livros/sulco.json
+    - assets/livros/forja.json
