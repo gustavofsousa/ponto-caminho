@@ -74,6 +74,19 @@ void main() {
     expect(igual.editadaEm, isNull);
   });
 
+  test('REF-04: editing one reflection leaves the others untouched', () async {
+    await reflexoes.escrever(caminho2, 'Do dois.');
+    await reflexoes.escrever(caminho81, 'Do oitenta e um.');
+    final [doDois] = await doCaminho2();
+
+    relogio.agora = _quatorzeDeMarco;
+    await reflexoes.editar(doDois.id, 'Do dois, editada.');
+
+    final [outra] = await reflexoes.observar(caminho81).first;
+    expect(outra.texto, 'Do oitenta e um.');
+    expect(outra.editadaEm, isNull);
+  });
+
   test('REF-04: editing to an empty text is refused', () async {
     await reflexoes.escrever(caminho2, 'Quero ser útil hoje.');
     final [escrita] = await doCaminho2();
