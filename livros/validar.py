@@ -102,9 +102,9 @@ def validar(caminho, estrito=False):
     return erros, avisos
 
 
-def main():
+def main(raiz=RAIZ):
     estrito = "--estrito" in sys.argv[1:]
-    arquivos = sorted(p for p in RAIZ.glob("*.json")
+    arquivos = sorted(p for p in raiz.glob("*.json")
                       if p.name not in {"_schema.json", "colecao.json"})
     falhou = False
     for arq in arquivos:

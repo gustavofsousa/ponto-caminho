@@ -1,4 +1,6 @@
 """Testes das invariantes de validar.py. Rodar: python3 -m unittest discover -s livros -p 'test_*.py'"""
+import contextlib
+import io
 import json
 import pathlib
 import tempfile
@@ -47,6 +49,24 @@ class InvariantesDosPontos(unittest.TestCase):
 
     def test_base02_base03_obra_valida_nao_tem_erro(self):
         self.assertEqual(erros_de(obra([ponto(1, 1), ponto(2, 1), ponto(3, 2)])), [])
+
+
+def saida_de(doc):
+    with tempfile.TemporaryDirectory() as pasta:
+        (pathlib.Path(pasta) / "teste.json").write_text(json.dumps(doc), encoding="utf-8")
+        with contextlib.redirect_stdout(io.StringIO()):
+            return validar.main(pathlib.Path(pasta))
+
+
+class CodigoDeSaida(unittest.TestCase):
+    def test_base02_numero_repetido_sai_com_1(self):
+        self.assertEqual(saida_de(obra([ponto(1, 1), ponto(1, 1)])), 1)
+
+    def test_base03_capitulo_inexistente_sai_com_1(self):
+        self.assertEqual(saida_de(obra([ponto(4, 9)])), 1)
+
+    def test_base02_base03_obra_valida_sai_com_0(self):
+        self.assertEqual(saida_de(obra([ponto(1, 1), ponto(3, 2)])), 0)
 
 
 if __name__ == "__main__":
