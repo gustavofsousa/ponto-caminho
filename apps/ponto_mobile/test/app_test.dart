@@ -121,14 +121,18 @@ void main() {
     },
   );
 
-  testWidgets('PREF-01: Sistema follows the device brightness', (tester) async {
-    tester.platformDispatcher.platformBrightnessTestValue = Brightness.dark;
-    addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
+  for (final aparelho in Brightness.values) {
+    testWidgets('PREF-01: Sistema follows a ${aparelho.name} device', (
+      tester,
+    ) async {
+      tester.platformDispatcher.platformBrightnessTestValue = aparelho;
+      addTearDown(tester.platformDispatcher.clearPlatformBrightnessTestValue);
 
-    await _abrirApp(tester);
+      await _abrirApp(tester);
 
-    expect(_brilho(tester), Brightness.dark);
-  });
+      expect(_brilho(tester), aparelho);
+    });
+  }
 
   testWidgets('PREF-02: system scale 1.5 times Grande gives 1.725', (
     tester,
