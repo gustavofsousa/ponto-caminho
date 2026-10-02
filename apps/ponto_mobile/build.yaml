@@ -1,0 +1,8 @@
+targets:
+  $default:
+    builders:
+      drift_dev:
+        options:
+          # O padrão guarda segundos inteiros; texto ISO-8601 mantém os milissegundos
+          # e a ordem das reflexões escritas no mesmo segundo.
+          store_date_time_values_as_text: true

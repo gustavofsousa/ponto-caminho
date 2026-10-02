@@ -1,6 +1,9 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  exclude:
+    # Gerado pelo drift_dev (`dart run build_runner build`); não é código escrito à mão.
+    - lib/**/*.g.dart
   language:
     strict-casts: true
     strict-inference: true
