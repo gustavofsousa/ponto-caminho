@@ -56,7 +56,7 @@ class _RegistroAbertoState extends State<_RegistroAberto> {
         overflowAlignment: OverflowBarAlignment.start,
         children: [
           TextButton(
-            onPressed: _escrever,
+            onPressed: () => _abrirEditor(null),
             child: const Text('Escrever uma reflexão'),
           ),
         ],
@@ -67,40 +67,56 @@ class _RegistroAbertoState extends State<_RegistroAberto> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             for (final reflexao in instantaneo.data ?? const <Reflexao>[])
-              _ReflexaoNaPagina(reflexao),
+              _ReflexaoNaPagina(
+                reflexao,
+                aoTocar: () => _abrirEditor(reflexao),
+              ),
           ],
         ),
       ),
     ],
   );
 
-  void _escrever() => Navigator.of(context).push(
+  /// [reflexao] nula escreve uma nova.
+  void _abrirEditor(Reflexao? reflexao) => Navigator.of(context).push(
     MaterialPageRoute<void>(
       builder: (_) => EditorDeReflexaoPage(
         ponto: widget.ponto,
         referencia: widget.referencia,
+        reflexao: reflexao,
       ),
     ),
   );
 }
 
 class _ReflexaoNaPagina extends StatelessWidget {
-  const _ReflexaoNaPagina(this.reflexao);
+  const _ReflexaoNaPagina(this.reflexao, {required this.aoTocar});
 
   final Reflexao reflexao;
+  final VoidCallback aoTocar;
 
   @override
   Widget build(BuildContext context) {
     final estilos = Theme.of(context).textTheme;
     return Padding(
-      padding: const EdgeInsets.only(top: 24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(reflexao.texto, style: estilos.bodyMedium),
-          const SizedBox(height: 8),
-          Text(escritoEm(reflexao), style: estilos.bodySmall),
-        ],
+      padding: const EdgeInsets.only(top: 16),
+      child: Semantics(
+        button: true,
+        onTapHint: 'editar a reflexão',
+        child: InkWell(
+          onTap: aoTocar,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(reflexao.texto, style: estilos.bodyMedium),
+                const SizedBox(height: 8),
+                Text(escritoEm(reflexao), style: estilos.bodySmall),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
