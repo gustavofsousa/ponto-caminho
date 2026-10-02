@@ -14,8 +14,9 @@ pro spec* · *Dívida técnica*. Só aparecem as faixas com conteúdo.
 ## Core · Texto
 
 ### colecao
-- **Amadurecer:** schema + validador (v0.1) ✅ · pontos mock + `--estrito` (v0.1) ✅ · biblioteca
-  obra → capítulo → ponto (v0.2) ⚪ · página do ponto com referência completa (v0.2) ⚪ ·
+- **Amadurecer:** schema + validador (v0.1) ✅ · pontos mock + `--estrito` (v0.1) ✅ · fronteira firme
+  dos livros (v0.2) ✅ · biblioteca obra → capítulo → ponto (v0.2) ✅ · página do ponto com
+  referência completa (v0.2) ✅ ·
   compartilhar referência (v0.4) ⚪ · texto e índice reais (v1.0) ⚪.
 - **Novo / Visão:** temas como dado de conteúdo, transversais às três obras (alimenta `busca`) ·
   referências bíblicas por ponto · segunda coleção provando a troca (v3.0) 💤 · outros idiomas 💤.
@@ -27,10 +28,11 @@ pro spec* · *Dívida técnica*. Só aparecem as faixas com conteúdo.
 - **Guarda-corpo:** nenhum id de obra fora de `livros/` (regra 1).
 
 ### selecao
-- **Amadurecer:** `obterPonto(id)` (v0.1) ✅ · anterior/próximo atravessando capítulos (v0.2) ⚪ ·
+- **Amadurecer:** `obterPonto(id)` (v0.1) ✅ · anterior/próximo atravessando capítulos (v0.2) ✅ ·
   um ponto para agora, evitando recentes, filtro por obra (v0.4) ⚪ · ponto do dia determinístico
   (v1.1) ⚪ · histórico do ponto do dia reconstruído (v1.1) ⚪.
-- **Novo / Visão:** filtro do aleatório por capítulo ou tema.
+- **Novo / Visão:** filtro do aleatório por capítulo ou tema · gesto de deslizar para anterior/próximo
+  na página do ponto (fora da v0.2: os botões resolvem e são acessíveis).
 - **Decisão ao puxar pro spec:** janela de "recentes" para o aleatório (N pontos ou N dias) ·
   semente do ponto do dia antes de existir conta — recomendação: gerada no primeiro uso, local.
 - **Guarda-corpo:** determinismo onde prometido; aleatoriedade injetada (regra 6).
@@ -60,7 +62,7 @@ pro spec* · *Dívida técnica*. Só aparecem as faixas com conteúdo.
 ## Suporte
 
 ### preferencias
-- **Amadurecer:** tema claro/escuro/sistema + tamanho de fonte (v0.2) ⚪ · preferências do ponto do
+- **Amadurecer:** tema claro/escuro/sistema + tamanho de fonte (v0.2) ✅ · preferências do ponto do
   dia (v1.1) ⚪.
 
 ### lembrete
@@ -93,7 +95,7 @@ pro spec* · *Dívida técnica*. Só aparecem as faixas com conteúdo.
 ## Transversal (corta domínios — não é domínio, não é pasta)
 
 - **Acessibilidade** — **sempre ligada**; auditoria formal no gate da v1.0.
-- **Design / tipografia** — tipografia provisória (v0.2) · definitiva + design system (v1.0) ·
+- **Design / tipografia** — tipografia provisória Literata + tokens AA (v0.2) ✅ · definitiva + design system (v1.0) ·
   paleta azul-noite, marfim/areia, terracota/cobre, âmbar · referência nas capas históricas de *Caminho*.
 - **Tom de voz** — microcopy revisada (v1.0) contra [`tom-de-voz.md`](tom-de-voz.md).
 - **Privacidade** — telemetria só de eventos; decidir **se** há telemetria na v1.0 (recomendação: não).
@@ -108,5 +110,8 @@ pro spec* · *Dívida técnica*. Só aparecem as faixas com conteúdo.
 - **Superfícies além do celular** — web, desktop, extensão de navegador (v3.0).
 - **Integração com notas** (Obsidian, Notion) — provável casa: exportação de `registro`.
 - **Grupos de formação e círculos de estudo** — quem, exatamente? Sem usuário definido ainda.
+
+- **Telas de boas-vindas** (`tom-de-voz.md` §2: três telas puláveis + "Comece pelo ponto 1") — fora
+  da v0.2; provável casa: app, junto do "continue de onde parou" (v0.4).
 
 **Cru — a destilar:** API do motor · deep link `ponto:` abrindo o app.

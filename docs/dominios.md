@@ -91,8 +91,8 @@ TRANSVERSAL       acessibilidade · privacidade · design/tipografia · tom de v
 
 | Domínio | Papel | Código (atual → alvo) | Linguagem que possui |
 | --- | --- | --- | --- |
-| **colecao** | carregar e expor o corpus versionado | `livros/` + `packages/ponto_motor/lib/src/colecao/` ✅ | Colecao · Obra · Capitulo · Ponto · Tema · PontoId · Referencia · versaoDados |
-| **selecao** | decidir qual ponto mostrar | `packages/ponto_motor/lib/src/selecao/` (só `obterPonto`) | obterPonto · proximo/anterior · um ponto para agora · ponto do dia · semente |
+| **colecao** | carregar e expor o corpus versionado | `livros/` + `ponto_motor/lib/src/colecao/` (fronteira, carregamento, índice) + telas em `ponto_mobile/lib/colecao/` ✅ | Colecao · Obra · Capitulo · Ponto · Tema · PontoId · Referencia · versaoDados |
+| **selecao** | decidir qual ponto mostrar | `ponto_motor/lib/src/selecao/` (`obterPonto`, `proximoPonto`, `pontoAnterior`) ✅ | obterPonto · proximo/anterior · um ponto para agora · ponto do dia · semente |
 
 ## Core · Memória
 
@@ -107,7 +107,7 @@ TRANSVERSAL       acessibilidade · privacidade · design/tipografia · tom de v
 
 | Domínio | Papel | Código (alvo) | Linguagem que possui |
 | --- | --- | --- | --- |
-| **preferencias** | como o leitor quer ler e receber | `ponto_mobile/lib/preferencias/` | tema · tamanho de fonte · obras do dia · dias · horário |
+| **preferencias** | como o leitor quer ler e receber | `ponto_mobile/lib/preferencias/` ✅ (v0.2) | tema · tamanho de fonte · obras do dia · dias · horário |
 | **lembrete** *(v1.1)* | notificação opcional do ponto do dia | `ponto_mobile/lib/lembrete/` | lembrete · horário · desligado por padrão |
 | **busca** *(v1.2)* | reencontrar um ponto | `ponto_motor/lib/src/busca/` | consulta · filtro · resultado = ponto com referência |
 | **conta** *(v2.0)* | sincronizar e não perder anos de reflexões | — | conta opcional · sincronização · exportação · exclusão |

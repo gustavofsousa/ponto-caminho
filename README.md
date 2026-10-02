@@ -13,8 +13,9 @@ texto → silêncio → reflexão → anotação → releitura → vida prática
 
 ## Estado
 
-**v0.1 — Fundações.** Dados das obras com schema, validador e **pontos mock** para desenvolver.
-Motor em Dart puro + app Flutter abrindo no primeiro ponto. Ver [`docs/roadmap.md`](docs/roadmap.md).
+**v0.2 — Ler.** Biblioteca → obra → capítulo → ponto, anterior/próximo, tema e tamanho de texto,
+tipografia provisória (Literata). Texto ainda **mock** e nunca rodado num aparelho real.
+Ver [`docs/roadmap.md`](docs/roadmap.md) e [`.specs/features/ler/`](.specs/features/ler/).
 
 ## Documentação
 

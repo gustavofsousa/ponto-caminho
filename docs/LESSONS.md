@@ -25,3 +25,22 @@
 - **Flutter assets can come through a symlink**, so `livros/` stays the single source. Listing
   files explicitly keeps `validar.py` and the README out of the APK.
 - **`rootBundle` in a widget test is real I/O** — load it inside `tester.runAsync`.
+
+## 2026-10-02 — v0.2 "Ler" with full spec-driven + independent verifier
+
+- **Strict analysis pays on day one.** `strict-inference` caught a sort comparator whose
+  arguments were silently `dynamic` in code that already "passed".
+- **A UX floor test finds real bugs.** The "320 px with big text" check found the
+  Anterior/Próximo row overflowing — `OverflowBar` stacks the buttons instead.
+- **Exporting a name from a shared package can break the consumer's build.** Moving
+  `carregarColecao` into the motor collided with the app's function of the same name; the
+  migration moved into the same task so every commit compiles (merge backward).
+- **Tests replay scenario shapes, not today's mock values** (spec A13). Swapping mock text for
+  the real text won't break behavior tests.
+- **The author's own adequacy review missed two weak tests; the independent verifier's mutants
+  found them.** A "follows the device" setting tested with one device value can't tell
+  following from hard-coding; "any failure" tested with one exception type can't tell a
+  catch-all from a narrow catch. Both are now in `.specs/LESSONS.md` as candidates.
+- **`TextScaler` multiplies, not replaces.** A small wrapper keeps Android's nonlinear system
+  scaling and applies the reader's factor on top.
+

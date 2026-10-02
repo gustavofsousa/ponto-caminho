@@ -24,7 +24,7 @@ começa quando a anterior está *boa* — não quando está tecnicamente pronta.
 | Versão | Fase | Alvo da fase | Domínios | Status |
 |--------|------|--------------|----------|--------|
 | v0.1 | Fundações | o motor devolve um ponto mock num app que roda no celular | `colecao`, `selecao`, `— infra` | 🔄 |
-| v0.2 | Ler | navegar obra → capítulo → ponto e ler com prazer | `colecao`, `selecao`, `preferencias` | 🗓️ |
+| v0.2 | Ler | navegar obra → capítulo → ponto e ler com prazer | `colecao`, `selecao`, `preferencias` | ⚠️ |
 | v0.3 | Guardar | guardar o que um ponto provocou | `registro` | 🗓️ |
 | v0.4 | Voltar | um ponto para agora + continue de onde parou | `selecao`, `leitura` | 🗓️ |
 | v1.0 | Leitor real | duas semanas de uso real, texto real, acessível | todos acima, ⟂ acessibilidade | 🗓️ |
@@ -46,19 +46,21 @@ de um texto colado na tela.
 | pontos mock nas três obras (`nota: "mock"`, `--estrito`) | `colecao` | — | ✅ |
 | escolha de stack: Flutter + Dart, drift cifrável — [ADR-001](adr/001-stack-mobile-flutter.md) | `— infra` | — | ✅ |
 | motor como pacote Dart puro: `lerColecao`, `PontoId`, `obterPonto`, `referenciaDe` | `colecao`, `selecao` | — | ✅ |
-| app abre no ponto 1 vindo do motor — APK debug gerado; falta rodar num aparelho | `— infra` | — | 🔄 |
+| app roda no celular vindo do motor — APK debug gerado; falta rodar num aparelho ([TD-004](../.specs/TECH-DEBT.md)) | `— infra` | — | 🔄 |
 | CI: `validar.py`, lint, testes do motor | `— infra` | — | 🗓️ |
 
-## v0.2 — Ler 🗓️
+## v0.2 — Ler ⚠️ · *(código fechado 2026-10-02; falta UAT no aparelho — TD-004)*
 **Alvo:** alguém navega as três obras e lê um ponto inteiro sem nada atrapalhar.
+**Spec e verificação:** `.specs/features/ler/` (spec, design, tasks, `validation.md`).
 
 | Feature | Domínio | Slice | Status |
 |---------|---------|-------|--------|
-| biblioteca: obra → capítulo (com contagem) → ponto | `colecao` | — | ⚪ |
-| página do ponto: texto, referência completa, espaço em branco | `colecao` | — | ⚪ |
-| anterior / próximo atravessando capítulos | `selecao` | — | ⚪ |
-| tema claro/escuro/sistema + tamanho de fonte | `preferencias` | — | ⚪ |
-| tipografia editorial provisória + tokens base | ⟂ design | — | ⚪ |
+| fronteira firme dos livros: tipo errado, ponto repetido, capítulo inexistente → erro (revisão da v0.1) | `colecao` | BASE-01..05 | ✅ |
+| biblioteca: obra → capítulo (com contagem) → ponto | `colecao` | LER-01..05 | ✅ |
+| página do ponto: texto, referência completa, espaço em branco | `colecao` | LER-06 | ✅ |
+| anterior / próximo atravessando capítulos | `selecao` | LER-07..09 | ✅ |
+| tema claro/escuro/sistema + tamanho de fonte, guardados no aparelho | `preferencias` | PREF-01..04 | ✅ |
+| tipografia editorial provisória (Literata) + tokens base com contraste AA | ⟂ design | TIPO-01..02 | ⚠️ *(TD-003)* |
 
 ## v0.3 — Guardar 🗓️
 **Alvo:** o leitor guarda, num ponto, o que ele provocou — e encontra de novo.
@@ -126,12 +128,16 @@ API do motor, segunda coleção (v3.0). Pool completo em [`backlog.md`](backlog.
 |----|--------|--------|----------------------|
 | TD-001 | v0.1 dado mock | open | antes de qualquer build fora do aparelho do Gustavo — `--estrito` precisa passar |
 | TD-002 | `livros/caminho.json` caps. 17–18 sem corte confirmado | open | com o livro impresso na mão (v1.0) |
+| TD-003 | v0.2 contraste testado só nos tokens | open | auditoria de acessibilidade (gate da v1.0) |
+| TD-004 | v0.1/v0.2 nunca rodou num aparelho real | open | próxima sessão com Android conectado |
+
+Detalhe de cada débito: [`.specs/TECH-DEBT.md`](../.specs/TECH-DEBT.md).
 
 ## Decisões pendentes (ordem em que travam o trabalho)
 
 | # | Decisão | Trava | Onde |
 |---|---------|-------|------|
-| 1 | Tipografia editorial | v0.2 (provisória) / v1.0 (definitiva) | `backlog.md` › ⟂ design |
+| 1 | Tipografia editorial definitiva (Literata é a provisória) | v1.0 | `backlog.md` › ⟂ design |
 | 2 | Fronteira motor ↔ app (o que é pacote puro) | v0.2 em diante | `dominios.md` › regras |
 | 3 | Edição de referência do texto | v1.0 texto real | `livros/README.md` |
 | 4 | Formato de exportação | v2.0 | `backlog.md` › `registro` |

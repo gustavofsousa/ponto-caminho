@@ -26,7 +26,8 @@
 | Pitch, audience, metrics | `docs/onepager.md` |
 | Every visible string | `docs/tom-de-voz.md` |
 | Original intent (verbatim, never edit) | `docs/mensagem-inicial.md` |
-| Why it's built this way | `docs/adr/` |
+| Why it's built this way | `docs/adr/`, `.specs/STATE.md` (AD-NNN) |
+| Feature specs, verification, debt | `.specs/features/`, `.specs/TECH-DEBT.md` |
 | Content data + its rules | `livros/README.md` |
 
 One fact, one owner — other docs link, they don't copy.
@@ -36,8 +37,9 @@ One fact, one owner — other docs link, they don't copy.
 ```bash
 python3 livros/validar.py            # dev: mock data is a warning
 python3 livros/validar.py --estrito  # release: mock data is an error
-(cd packages/ponto_motor && dart analyze && dart test)
-(cd apps/ponto_mobile && flutter analyze && flutter test)
+python3 -m unittest discover -s livros -p 'test_*.py'
+(cd packages/ponto_motor && dart analyze --fatal-infos && dart test)
+(cd apps/ponto_mobile && flutter analyze --fatal-infos && flutter test)
 (cd apps/ponto_mobile && flutter run)       # with an Android phone on adb
 ```
 
