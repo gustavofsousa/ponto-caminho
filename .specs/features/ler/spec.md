@@ -57,6 +57,8 @@ Todas podem ser revistas no UAT.
 
 **Open questions:** nenhuma — todas resolvidas ou registradas acima.
 
+**Revisões:** r1 (2026-10-02) — AC-01 dizia "mensagem nomeando a obra" também para o caso em que o próprio id da obra é o campo inválido; o Verifier apontou que aí não há nome a citar. Agora cita `colecao.json`. Não reduz garantia.
+
 ---
 
 ## User Stories
@@ -71,10 +73,12 @@ no lugar errado ou ver uma mensagem técnica.
 **Acceptance Criteria:**
 
 ```
-AC-01: Arquivo do livro com campo de tipo errado é recusado
+AC-01: Arquivo do livro com campo de tipo errado é recusado  [revised r1]
 - Scenario:     um JSON de obra cujo id de obra em colecao.json, slug ou título de capítulo não é texto
 - Action:       o motor monta a coleção
-- Expected:     FormatException (não TypeError), mensagem nomeando a obra
+- Expected:     FormatException (não TypeError). Slug/título: mensagem nomeando a obra e o campo.
+                Id de obra inválido em colecao.json: mensagem citando `colecao.json` (não há nome
+                de obra para citar)
 - Must not:     devolver uma coleção parcial
 - Verification: teste de unidade (motor)
 - Priority:     Required

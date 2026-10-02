@@ -54,7 +54,10 @@ void main() {
         'obras': ['alfa', 7],
       };
 
-      expect(() => lerColecao(colecao, obrasJson), throwsFormatException);
+      expect(
+        () => lerColecao(colecao, obrasJson),
+        throwsA(_formatoCom(['colecao.json', 'id de obra'])),
+      );
     });
 
     test('a chapter title that is not text names the work', () {
