@@ -32,8 +32,19 @@ class _EditorDeReflexaoPageState extends State<EditorDeReflexaoPage> {
 
   bool get _temTexto => limparTextoDeReflexao(_texto.text) != null;
 
+  /// O que foi digitado difere do que está guardado (nada, numa reflexão nova)?
+  bool get _mudou => (limparTextoDeReflexao(_texto.text) ?? '') != '';
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) => PopScope(
+    canPop: !_mudou,
+    onPopInvokedWithResult: (saiu, _) {
+      if (!saiu) _confirmarDescarte();
+    },
+    child: _editor(context),
+  );
+
+  Widget _editor(BuildContext context) {
     final estilos = Theme.of(context).textTheme;
     return Scaffold(
       appBar: AppBar(
@@ -74,6 +85,27 @@ class _EditorDeReflexaoPageState extends State<EditorDeReflexaoPage> {
         ],
       ),
     );
+  }
+
+  Future<void> _confirmarDescarte() async {
+    final descartar = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: const Text('Descartar o que você escreveu?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Continuar escrevendo'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Descartar'),
+          ),
+        ],
+      ),
+    );
+    // `pop` direto não passa pelo PopScope: sai sem perguntar de novo.
+    if (descartar == true && mounted) Navigator.of(context).pop();
   }
 
   Future<void> _guardar() async {
