@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ponto_motor/ponto_motor.dart';
 
 import '../preferencias/botao_preferencias.dart';
+import '../registro/registro_do_ponto.dart';
 
 /// Página do ponto. Anterior/próximo trocam o ponto no lugar, sem empilhar
 /// rotas: "voltar" sempre leva ao capítulo de onde a leitura começou.
@@ -43,6 +44,8 @@ class _PontoPageState extends State<PontoPage> {
             const SizedBox(height: 32),
             Text('Texto provisório (mock)', style: estilos.bodySmall),
           ],
+          const SizedBox(height: 40),
+          RegistroDoPonto(ponto: _ponto.id, referencia: referencia.texto),
         ],
       ),
       bottomNavigationBar: SafeArea(
