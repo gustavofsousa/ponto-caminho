@@ -80,11 +80,15 @@ void main() {
       await tester.enterText(find.byType(TextField), 'Quero ser útil hoje.');
       await tester.pump();
 
-      await tester.tap(guardar());
-      await tester.tap(guardar(), warnIfMissed: false);
+      // Dois `tester.tap` seguidos não entregam o segundo toque; chamar o
+      // callback duas vezes antes da reconstrução é o toque duplo real.
+      final tocarGuardar = tester.widget<TextButton>(guardar()).onPressed!;
+      tocarGuardar();
+      tocarGuardar();
       await tester.pumpAndSettle();
 
       expect(await textosGuardados(tester), ['Quero ser útil hoje.']);
+      expect(find.text('Caminho, capítulo Caráter, ponto 2'), findsOneWidget);
     },
   );
 
