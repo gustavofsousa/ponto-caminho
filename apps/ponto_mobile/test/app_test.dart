@@ -6,16 +6,20 @@ import 'package:ponto_mobile/app.dart';
 import 'package:ponto_mobile/colecao/biblioteca_page.dart';
 import 'package:ponto_mobile/preferencias/preferencias.dart';
 import 'package:ponto_mobile/preferencias/preferencias_repositorio.dart';
+import 'package:ponto_mobile/registro/falha_no_registro.dart';
+import 'package:ponto_mobile/registro/registro.dart';
 import 'package:ponto_motor/ponto_motor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'colecao_de_teste.dart';
 
-/// Abre o app como o `main` abre, com preferências já gravadas e um carregador de livros.
+/// Abre o app como o `main` abre, com preferências já gravadas, um carregador
+/// de livros e uma abertura de registro (por padrão, registro indisponível).
 Future<void> _abrirApp(
   WidgetTester tester, {
   Future<Colecao> Function()? carregarLivros,
   Map<String, Object> gravado = const {},
+  Future<Registro?> Function()? abrirRegistro,
 }) async {
   final app = await tester.runAsync(() async {
     SharedPreferences.setMockInitialValues(gravado);
@@ -24,6 +28,7 @@ Future<void> _abrirApp(
       repositorio: PreferenciasRepositorio(
         await SharedPreferences.getInstance(),
       ),
+      abrirRegistro: abrirRegistro ?? () async => null,
     );
   });
   await tester.pumpWidget(app!);
@@ -177,4 +182,28 @@ void main() {
 
     expect(pacotes, contains('Literata'));
   });
+
+  for (final (caso, abrirRegistro) in <(String, Future<Registro?> Function())>[
+    ('closed', () async => null),
+    ('failing', () async => throw StateError('sem pasta do app')),
+  ]) {
+    testWidgets('CIFRA-04: a $caso registro does not stop reading', (
+      tester,
+    ) async {
+      await _abrirApp(tester, abrirRegistro: abrirRegistro);
+
+      await tester.tap(find.text('Caminho'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.textContaining('Caráter'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.textContaining('Segundo ponto do caráter.'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Caminho, capítulo Caráter, ponto 2'), findsOneWidget);
+      expect(find.text('Segundo ponto do caráter.'), findsOneWidget);
+      if (caso == 'failing') {
+        expect(tester.takeException(), isA<FalhaNoRegistro>());
+      }
+    });
+  }
 }

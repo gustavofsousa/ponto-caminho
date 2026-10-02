@@ -6,6 +6,9 @@ import 'package:ponto_motor/ponto_motor.dart';
 import 'colecao/biblioteca_page.dart';
 import 'preferencias/preferencias_controller.dart';
 import 'preferencias/preferencias_repositorio.dart';
+import 'registro/falha_no_registro.dart';
+import 'registro/registro.dart';
+import 'registro/registro_escopo.dart';
 import 'tema.dart';
 
 /// Lê um arquivo de `livros/` empacotado no app (symlink declarado no pubspec).
@@ -23,15 +26,19 @@ void registrarLicencas() {
 
 /// Carrega tudo antes do primeiro quadro (a splash nativa cobre a espera) e
 /// decide a tela de abertura: a biblioteca, ou uma mensagem humana se os livros falharem.
+/// O registro que não abre não impede a leitura (ADR-002).
 Future<Widget> abrirApp({
   required Future<Colecao> Function() carregarLivros,
   required PreferenciasRepositorio repositorio,
+  required Future<Registro?> Function() abrirRegistro,
 }) async {
   final preferencias = PreferenciasController(repositorio);
+  final registro = await _abrirRegistroSemTravar(abrirRegistro);
   try {
     final colecao = await carregarLivros();
     return _Moldura(
       preferencias: preferencias,
+      registro: registro,
       inicio: BibliotecaPage(colecao: colecao),
     );
   } on Object catch (erro, pilha) {
@@ -45,40 +52,63 @@ Future<Widget> abrirApp({
         context: ErrorDescription('ao abrir os livros'),
       ),
     );
-    return _Moldura(preferencias: preferencias, inicio: const _FalhaAoAbrir());
+    return _Moldura(
+      preferencias: preferencias,
+      registro: registro,
+      inicio: const _FalhaAoAbrir(),
+    );
+  }
+}
+
+Future<Registro?> _abrirRegistroSemTravar(
+  Future<Registro?> Function() abrirRegistro,
+) async {
+  try {
+    return await abrirRegistro();
+  } on Object catch (erro, pilha) {
+    relatarFalhaNoRegistro(erro, pilha, 'ao preparar o registro');
+    return null;
   }
 }
 
 /// Tema e tamanho de texto do leitor aplicados ao app inteiro, ao vivo.
 class _Moldura extends StatelessWidget {
-  const _Moldura({required this.preferencias, required this.inicio});
+  const _Moldura({
+    required this.preferencias,
+    required this.registro,
+    required this.inicio,
+  });
 
   final PreferenciasController preferencias;
+  final Registro? registro;
   final Widget inicio;
 
   @override
   Widget build(BuildContext context) => PreferenciasEscopo(
     controller: preferencias,
-    child: ListenableBuilder(
-      listenable: preferencias,
-      builder: (context, _) => MaterialApp(
-        title: 'Ponto',
-        theme: temaClaro(),
-        darkTheme: temaEscuro(),
-        themeMode: preferencias.value.tema.modo,
-        builder: (context, tela) {
-          final midia = MediaQuery.of(context);
-          return MediaQuery(
-            data: midia.copyWith(
-              textScaler: _EscalaDoLeitor(
-                midia.textScaler,
-                preferencias.value.tamanhoTexto.fator,
+    child: RegistroEscopo(
+      registro: registro,
+      child: ListenableBuilder(
+        listenable: preferencias,
+        builder: (context, _) => MaterialApp(
+          title: 'Ponto',
+          theme: temaClaro(),
+          darkTheme: temaEscuro(),
+          themeMode: preferencias.value.tema.modo,
+          builder: (context, tela) {
+            final midia = MediaQuery.of(context);
+            return MediaQuery(
+              data: midia.copyWith(
+                textScaler: _EscalaDoLeitor(
+                  midia.textScaler,
+                  preferencias.value.tamanhoTexto.fator,
+                ),
               ),
-            ),
-            child: tela!,
-          );
-        },
-        home: inicio,
+              child: tela!,
+            );
+          },
+          home: inicio,
+        ),
       ),
     ),
   );

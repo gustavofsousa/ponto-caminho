@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ponto_mobile/preferencias/preferencias_controller.dart';
 import 'package:ponto_mobile/preferencias/preferencias_repositorio.dart';
+import 'package:ponto_mobile/registro/registro.dart';
+import 'package:ponto_mobile/registro/registro_escopo.dart';
 import 'package:ponto_mobile/tema.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,17 +21,22 @@ Future<PreferenciasController> criarPreferencias(
   return controller!;
 }
 
-/// Monta uma tela como o app a monta: escopo de preferências + tema de leitura.
+/// Monta uma tela como o app a monta: escopos de preferências e de registro +
+/// tema de leitura. Sem [registro], o registro está indisponível.
 Future<PreferenciasController> montarTela(
   WidgetTester tester,
   Widget tela, {
   PreferenciasController? preferencias,
+  Registro? registro,
 }) async {
   final controller = preferencias ?? await criarPreferencias(tester);
   await tester.pumpWidget(
     PreferenciasEscopo(
       controller: controller,
-      child: MaterialApp(theme: temaClaro(), home: tela),
+      child: RegistroEscopo(
+        registro: registro,
+        child: MaterialApp(theme: temaClaro(), home: tela),
+      ),
     ),
   );
   return controller;

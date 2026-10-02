@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_secure_storage: ^11.2.0
+  path_provider: ^2.1.6
   ponto_motor:
     path: ../../packages/ponto_motor
   shared_preferences: ^2.5.5
