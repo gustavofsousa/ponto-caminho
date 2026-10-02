@@ -17,4 +17,20 @@ void main() {
   test('is null for a point the collection does not have', () {
     expect(colecao.referenciaDe(const PontoId('teste', 'alfa', 99)), isNull);
   });
+
+  test('LER-06: with a chapter title it reads obra, capítulo and ponto', () {
+    const referencia = Referencia(
+      obra: 'Caminho',
+      capitulo: 'Caráter',
+      numero: 1,
+    );
+
+    expect(referencia.texto, 'Caminho, capítulo Caráter, ponto 1');
+  });
+
+  test('LER-06: without a chapter title it reads obra and ponto', () {
+    const referencia = Referencia(obra: 'Caminho', capitulo: null, numero: 387);
+
+    expect(referencia.texto, 'Caminho, ponto 387');
+  });
 }

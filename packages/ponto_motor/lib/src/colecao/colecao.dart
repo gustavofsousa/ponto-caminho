@@ -27,7 +27,7 @@ final class Colecao {
     final obra = this.obra(id.obra);
     final ponto = obra?.ponto(id.numero);
     if (obra == null || ponto == null) return null;
-    return (
+    return Referencia(
       obra: obra.titulo,
       capitulo: obra.capitulo(ponto.capituloNumero)?.titulo,
       numero: ponto.id.numero,
@@ -35,9 +35,26 @@ final class Colecao {
   }
 }
 
-/// Como um ponto é mostrado ao leitor: obra, capítulo e número — nunca o PontoId cru.
-/// `capitulo` é nulo enquanto o índice daquela obra não tiver título conferido.
-typedef Referencia = ({String obra, String? capitulo, int numero});
+/// Como um ponto é mostrado ao leitor — nunca o PontoId cru. Formato único em
+/// toda superfície (página, compartilhar, exportar): `docs/modelo.md` §1.
+final class Referencia {
+  const Referencia({
+    required this.obra,
+    required this.capitulo,
+    required this.numero,
+  });
+
+  final String obra;
+
+  /// Nulo enquanto o índice daquela obra não tiver o título conferido.
+  final String? capitulo;
+  final int numero;
+
+  String get texto => switch (capitulo) {
+    final capitulo? => '$obra, capítulo $capitulo, ponto $numero',
+    null => '$obra, ponto $numero',
+  };
+}
 
 final class Obra {
   Obra({

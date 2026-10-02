@@ -18,10 +18,7 @@ class PontoPage extends StatelessWidget {
           children: [
             Semantics(
               header: true,
-              child: Text(
-                _formatarReferencia(referencia),
-                style: texto.labelLarge,
-              ),
+              child: Text(referencia.texto, style: texto.labelLarge),
             ),
             const SizedBox(height: 32),
             Text(
@@ -38,8 +35,3 @@ class PontoPage extends StatelessWidget {
     );
   }
 }
-
-String _formatarReferencia(Referencia r) => switch (r.capitulo) {
-  final capitulo? => '${r.obra}, capítulo $capitulo, ponto ${r.numero}',
-  null => '${r.obra}, ponto ${r.numero}',
-};
