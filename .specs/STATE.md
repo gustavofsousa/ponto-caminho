@@ -17,7 +17,7 @@
 - **Scope**: `apps/ponto_mobile`
 - **Date**: 2026-10-02
 - **Status**: active
-- **Revisit trigger**: quando `registro` (v0.3) trouxer estado persistido observado por mais de uma tela.
+- **Revisit trigger**: quando `registro` (v0.3) trouxer estado persistido observado por mais de uma tela. → **revisto em AD-007** (continua sem pacote de estado).
 
 ### AD-003
 - **Decision**: O motor é o único dono do formato de `livros/`; recebe I/O por porta (`carregarColecao(lerArquivo)`), nunca lê arquivo.
@@ -51,6 +51,31 @@
 - **Date**: 2026-10-02
 - **Status**: active
 - **Revisit trigger**: quando o deep link `ponto:` (backlog, Incubadora) for puxado para uma versão.
+
+### AD-007
+- **Decision**: Estado do registro nas telas = streams `watch()` do drift, criados no `initState` de cada widget e servidos por um `InheritedWidget` (`RegistroEscopo`, `Registro?` — nulo = indisponível). Nenhum pacote de gerência de estado.
+- **Reason**: o gatilho do AD-002 disparou (várias telas observam o registro); o banco já emite a cada escrita, então toda tela aberta se atualiza sem encanamento manual.
+- **Trade-off**: telas dependem do formato de stream do drift; um widget mal escrito que crie o stream no `build` re-consulta a cada reconstrução.
+- **Scope**: `apps/ponto_mobile/lib/registro`
+- **Date**: 2026-10-02
+- **Status**: active
+- **Revisit trigger**: estado derivado que cruze várias fontes (ex.: progresso da v1.3 combinando leitura + registro).
+
+### AD-008
+- **Decision**: Registro em drift + SQLite3MultipleCiphers (hook `sqlite3: source: sqlite3mc`), arquivo cifrado desde a criação; chave aleatória de 256 bits no Keystore/Keychain (`flutter_secure_storage`), gravada antes do arquivo; nunca gerar chave com banco existente; backup do Android desligado. Registro canônico: ADR-002.
+- **Reason**: reflexões são dado pessoal religioso; cifrar depois exige migração (ADR-001); chave sem senha não se esquece.
+- **Trade-off**: trocar de aparelho perde o registro até existir conta/exportação (v2.0).
+- **Scope**: `apps/ponto_mobile/lib/infra`, `lib/registro`, manifesto Android
+- **Date**: 2026-10-02
+- **Status**: active
+
+### AD-009
+- **Decision**: Falha no registro vai ao log só com o **tipo** do erro (`FalhaNoRegistro(runtimeType)`), nunca a mensagem nem o objeto original.
+- **Reason**: `SqliteException.toString()` inclui os parâmetros da instrução — o texto da reflexão vazaria para o log (regra 5 de `dominios.md`).
+- **Trade-off**: diagnóstico mais pobre; a pilha continua no log.
+- **Scope**: todo `catch` que envolva o banco do registro
+- **Date**: 2026-10-02
+- **Status**: active
 
 ## Handoff
 
