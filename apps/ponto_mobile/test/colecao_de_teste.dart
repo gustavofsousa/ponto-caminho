@@ -3,7 +3,7 @@ import 'package:ponto_motor/ponto_motor.dart';
 /// Coleção de teste com a forma de cada cenário do spec (A13), independente do mock em livros/:
 /// - Caminho: cap. 1 Caráter 1–55 (pontos 1, 2) · cap. 2 Direção 56–80 (nenhum) ·
 ///   cap. 3 Oração 81–117 (81, 82) · cap. 4 sem título, intervalo aberto (nenhum).
-/// - Sulco: um único ponto. Forja: nenhum ponto.
+/// - Sulco: um único ponto. Forja: um capítulo de 1 ponto (1–1), nenhum disponível.
 /// A ordem Caminho, Sulco, Forja não é alfabética — prova que a ordem vem da coleção.
 final colecaoDeTeste = lerColecao(
   {
@@ -38,7 +38,7 @@ final colecaoDeTeste = lerColecao(
     'forja': {
       'id': 'forja',
       'obra': {'titulo': 'Forja'},
-      'capitulos': [_capitulo(1, 'Formação', 1, 5)],
+      'capitulos': [_capitulo(1, 'Formação', 1, 1)],
       'pontos': <Object?>[],
     },
   },

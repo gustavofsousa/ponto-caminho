@@ -300,6 +300,7 @@ AC-20: Contraste AA nos dois temas
 - WHEN a obra não tem nenhum ponto disponível THEN a obra aparece na biblioteca e seus capítulos
   abrem no estado vazio (AC-09).
 - WHEN um ponto é o único disponível da obra THEN a página não mostra Anterior nem Próximo (AC-14).
+- WHEN o capítulo tem 1 ponto no intervalo THEN a contagem diz "1 ponto", no singular (AC-07).
 - WHEN o `PontoId` pedido não existe THEN `proximoPonto`/`pontoAnterior` devolvem nulo.
 - WHEN o texto do ponto é longo e o tamanho é "Muito grande" THEN a página rola, sem cortar texto.
 - WHEN a escala do sistema já é grande THEN o tamanho do app multiplica, não substitui (AC-16).
