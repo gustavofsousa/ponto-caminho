@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ponto_motor/ponto_motor.dart';
 
-import 'colecao/carregar_colecao.dart';
 import 'colecao/ponto_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(PontoApp(colecao: carregarColecao(rootBundle)));
+  runApp(
+    PontoApp(
+      colecao: carregarColecao(
+        (arquivo) => rootBundle.loadString('assets/livros/$arquivo'),
+      ),
+    ),
+  );
 }
 
 class PontoApp extends StatelessWidget {

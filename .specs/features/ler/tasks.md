@@ -148,6 +148,11 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 **Tests**: unit + integration · **Gate**: quick (motor)
 **Commit**: `✨ feat(motor): own the livros file layout behind a reader port`
 
+> **Ruling (execução):** o export de `carregarColecao` no motor colidiu com a função homônima do
+> app (`ambiguous_import`). Para cada commit compilar, a migração do app para a porta (antes na
+> T16) entrou aqui: `lib/colecao/carregar_colecao.dart` removido, `main.dart` e o teste de abertura
+> usam o motor. Custo se errado: nenhum — T16 fica menor.
+
 ### T5: Referência com formato único no motor
 
 **What**: `Referencia` vira classe com `texto`; o app usa `referencia.texto`.
@@ -344,7 +349,7 @@ T11 → T12 → T13 → T14 → T15 → T16 → T17
 - [ ] Escuro escolhido → `Theme.of(context).brightness == dark`; Sistema segue o brilho do aparelho
 - [ ] Escala do sistema 1,5 × Grande → escala efetiva 1,725
 - [ ] Abertura com `livros/` real pelo `rootBundle` mostra "Caminho", "Sulco", "Forja"
-- [ ] App não lê mais `colecao.json` por conta própria
+- [x] App não lê mais `colecao.json` por conta própria *(antecipado na T4)*
 - [ ] Quick (app) passa
 **Tests**: widget · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): open through the motor with a humane failure screen`
