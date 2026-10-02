@@ -182,4 +182,135 @@ void main() {
       );
     });
   });
+
+  Finder noDialogo(Finder alvo) =>
+      find.descendant(of: find.byType(AlertDialog), matching: alvo);
+
+  Future<void> escolherNoMenu(WidgetTester tester, String acao) async {
+    await tester.tap(find.byTooltip('Mais opções'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(acao));
+    await tester.pumpAndSettle();
+  }
+
+  group('COL-06: renaming a collection', () {
+    testWidgetsComRegistro('shows the new name everywhere, points kept', (
+      tester,
+    ) async {
+      await prepararColecoes(
+        tester,
+        ['Familia', 'Trabalho'],
+        pontos: {
+          'Familia': [caminho2],
+        },
+      );
+      await abrirColecao(tester, 'Familia');
+
+      await escolherNoMenu(tester, 'Renomear');
+      final campo = noDialogo(find.byType(TextField));
+      expect(tester.widget<TextField>(campo).controller!.text, 'Familia');
+      await tester.enterText(campo, 'Família');
+      await tester.pump();
+      await tester.tap(noDialogo(find.widgetWithText(TextButton, 'Renomear')));
+      await tester.pumpAndSettle();
+
+      expect(find.widgetWithText(AppBar, 'Família'), findsOneWidget);
+      expect(await tester.runAsync(() => lerColecoesGuardadas(banco)), {
+        'Família': ['$caminho2'],
+        'Trabalho': <String>[],
+      });
+
+      await tester.tap(find.text('Caminho, capítulo Caráter, ponto 2'));
+      await tester.pumpAndSettle();
+      expect(find.text('Nas coleções: Família'), findsOneWidget);
+
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      expect(find.widgetWithText(ListTile, 'Família'), findsOneWidget);
+      expect(find.text('Familia'), findsNothing);
+    });
+
+    testWidgetsComRegistro('refuses the name of another collection', (
+      tester,
+    ) async {
+      await prepararColecoes(tester, ['Familia', 'Trabalho']);
+      await abrirColecao(tester, 'Familia');
+
+      await escolherNoMenu(tester, 'Renomear');
+      await tester.enterText(noDialogo(find.byType(TextField)), 'TRABALHO');
+      await tester.pump();
+
+      expect(find.text('Já existe uma coleção com esse nome.'), findsOneWidget);
+      final renomear = noDialogo(find.widgetWithText(TextButton, 'Renomear'));
+      expect(tester.widget<TextButton>(renomear).onPressed, isNull);
+    });
+  });
+
+  group('COL-07: deleting a collection', () {
+    Future<void> prepararTrabalho(WidgetTester tester) async {
+      await prepararColecoes(
+        tester,
+        ['Trabalho', 'Família'],
+        pontos: {
+          'Trabalho': [caminho2],
+          'Família': [caminho2],
+        },
+      );
+      await tester.runAsync(() async {
+        await registro.favoritos.favoritar(caminho2);
+        await registro.reflexoes.escrever(caminho2, 'Quero ser útil hoje.');
+      });
+    }
+
+    const pergunta =
+        'Excluir a coleção Trabalho? Os pontos e as reflexões continuam.';
+
+    testWidgetsComRegistro('asks first, and Cancelar keeps everything', (
+      tester,
+    ) async {
+      await prepararTrabalho(tester);
+      await abrirColecao(tester, 'Trabalho');
+
+      await escolherNoMenu(tester, 'Excluir coleção');
+      expect(noDialogo(find.text(pergunta)), findsOneWidget);
+      await tester.tap(noDialogo(find.text('Cancelar')));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(AlertDialog), findsNothing);
+      expect(find.widgetWithText(AppBar, 'Trabalho'), findsOneWidget);
+      expect(await tester.runAsync(() => lerColecoesGuardadas(banco)), {
+        'Trabalho': ['$caminho2'],
+        'Família': ['$caminho2'],
+      });
+    });
+
+    testWidgetsComRegistro('Excluir removes only the collection', (
+      tester,
+    ) async {
+      await prepararTrabalho(tester);
+      await abrirColecao(tester, 'Trabalho');
+
+      await escolherNoMenu(tester, 'Excluir coleção');
+      await tester.tap(noDialogo(find.text('Excluir')));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Coleções'), findsOneWidget);
+      expect(find.widgetWithText(ListTile, 'Trabalho'), findsNothing);
+      expect(find.widgetWithText(ListTile, 'Família'), findsOneWidget);
+      final (colecoes, favoritos, reflexoes) = (await tester.runAsync(
+        () async => (
+          await lerColecoesGuardadas(banco),
+          await banco.select(banco.favoritos).get(),
+          await banco.select(banco.reflexoes).get(),
+        ),
+      ))!;
+      expect(colecoes, {
+        'Família': ['$caminho2'],
+      });
+      expect(favoritos.map((f) => f.pontoId), ['$caminho2']);
+      expect(reflexoes.map((r) => r.texto), ['Quero ser útil hoje.']);
+    });
+  });
 }
