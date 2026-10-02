@@ -3,6 +3,7 @@ import 'package:ponto_motor/ponto_motor.dart';
 
 import 'data_da_reflexao.dart';
 import 'editor_de_reflexao_page.dart';
+import 'falha_no_registro.dart';
 import 'registro.dart';
 import 'registro_escopo.dart';
 
@@ -47,6 +48,7 @@ class _RegistroAberto extends StatefulWidget {
 class _RegistroAbertoState extends State<_RegistroAberto> {
   // Criado uma vez por ponto: no `build`, cada reconstrução refaria a consulta (AD-007).
   late final _reflexoes = widget.registro.reflexoes.observar(widget.ponto);
+  late final _favoritos = widget.registro.favoritos.observar();
 
   @override
   Widget build(BuildContext context) => Column(
@@ -55,6 +57,13 @@ class _RegistroAbertoState extends State<_RegistroAberto> {
       OverflowBar(
         overflowAlignment: OverflowBarAlignment.start,
         children: [
+          StreamBuilder<List<PontoId>>(
+            stream: _favoritos,
+            builder: (context, instantaneo) => _BotaoFavorito(
+              favorito: instantaneo.data?.contains(widget.ponto),
+              aoAlternar: _alternarFavorito,
+            ),
+          ),
           TextButton(
             onPressed: () => _abrirEditor(null),
             child: const Text('Escrever uma reflexão'),
@@ -77,6 +86,23 @@ class _RegistroAbertoState extends State<_RegistroAberto> {
     ],
   );
 
+  Future<void> _alternarFavorito(bool favorito) async {
+    final favoritos = widget.registro.favoritos;
+    try {
+      await (favorito
+          ? favoritos.desfavoritar(widget.ponto)
+          : favoritos.favoritar(widget.ponto));
+    } on Object catch (erro, pilha) {
+      relatarFalhaNoRegistro(erro, pilha, 'ao favoritar');
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Não foi possível guardar agora. Tente de novo.'),
+        ),
+      );
+    }
+  }
+
   /// [reflexao] nula escreve uma nova.
   void _abrirEditor(Reflexao? reflexao) => Navigator.of(context).push(
     MaterialPageRoute<void>(
@@ -86,6 +112,25 @@ class _RegistroAbertoState extends State<_RegistroAberto> {
         reflexao: reflexao,
       ),
     ),
+  );
+}
+
+/// Mostra e alterna o favorito; desabilitado até o banco responder.
+class _BotaoFavorito extends StatelessWidget {
+  const _BotaoFavorito({required this.favorito, required this.aoAlternar});
+
+  /// Nulo enquanto o estado ainda não veio do banco.
+  final bool? favorito;
+  final void Function(bool favorito) aoAlternar;
+
+  @override
+  Widget build(BuildContext context) => IconButton(
+    icon: Icon(favorito == true ? Icons.star : Icons.star_border),
+    tooltip: favorito == true ? 'Remover dos favoritos' : 'Favoritar',
+    onPressed: switch (favorito) {
+      final favorito? => () => aoAlternar(favorito),
+      null => null,
+    },
   );
 }
 

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:ponto_motor/ponto_motor.dart';
 
 import '../preferencias/botao_preferencias.dart';
+import '../registro/favoritos_page.dart';
 import 'obra_page.dart';
 
-/// Porta de entrada: as obras da coleção, na ordem da coleção.
+/// Porta de entrada: as obras da coleção, na ordem da coleção, e o que o leitor guardou.
 class BibliotecaPage extends StatelessWidget {
   const BibliotecaPage({super.key, required this.colecao});
 
@@ -29,6 +30,15 @@ class BibliotecaPage extends StatelessWidget {
                 ),
               ),
             ),
+          const Divider(height: 32),
+          ListTile(
+            title: const Text('Favoritos'),
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (_) => FavoritosPage(colecao: colecao),
+              ),
+            ),
+          ),
         ],
       ),
     );
