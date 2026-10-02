@@ -7,6 +7,20 @@ import 'nome_de_colecao_dialog.dart';
 import 'ponto_guardado_tile.dart';
 import 'registro.dart';
 import 'registro_escopo.dart';
+import 'sugestoes_page.dart';
+
+/// Abre as coleções — passando antes pelas sugeridas, no primeiro contato.
+Future<void> irParaColecoes(BuildContext context, Colecao colecao) async {
+  final registro = RegistroEscopo.of(context);
+  if (registro != null &&
+      !await passarPelasSugestoes(context, registro.colecoes)) {
+    return;
+  }
+  if (!context.mounted) return;
+  await Navigator.of(context).push(
+    MaterialPageRoute<void>(builder: (_) => ColecoesPage(colecao: colecao)),
+  );
+}
 
 /// As coleções do leitor, na ordem em que foram criadas.
 class ColecoesPage extends StatelessWidget {

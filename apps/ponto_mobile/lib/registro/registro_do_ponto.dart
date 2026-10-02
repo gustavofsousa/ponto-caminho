@@ -7,6 +7,7 @@ import 'falha_no_registro.dart';
 import 'guardar_em_colecao_page.dart';
 import 'registro.dart';
 import 'registro_escopo.dart';
+import 'sugestoes_page.dart';
 
 /// Abaixo do texto do ponto: o que o leitor guardou sobre ele e como guardar mais.
 class RegistroDoPonto extends StatelessWidget {
@@ -126,11 +127,15 @@ class _RegistroAbertoState extends State<_RegistroAberto> {
     }
   }
 
-  void _guardarEmColecao() => Navigator.of(context).push(
-    MaterialPageRoute<void>(
-      builder: (_) => GuardarEmColecaoPage(ponto: widget.ponto),
-    ),
-  );
+  Future<void> _guardarEmColecao() async {
+    if (!await passarPelasSugestoes(context, widget.registro.colecoes)) return;
+    if (!mounted) return;
+    await Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => GuardarEmColecaoPage(ponto: widget.ponto),
+      ),
+    );
+  }
 
   /// [reflexao] nula escreve uma nova.
   void _abrirEditor(Reflexao? reflexao) => Navigator.of(context).push(

@@ -42,11 +42,7 @@ class BibliotecaPage extends StatelessWidget {
           ),
           ListTile(
             title: const Text('Coleções'),
-            onTap: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => ColecoesPage(colecao: colecao),
-              ),
-            ),
+            onTap: () => irParaColecoes(context, colecao),
           ),
         ],
       ),
