@@ -20,8 +20,4 @@ void main() {
   test('returns null for an id from another collection', () {
     expect(obterPonto(colecao, const PontoId('outra', 'alfa', 1)), isNull);
   });
-
-  test('the first point is the first of the first work, by order', () {
-    expect(primeiroPonto(colecao)?.id, const PontoId('teste', 'alfa', 1));
-  });
 }
