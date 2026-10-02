@@ -12,8 +12,8 @@ Verifier, discrimination sensor).
 ---
 
 **Design**: `.specs/features/guardar/design.md`
-**Status**: Approved (delegado) — execução inline, sem workers por fase (o usuário pediu o fluxo
-completo sem pausas; nenhum sub-agente além do Verifier)
+**Status**: Execute concluído — T1–T21 (execução inline, sem workers por fase: o usuário pediu o
+fluxo completo sem pausas; nenhum sub-agente além do Verifier). Verificação: `validation.md`
 
 ---
 
@@ -54,7 +54,7 @@ banco. Nenhuma marcada `[P]`.
 | Quick (app) | Tarefas do app | `cd apps/ponto_mobile && dart format --output=none --set-exit-if-changed lib test && flutter analyze --fatal-infos && flutter test` |
 | Build | Última tarefa de cada fase; tarefas sem teste | `python3 livros/validar.py && python3 -m unittest discover -s livros -p 'test_*.py' && (cd packages/ponto_motor && dart format --output=none --set-exit-if-changed . && dart analyze --fatal-infos && dart test) && (cd apps/ponto_mobile && dart format --output=none --set-exit-if-changed lib test && flutter analyze --fatal-infos && flutter test && flutter build apk --debug)` |
 
-**Test count antes da feature:** motor 38 · app 46 · validador 6.
+**Test count antes da feature:** motor 38 · app 46 · validador 6. **Depois:** motor 51 · app 164 · validador 6.
 
 ---
 
@@ -89,7 +89,7 @@ T20 → T21 → Verifier
 
 ## Task Breakdown
 
-### T1: Tipo `Reflexao` e regra do texto
+### T1: Tipo `Reflexao` e regra do texto ✅
 
 **What**: `packages/ponto_motor/lib/src/registro/reflexao.dart` com `Reflexao` e `limparTextoDeReflexao`; exportados no barrel.
 **Context**: Motor da v0.2 sem pasta `registro/`. Feito quando o tipo existe e a regra do texto (pontas removidas; vazio/só espaços → nulo) tem teste. Primeiro porque repositório e editor dependem dela.
@@ -105,7 +105,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T2: Tipo `ColecaoPessoal` e regra do nome
+### T2: Tipo `ColecaoPessoal` e regra do nome ✅
 
 **What**: `packages/ponto_motor/lib/src/registro/colecao_pessoal.dart` com `ColecaoPessoal`, `limiteDoNomeDeColecao`, `NomeDeColecao` (sealed) e `validarNomeDeColecao`.
 **Context**: T1 feito. Feito quando a regra do nome da AC-18 / A12 está no motor, com teste de cada resultado (aceito, vazio, repetido ignorando caixa, longo, renomear para o próprio nome) e `contem`. Última do motor: fecha a fase com build gate.
@@ -121,7 +121,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T3: Banco do registro (drift) + repositório de reflexões
+### T3: Banco do registro (drift) + repositório de reflexões ✅
 
 **What**: dependências (drift, sqlite3, uuid, drift_dev, build_runner), `build.yaml`, exclusão de `*.g.dart` no analyzer, `BancoRegistro` com as 5 tabelas, `ReflexoesRepositorio`.
 **Context**: Motor com `registro/`. App sem banco. Feito quando o schema v1 gera (`dart run build_runner build`), o `.g.dart` está versionado e o repositório de reflexões tem teste sobre SQLite em memória (sem cifra ainda — a cifra entra na T6 sem mudar o repositório).
@@ -133,14 +133,15 @@ T20 → T21 → Verifier
 - [ ] `editar`: texto novo + `editadaEm`; mesmo texto → nada muda; `criadaEm` intacta
 - [ ] `excluir` apaga só aquela
 - [ ] `observar(ponto)`: só as do ponto, mais antiga primeiro; empate de momento → ordem de inserção; emite de novo após escrita
-- [ ] Linha com `pontoId` inválido ignorada
 - [ ] Gate quick (app) verde
+- *(Desvio: "linha com `pontoId` inválido ignorada" saiu daqui — reflexões são consultadas pelo
+  próprio `PontoId`, então a linha lida é válida por construção. Fica em T4 e T5.)*
 **Tests**: integration · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): store reflections in a local database`
 
 ---
 
-### T4: Repositório de favoritos
+### T4: Repositório de favoritos ✅
 
 **What**: `lib/registro/favoritos_repositorio.dart`.
 **Context**: Banco da T3 existe. Feito quando favoritar/desfavoritar/observar têm teste: idempotência, ordem mais recente primeiro.
@@ -155,7 +156,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T5: Repositório de coleções + sugestões
+### T5: Repositório de coleções + sugestões ✅
 
 **What**: `lib/registro/colecoes_repositorio.dart` e o agregado `Registro` (`lib/registro/registro.dart`).
 **Context**: T3–T4 feitos. Feito quando criar (com ponto, em transação), renomear, excluir (cascata só nos vínculos), guardar/tirar e sugestões (respondidas, criar escolhidas na ordem dada) têm teste; nome inválido lança `NomeDeColecaoInvalido`.
@@ -174,7 +175,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T6: Banco cifrado (sqlite3mc)
+### T6: Banco cifrado (sqlite3mc) ✅
 
 **What**: hook `sqlite3mc` no pubspec; `lib/infra/banco_cifrado.dart` com `abrirBancoCifrado` e `prepararCifra`.
 **Context**: Repositórios testados em memória. Feito quando um `BancoRegistro` sobre arquivo cifrado grava uma reflexão e os bytes não têm o texto nem o cabeçalho; `prepararCifra` recusa SQLite sem cifra e chave fora do formato.
@@ -191,7 +192,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T7: Guarda da chave
+### T7: Guarda da chave ✅
 
 **What**: `lib/infra/guarda_da_chave.dart` com `CofreDeChaves`, `CofreDoSistema` (`flutter_secure_storage`), `obterChave`, `ChaveIndisponivel`.
 **Context**: Banco cifrado existe mas a chave vem de fora. Feito quando as três situações da AC-03/AC-04 têm teste com cofre falso.
@@ -209,7 +210,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T8: Abrir o registro + falha sem conteúdo
+### T8: Abrir o registro + falha sem conteúdo ✅
 
 **What**: `lib/registro/abrir_registro.dart` (`abrirRegistro`) e `lib/registro/falha_no_registro.dart` (`relatarFalhaNoRegistro`, `FalhaNoRegistro`).
 **Context**: Chave e cifra prontas. Feito quando abrir num diretório temporário cria chave → banco cifrado, reabre lendo os dados, e qualquer falha devolve `null` sem tocar o arquivo e loga só o tipo.
@@ -229,7 +230,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T9: Backup desligado no Android
+### T9: Backup desligado no Android ✅
 
 **What**: `android:allowBackup="false"` + `android:dataExtractionRules="@xml/regras_de_extracao"` excluindo todos os domínios em `cloud-backup` e `device-transfer`.
 **Context**: Registro abre cifrado. Feito quando o manifesto tem as duas regras, um teste lê os XMLs e o APK debug gera com o hook do sqlite3mc. Última da fase: build gate (inclui `flutter build apk --debug`).
@@ -240,11 +241,11 @@ T20 → T21 → Verifier
 - [ ] `'CIFRA-05: …'` manifesto com `allowBackup="false"` e `dataExtractionRules` apontando para o XML; XML exclui `root`, `file`, `database`, `sharedpref`, `external` nas duas modalidades
 - [ ] Gate build verde (APK debug gerado)
 **Tests**: unit · **Gate**: build
-**Commit**: `🔒 fix(mobile): keep the registro out of Android backups`
+**Commit**: `🔒 feat(mobile): keep the registro out of Android backups`
 
 ---
 
-### T10: Registro na abertura do app + escopo + aviso
+### T10: Registro na abertura do app + escopo + aviso ✅
 
 **What**: `RegistroEscopo` + `AvisoRegistroIndisponivel`; `abrirApp(abrirRegistro:)`; `main.dart` liga pasta + `CofreDoSistema`; `montarTela(registro:)`.
 **Context**: `abrirRegistro` existe. Feito quando o app abre com o registro (ou sem ele) e a leitura funciona nos dois casos; telas acham o `Registro` no escopo.
@@ -260,7 +261,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T11: Data e hora da reflexão
+### T11: Data e hora da reflexão ✅
 
 **What**: `lib/registro/data_da_reflexao.dart` com `dataEHora(DateTime)` e `escritoEm(Reflexao)`.
 **Context**: Independente das telas; o editor e a página usam. Feito quando os exemplos da AC-12 e da AC-09 passam.
@@ -277,7 +278,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T12: Escrever uma reflexão a partir do ponto
+### T12: Escrever uma reflexão a partir do ponto ✅
 
 **What**: `RegistroDoPonto` (ação "Escrever uma reflexão" + lista de reflexões) embutido na `PontoPage`; `EditorDeReflexaoPage` (criação).
 **Context**: Escopo e repositório prontos. Feito quando escrever → guardar volta à página com o texto e a data; vazio desabilita; toque duplo grava uma; falha mantém o texto e loga sem conteúdo; várias reflexões aparecem na ordem.
@@ -296,7 +297,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T13: Não perder o que foi escrito ao voltar
+### T13: Não perder o que foi escrito ao voltar ✅
 
 **What**: `PopScope` no editor com o diálogo "Descartar o que você escreveu?".
 **Context**: Editor existe. Feito quando voltar com mudança pergunta, "Continuar escrevendo" mantém, "Descartar" sai sem gravar, e sem mudança sai direto.
@@ -311,7 +312,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T14: Editar e excluir uma reflexão
+### T14: Editar e excluir uma reflexão ✅
 
 **What**: tocar numa reflexão abre o editor em modo edição; "Excluir" com confirmação.
 **Context**: Criação e descarte prontos. Feito quando editar muda texto e mostra "editado em", sem duplicar; excluir confirma e some. Última da fase: build gate.
@@ -327,7 +328,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T15: Favoritar e a lista de favoritos
+### T15: Favoritar e a lista de favoritos ✅
 
 **What**: botão de favorito no `RegistroDoPonto`; `PontoGuardadoTile`; `FavoritosPage`; entrada "Favoritos" na biblioteca.
 **Context**: Repositório de favoritos pronto. Feito quando favoritar alterna rótulo/ícone e persiste, e a lista mostra os favoritos na ordem com referência e prévia, abrindo o ponto.
@@ -344,7 +345,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T16: Guardar um ponto em coleções
+### T16: Guardar um ponto em coleções ✅
 
 **What**: `GuardarEmColecaoPage`, `NomeDeColecaoDialog`, linha "Nas coleções: …" e ação "Guardar em uma coleção" no `RegistroDoPonto`.
 **Context**: Repositório de coleções pronto. Sugestões ainda não existem — nesta tarefa o portão não é chamado (T19 o liga). Feito quando criar a partir do ponto, marcar/desmarcar várias e as regras do nome funcionam na tela, e a página mostra as coleções do ponto.
@@ -360,7 +361,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T17: Coleções e os pontos de uma coleção
+### T17: Coleções e os pontos de uma coleção ✅
 
 **What**: `ColecoesPage`, `ColecaoPessoalPage`, entrada "Coleções" na biblioteca.
 **Context**: Coleções já são criadas pela página do ponto. Feito quando a lista mostra ordem + contagem + "Nova coleção" + vazio, e a coleção mostra seus pontos na ordem + vazio, abrindo o ponto.
@@ -376,7 +377,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T18: Renomear e excluir uma coleção
+### T18: Renomear e excluir uma coleção ✅
 
 **What**: menu na `ColecaoPessoalPage` com "Renomear" (reusa `NomeDeColecaoDialog`) e "Excluir coleção" com confirmação.
 **Context**: Telas de coleção prontas. Feito quando renomear reflete em toda parte e excluir confirma e preserva favoritos/reflexões.
@@ -392,7 +393,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T19: Coleções sugeridas no primeiro contato
+### T19: Coleções sugeridas no primeiro contato ✅
 
 **What**: `SugestoesPage` + `passarPelasSugestoes`, chamado antes de "Coleções" e de "Guardar em uma coleção".
 **Context**: Repositório já guarda a resposta. Feito quando o primeiro contato mostra as sete, nenhuma marcada; criar escolhidas segue para o destino; recusar/voltar não cria e nunca mais aparece (nem reabrindo o banco).
@@ -409,7 +410,7 @@ T20 → T21 → Verifier
 
 ---
 
-### T20: Página que acompanha + registro indisponível nas telas
+### T20: Página que acompanha + registro indisponível nas telas ✅
 
 **What**: testes e ajustes para PAG-02 (estado novo ao voltar; registro segue o "Próximo") e para a mensagem de indisponível na página, em Favoritos e em Coleções; piso de 320 px da linha de ações.
 **Context**: Todas as telas existem. Feito quando PAG-02 e o lado de tela da AC-04 têm teste. Última da fase: build gate.
@@ -422,11 +423,11 @@ T20 → T21 → Verifier
 - [ ] UX: 320 px + "Muito grande" na página com registro, sem transbordar
 - [ ] Gate build verde
 **Tests**: widget · **Gate**: build
-**Commit**: `✨ feat(mobile): keep the point page in step with the registro`
+**Commit**: `🧪 test(mobile): pin the point page to the registro it shows` *(o código das tarefas anteriores já cumpria; só testes)*
 
 ---
 
-### T21: Débito e comandos do registro
+### T21: Débito e comandos do registro ✅
 
 **What**: TD-005 (iOS) e TD-004 ampliado (abrir o registro no aparelho, medir a KDF); comando de codegen e regra do `.g.dart` no `AGENTS.md`; Handoff. (ADR-002 e AD-007..009 já entraram no commit de planejamento, na fase Design.)
 **Context**: Código completo. Feito quando débito e comandos vivem no dono certo antes do Verifier ler o projeto.

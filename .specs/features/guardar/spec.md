@@ -454,33 +454,33 @@ reverter os commits; o arquivo cifrado fica sem uso e a v0.2 o ignora.
 
 | ID | Story | AC | Status |
 | --- | --- | --- | --- |
-| CIFRA-01 | P1 Cifrado | AC-01 | Pending |
-| CIFRA-02 | P1 Cifrado | AC-02 | Pending |
-| CIFRA-03 | P1 Cifrado | AC-03 | Pending |
-| CIFRA-04 | P1 Cifrado | AC-04 | Pending |
-| CIFRA-05 | P1 Cifrado | AC-05 | Pending |
-| REF-01 | P1 Reflexão | AC-06 | Pending |
-| REF-02 | P1 Reflexão | AC-07 | Pending |
-| REF-03 | P1 Reflexão | AC-08 | Pending |
-| REF-04 | P1 Reflexão | AC-09 | Pending |
-| REF-05 | P1 Reflexão | AC-10 | Pending |
-| REF-06 | P1 Reflexão | AC-11 | Pending |
-| REF-07 | P1 Reflexão | AC-12 | Pending |
-| REF-08 | P1 Reflexão | AC-13 | Pending |
-| FAV-01 | P1 Favorito | AC-14 | Pending |
-| FAV-02 | P1 Favorito | AC-15 | Pending |
-| COL-01 | P1 Coleção | AC-16 | Pending |
-| COL-02 | P1 Coleção | AC-17 | Pending |
-| COL-03 | P1 Coleção | AC-18 | Pending |
-| COL-04 | P1 Coleção | AC-19 | Pending |
-| COL-05 | P1 Coleção | AC-20 | Pending |
-| PAG-01 | P1 Página | AC-21 | Pending |
-| PAG-02 | P1 Página | AC-22 | Pending |
-| SUG-01 | P2 Sugestões | AC-23 | Pending |
-| SUG-02 | P2 Sugestões | AC-24 | Pending |
-| SUG-03 | P2 Sugestões | AC-25 | Pending |
-| COL-06 | P2 Renomear/excluir | AC-26 | Pending |
-| COL-07 | P2 Renomear/excluir | AC-27 | Pending |
+| CIFRA-01 | P1 Cifrado | AC-01 | Implemented |
+| CIFRA-02 | P1 Cifrado | AC-02 | Implemented |
+| CIFRA-03 | P1 Cifrado | AC-03 | Implemented |
+| CIFRA-04 | P1 Cifrado | AC-04 | Implemented |
+| CIFRA-05 | P1 Cifrado | AC-05 | Implemented |
+| REF-01 | P1 Reflexão | AC-06 | Implemented |
+| REF-02 | P1 Reflexão | AC-07 | Implemented |
+| REF-03 | P1 Reflexão | AC-08 | Implemented |
+| REF-04 | P1 Reflexão | AC-09 | Implemented |
+| REF-05 | P1 Reflexão | AC-10 | Implemented |
+| REF-06 | P1 Reflexão | AC-11 | Implemented |
+| REF-07 | P1 Reflexão | AC-12 | Implemented |
+| REF-08 | P1 Reflexão | AC-13 | Implemented |
+| FAV-01 | P1 Favorito | AC-14 | Implemented |
+| FAV-02 | P1 Favorito | AC-15 | Implemented |
+| COL-01 | P1 Coleção | AC-16 | Implemented |
+| COL-02 | P1 Coleção | AC-17 | Implemented |
+| COL-03 | P1 Coleção | AC-18 | Implemented |
+| COL-04 | P1 Coleção | AC-19 | Implemented |
+| COL-05 | P1 Coleção | AC-20 | Implemented |
+| PAG-01 | P1 Página | AC-21 | Implemented |
+| PAG-02 | P1 Página | AC-22 | Implemented |
+| SUG-01 | P2 Sugestões | AC-23 | Implemented |
+| SUG-02 | P2 Sugestões | AC-24 | Implemented |
+| SUG-03 | P2 Sugestões | AC-25 | Implemented |
+| COL-06 | P2 Renomear/excluir | AC-26 | Implemented |
+| COL-07 | P2 Renomear/excluir | AC-27 | Implemented |
 
 **ID format:** `CIFRA` (infra), `REF` (reflexão), `FAV` (favorito), `COL` (coleção pessoal),
 `PAG` (página do ponto), `SUG` (sugestões).
