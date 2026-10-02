@@ -3,7 +3,7 @@
   "promote_threshold": 2,
   "window_days": 45,
   "quarantine_threshold": 2,
-  "next_id": 5,
+  "next_id": 10,
   "lessons": [
     {
       "id": "L-001",
@@ -47,17 +47,19 @@
       "text": "When an AC's expected outcome lists several observable parts, assert each part, not only the most identifying one.",
       "signal": "ac_gap",
       "scope": "app",
-      "status": "candidate",
+      "status": "confirmed",
       "features": [
-        "ler"
+        "ler",
+        "guardar"
       ],
-      "recurrence": 1,
+      "recurrence": 2,
       "harmful": 0,
       "evidence": [
-        "apps/ponto_mobile/test/colecao/capitulo_page_test.dart:48-55 (AC-10) (app)"
+        "apps/ponto_mobile/test/colecao/capitulo_page_test.dart:48-55 (AC-10) (app)",
+        "apps/ponto_mobile/test/registro/colecoes_test.dart:289-314 (AC-27) (app)"
       ],
       "created": "2026-10-02T17:33:00Z",
-      "last_seen": "2026-10-02T17:33:00Z"
+      "last_seen": "2026-10-02T19:53:06Z"
     },
     {
       "id": "L-004",
@@ -76,6 +78,98 @@
       ],
       "created": "2026-10-02T17:33:00Z",
       "last_seen": "2026-10-02T17:33:00Z"
+    },
+    {
+      "id": "L-005",
+      "key": "surviving_mutant::prove a duplicate press guard by invoking the button callback twice before a rebuild because consecutive tester tap calls do not deliver the second press",
+      "text": "Prove a duplicate-press guard by invoking the button callback twice before a rebuild, because consecutive tester.tap calls do not deliver the second press.",
+      "signal": "surviving_mutant",
+      "scope": "app",
+      "status": "candidate",
+      "features": [
+        "guardar"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "apps/ponto_mobile/lib/registro/editor_de_reflexao_page.dart:171 (M38, AC-06) (app)"
+      ],
+      "created": "2026-10-02T19:53:06Z",
+      "last_seen": "2026-10-02T19:53:06Z"
+    },
+    {
+      "id": "L-006",
+      "key": "surviving_mutant::when a write targets one row seed a sibling row and assert it stays untouched",
+      "text": "When a write targets one row, seed a sibling row and assert it stays untouched.",
+      "signal": "surviving_mutant",
+      "scope": "app",
+      "status": "candidate",
+      "features": [
+        "guardar"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "apps/ponto_mobile/lib/registro/reflexoes_repositorio.dart:55 (M22, AC-09) (app)",
+        "apps/ponto_mobile/lib/registro/colecoes_repositorio.dart:68-72 (M32, AC-17) (app)"
+      ],
+      "created": "2026-10-02T19:53:06Z",
+      "last_seen": "2026-10-02T19:53:06Z"
+    },
+    {
+      "id": "L-007",
+      "key": "surviving_mutant::to prove an all or nothing write make a later statement fail for example with an aborting sqlite trigger and assert nothing persisted",
+      "text": "To prove an all-or-nothing write, make a later statement fail, for example with an aborting SQLite trigger, and assert nothing persisted.",
+      "signal": "surviving_mutant",
+      "scope": "app",
+      "status": "candidate",
+      "features": [
+        "guardar"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "apps/ponto_mobile/lib/registro/colecoes_repositorio.dart:32-37 (M29, AC-16) (app)",
+        "apps/ponto_mobile/lib/registro/colecoes_repositorio.dart:85-99 (M30b, AC-24 sweep) (app)"
+      ],
+      "created": "2026-10-02T19:53:06Z",
+      "last_seen": "2026-10-02T19:53:06Z"
+    },
+    {
+      "id": "L-008",
+      "key": "surviving_mutant::when an edge case applies to every screen that renders saved data test it on each of those screens",
+      "text": "When an edge case applies to every screen that renders saved data, test it on each of those screens.",
+      "signal": "surviving_mutant",
+      "scope": "app",
+      "status": "candidate",
+      "features": [
+        "guardar"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "apps/ponto_mobile/lib/registro/colecoes_page.dart:87 (M47, edge case A14) (app)"
+      ],
+      "created": "2026-10-02T19:53:06Z",
+      "last_seen": "2026-10-02T19:53:06Z"
+    },
+    {
+      "id": "L-009",
+      "key": "spec_precision_gap::define an encryption is active outcome by something that differs between an encrypted and a plain file such as a missing header or a wrong key failing not by a pragma the library answers either way",
+      "text": "Define an encryption-is-active outcome by something that differs between an encrypted and a plain file, such as a missing header or a wrong key failing, not by a pragma the library answers either way.",
+      "signal": "spec_precision_gap",
+      "scope": "infra",
+      "status": "candidate",
+      "features": [
+        "guardar"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "AC-01 / apps/ponto_mobile/test/infra/banco_cifrado_test.dart:66-69 (P9) (infra)"
+      ],
+      "created": "2026-10-02T19:53:06Z",
+      "last_seen": "2026-10-02T19:53:06Z"
     }
   ]
 }
