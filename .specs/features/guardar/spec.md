@@ -65,9 +65,14 @@ pausas (mesmo acordo da v0.2). As marcadas "UAT" são revistas no aparelho.
 
 **Open questions:** nenhuma — todas resolvidas ou registradas acima.
 
-**Revisões:** r1 (2026-10-02) — AC-01 dizia "o banco relata uma cifra ativa"; o Verifier mostrou
-que `PRAGMA cipher` responde `chacha20` também num arquivo em claro, então isso não distingue nada.
-Agora o observável é "outra chave não lê o arquivo" (já testado). Não reduz garantia.
+**Revisões:**
+- r1 (2026-10-02) — AC-01 dizia "o banco relata uma cifra ativa"; o Verifier mostrou que
+  `PRAGMA cipher` responde `chacha20` também num arquivo em claro, então isso não distingue nada.
+  Trocado por "outra chave não lê o arquivo".
+- r2 (2026-10-03) — a sonda P10 do Verifier mostrou que um arquivo em claro aberto com uma chave
+  também não é lido, então "outra chave não lê" também não distingue cifrado de claro. O observável
+  do AC-01 fica só nos bytes (sem o texto, sem o cabeçalho), que já eram a prova (mutante M49). O
+  teste de "outra chave" continua como checagem de comportamento. Não reduz garantia.
 
 ---
 
@@ -83,11 +88,10 @@ arquivo do app, para escrever com a liberdade de quem escreve só para si.
 **Acceptance Criteria:**
 
 ```
-AC-01: O arquivo do registro é cifrado desde a criação  [revised r1]
+AC-01: O arquivo do registro é cifrado desde a criação  [revised r2]
 - Scenario:     nenhum banco no aparelho; o registro é aberto pela primeira vez
 - Action:       o leitor guarda uma reflexão com o texto "silêncio-que-ninguém-lê" e o banco é fechado
-- Expected:     os bytes do arquivo não contêm esse texto (UTF-8) nem o cabeçalho "SQLite format 3";
-                aberto com outra chave, o arquivo não pode ser lido
+- Expected:     os bytes do arquivo não contêm esse texto (UTF-8) nem o cabeçalho "SQLite format 3"
 - Must not:     existir em algum momento um arquivo de registro em claro
 - Verification: teste automatizado com arquivo real (infra)
 - Priority:     Required
