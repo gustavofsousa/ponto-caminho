@@ -4,7 +4,7 @@
 **Spec**: `.specs/features/guardar/spec.md`
 **Diff range**: `main..feat/v0.3-guardar` = `5077422..2e9b930` (22 commits, 5077422 … 2e9b930)
 **Verifier**: independent sub-agent (author ≠ verifier)
-**Verdict**: ❌ FAIL (rodada 0). O comportamento no HEAD está certo: o gate passa, e todas as 9 sondas que escrevi passam no HEAD. Mas 6 mutantes sobreviveram à suíte inteira (164 testes), e 4 ACs têm uma parte do Expected/Must not sem evidência. Todos os gaps se fecham só com testes; nenhum pede mudança de produto.
+**Verdict**: ✅ PASS (rodada 1). A rodada 0 deu ❌ FAIL: 6 mutantes sobreviveram (M22, M29, M30b, M32, M38, M47), 4 ACs estavam parciais (AC-06, AC-16, AC-17, AC-27) e o AC-01 tinha um spec-precision gap. A rodada 1 (`19bf448..a37523f`) fechou tudo só com testes e uma revisão do spec. Os 6 sobreviventes morreram, mais 6 checagens focadas, e o gate passa. Ver "Round 1".
 
 ---
 
@@ -318,3 +318,111 @@ Não realizado (Verifier sub-agente). Pendentes com o usuário: A1, A2, A3, A5�
 - **L-008** (surviving_mutant M47): edge case que vale para toda tela que mostra dado guardado → testar em cada tela.
 - **L-009** (spec_precision_gap AC-01): definir "cifra ativa" por algo que difere entre arquivo cifrado e em claro, não por um pragma que responde nos dois casos.
 - L-001 não foi contrariada: a falha de gravação e a de abertura foram testadas com dois tipos de erro, e M09 e M39 morreram. L-002 e L-004 não se aplicam.
+
+---
+
+## Round 1 — Re-verification (fix diff)
+
+**Date**: 2026-10-03
+**Diff**: `19bf448..a37523f`: 9f1e8d8 (F1), 76b04a6 (F2), f1a4a07 (F3), 37e88b8 (F4), 85a6617 (F5), f70e52d (F6), 388969e (F7), a37523f (F8). Só mudaram testes e o `spec.md` (AC-01 `[revised r1]` + linha "Revisões"). `git diff 2e9b930..a37523f -- apps/ponto_mobile/lib packages apps/ponto_mobile/android apps/ponto_mobile/pubspec.yaml` → 0 linhas: nenhum código de produto mudou desde a rodada 0. Por isso as mortes de produto da rodada 0 continuam valendo, exceto onde o teste que matava foi alterado; esses casos (M01, M49) foram reaplicados.
+
+### Gaps da rodada 0
+
+| Gap | Commit | `file:line` + asserção | Mutante | Result |
+| --- | --- | --- | --- | --- |
+| 1 · AC-06 / REF-01: o 2º toque não era entregue | 9f1e8d8 | `apps/ponto_mobile/test/registro/reflexao_na_pagina_test.dart:86-87`: `tocarGuardar(); tocarGuardar();` (o `onPressed` capturado, chamado duas vezes antes da reconstrução). `:90`: `textosGuardados == ['Quero ser útil hoje.']`. `:91`: a página do Caminho 2 aparece | M38 (sem a guarda) morto. M38c (sem a guarda e com o botão sempre habilitado) morto | ✅ Closed |
+| 2 · AC-09 / REF-04: a edição podia reescrever as outras | 76b04a6 | `registro/reflexoes_repositorio_test.dart:77-88`: edita a do Caminho 2. `:86`: a do 81 fica com `'Do oitenta e um.'`. `:87`: `editadaEm, isNull` | M22 (`WHERE` sem `id`) morto | ✅ Closed |
+| 3 · AC-17 / COL-02: desmarcar podia esvaziar a coleção | f1a4a07 | `registro/colecoes_repositorio_test.dart:116-124`: Família com Caminho 2 e 81; tirar o 2. `:123`: `pontos == [caminho81]` | M32 (`tirar` sem o filtro de ponto) morto | ✅ Closed |
+| 4 · AC-16 + varredura do AC-24: "tudo ou nada" | 37e88b8 | `registro/colecoes_repositorio_test.dart:35-38`: trigger `RAISE(ABORT)` por tabela. `:71-83`: falha no vínculo; `criar(…, comPonto:)` → `throwsA(isA<SqliteException>())` e `atuais(), isEmpty`. `:260-273`: falha em `marcos`; `responderSugestoes([...])` lança, `atuais(), isEmpty` e `sugestoesRespondidas(), isFalse` | M29 morto (sem transação). M29b morto (transação mantida, falha do vínculo engolida: coleção sem o ponto). M30b morto (sem transação, minha forma). M30c morto (`transaction` trocado por um helper que só roda o corpo, a forma do implementador) | ✅ Closed |
+| 5 · AC-27: a página do ponto não era conferida | 85a6617 | `registro/colecoes_test.dart:357-363`: depois de excluir "Trabalho", abre Família → Caminho 2. `:362`: `'Nas coleções: Família'` `findsOneWidget`. `:363`: `textContaining('Trabalho')` `findsNothing` | Controle de isolamento (só no rascunho): tirei as asserções anteriores do teste e transformei `excluir` em no-op. A asserção nova **falha sozinha** ("Found 0 widgets with text 'Nas coleções: Família'"). O mesmo teste isolado passa no HEAD | ✅ Closed |
+| 6 · edge case A14 em Coleções | f70e52d | `registro/colecoes_test.dart:117-137`: coleção com Caminho 3 (ausente) + Caminho 2 → "1 ponto" no item. `:196-215`: a página da coleção mostra 1 `ListTile`, a referência do 2, e o banco guarda os 2 (`:214` `hasLength(2)`) | M47 (contagem inclui o ausente) morto | ✅ Closed |
+| 7 · AC-01: spec-precision gap ("cifra ativa") | 388969e | spec AC-01 `[revised r1]`: Expected = bytes sem o texto e sem `SQLite format 3` + "aberto com outra chave, o arquivo não pode ser lido". `apps/ponto_mobile/test/infra/banco_cifrado_test.dart:61-62` (bytes) e `:65-79` (outra chave → `throwsA(anything)`). Saiu a asserção vazia sobre `PRAGMA cipher` | M49 (sem `PRAGMA key`) continua morto por 4 testes (CIFRA-01 ×3, CIFRA-04 wrong key). M01 continua morto (CIFRA-02 ×2) | ✅ Closed, com uma nota: a sonda **P10** mostra que um arquivo **em claro**, aberto com uma chave, também não é lido (`DriftRemoteException`). Então "outra chave não lê", sozinho, não distingue cifrado de claro; quem prova a cifra são as asserções sobre os bytes (`:61-62`), que M49 mata. O AC está provado por inteiro. Só a linha "Revisões" do spec ("Agora o observável é 'outra chave não lê o arquivo'") aponta para a parte que não discrimina. Sugestão (~2 min): citar a ausência do cabeçalho e do texto como o observável da cifra |
+| nota · edge case 1: reflexão longa no editor | a37523f | `registro/reflexao_na_pagina_test.dart:216-255`: 320 px a 2,6×, texto longo. `:243`: `maxScrollExtent > 0` no editor. `:252-253`: o texto guardado aparece na página com `maxLines` nulo e sem reticências | M50 (a reflexão na página cortada em 3 linhas com reticências) morto | ✅ Closed |
+
+**ACs depois da rodada 1**: 27/27 com o resultado do spec afirmado por inteiro. 0 spec-precision gaps abertos. Edge cases: 7/7.
+
+### Discrimination Sensor (rodada 1)
+
+Cópia de rascunho recriada a partir da árvore real em `a37523f` (`cp -a`, sem `build/`). Mesmo harness da rodada 0: uma mutação por vez, substituição exata, arquivos de teste focados com `timeout`, suíte inteira para qualquer sobrevivente, e restauração conferida depois de cada mutação.
+
+| # | File:line | Description | Killed? |
+| --- | --- | --- | --- |
+| M38 | `apps/ponto_mobile/lib/registro/editor_de_reflexao_page.dart:171` | sem a guarda de toque duplo | ✅ REF-01 double tap |
+| M38c | `editor_de_reflexao_page.dart:62` + `:171` | sem a guarda e com o botão sempre habilitado | ✅ REF-01 double tap |
+| M22 | `apps/ponto_mobile/lib/registro/reflexoes_repositorio.dart:55` | `WHERE` da edição sem `id` | ✅ REF-04 others untouched |
+| M32 | `apps/ponto_mobile/lib/registro/colecoes_repositorio.dart:68-72` | `tirar` sem o filtro de ponto | ✅ COL-02 keeps the other points |
+| M29 | `colecoes_repositorio.dart:32-37` | `criar` sem transação | ✅ COL-01 failure leaves no collection |
+| M29b | `colecoes_repositorio.dart:35` | transação mantida, falha do vínculo engolida | ✅ COL-01 failure leaves no collection |
+| M30b | `colecoes_repositorio.dart:85-99` | `responderSugestoes` sem transação (closure chamada) | ✅ SUG-02 failure creates nothing |
+| M30c | `colecoes_repositorio.dart:86` | `transaction` → helper que só roda o corpo | ✅ SUG-02 failure creates nothing |
+| M47 | `apps/ponto_mobile/lib/registro/colecoes_page.dart:87` | contagem inclui pontos ausentes dos livros | ✅ COL-04 counts only present points |
+| M50 | `apps/ponto_mobile/lib/registro/registro_do_ponto.dart:192` | reflexão na página com `maxLines: 3` + reticências | ✅ REF-01 long reflection |
+| M01 | `apps/ponto_mobile/lib/infra/banco_cifrado.dart:28` | guarda da cifra desligada (regressão depois do F7) | ✅ CIFRA-02 ×2 |
+| M49 | `banco_cifrado.dart:15` | sem `setup` (sem `PRAGMA key`) (regressão depois do F7) | ✅ CIFRA-01 ×3, CIFRA-04 wrong key |
+
+**Result**: 12/12 killed ✅, 0 hung. Somando as duas rodadas: as 43 mortes da rodada 0 continuam valendo, porque o produto não mudou e nenhum teste que matava foi enfraquecido. As duas checagens afetadas pelo F7 (M01, M49) foram reaplicadas e continuam mortas. Os 6 sobreviventes da rodada 0 morreram agora. Nenhum sobrevivente aberto.
+
+### Probes (rodada 1)
+
+| # | Sonda | Resultado |
+| --- | --- | --- |
+| P10 | arquivo criado **sem** chave (em claro), aberto com `abrirBancoCifrado(arquivo, 'b2' * 32)` e lido | lança `DriftRemoteException`: "outra chave não lê" vale também para um arquivo em claro (nota do gap 7) |
+| F5-iso | teste COL-07 sem as asserções anteriores + `excluir` no-op / o mesmo teste isolado no HEAD | falha em `'Nas coleções: Família'` / passa |
+
+### Gate Check (rodada 1)
+
+- **Gate command**: o mesmo da rodada 0 (com `set -o pipefail`), rodado na árvore real em `a37523f`
+- **Result**: cada etapa saiu com 0
+  - `validar.py`: ok nas 3 obras. Validador: **6** OK
+  - Motor: format 20 arquivos, 0 mudados; analyze "No issues found!"; **51** passed
+  - App: format 63 arquivos, 0 mudados; analyze "No issues found! (ran in 2.8s)"; **171** passed
+- **Delta vs rodada 0**: app +7. Novos: F2 +1, F3 +1, F4 +2, F6 +2, F8 +1. Estendidos: F1 e F5. F7 removeu uma asserção sem poder de discriminação
+- **Delta vs antes da feature**: motor 38 → 51 (+13) · app 46 → 171 (+125) · validador 6 → 6
+- **Weakened assertions**: só a asserção sobre `PRAGMA cipher` saiu (F7). Ela não discriminava nada (sonda P9 da rodada 0). M49, que ela supostamente guardava, continua morto por 4 testes
+- **Failures / skips**: nenhum. Árvore real: `git status --porcelain` igual antes e depois; HEAD continua `a37523f`
+
+### Rulings do implementador
+
+- **(a) 24 nomes de teste que começam pelo `group`**: concordo que não bloqueia. O motivo do AD-004 (rastreio por busca textual) continua atendido; só a letra ("começa com o ID") não é seguida. Para a regra não ficar ambígua, sugiro registrar a interpretação no próprio AD-004 do `.specs/STATE.md` ("o ID aparece no nome completo, inclusive pelo `group`"). ~2 min, fora desta feature.
+- **(b) fixar `TZ` para o M42 no item de CI**: concordo que é escopo do CI. Ressalva: isso **ainda não está registrado** em lugar nenhum além deste relatório (`grep` por TZ/fuso em `docs/backlog.md`, `docs/roadmap.md`, `.specs/TECH-DEBT.md` e `.specs/STATE.md` → vazio). Uma linha no item de CI de `docs/backlog.md` (ou em `TECH-DEBT.md`) evita que o fato se perca. ~2 min.
+
+### Lessons (rodada 1)
+
+Nenhuma lição nova: a rodada saiu sem sinal (nenhum sobrevivente, nenhum AC aberto, nenhum spec-precision gap). Uma correção para o mantenedor: o exemplo "or a wrong key failing" no texto da **L-009** (candidate) está errado pela sonda P10, porque uma chave errada também falha num arquivo em claro. O `lessons.py` não tem comando de edição, e o texto não deve ser editado à mão. Recomendo que o mantenedor troque o exemplo por "such as a missing file header".
+
+### Requirement Traceability Update (rodada 1)
+
+| Requirement | Rodada 0 | Rodada 1 |
+| --- | --- | --- |
+| CIFRA-01 | ✅ Verified (spec-precision gap) | ✅ Verified (AC revisado r1) |
+| CIFRA-02 … CIFRA-05 | ✅ Verified | ✅ Verified |
+| REF-01 | ❌ Needs Fix | ✅ Verified |
+| REF-02, REF-03 | ✅ Verified | ✅ Verified |
+| REF-04 | ❌ Needs Fix | ✅ Verified |
+| REF-05 … REF-08 | ✅ Verified | ✅ Verified |
+| FAV-01, FAV-02 | ✅ Verified | ✅ Verified |
+| COL-01 | ❌ Needs Fix | ✅ Verified |
+| COL-02 | ❌ Needs Fix | ✅ Verified |
+| COL-03 | ✅ Verified | ✅ Verified |
+| COL-04 | ⚠️ Verified (edge A14) | ✅ Verified |
+| COL-05, COL-06 | ✅ Verified | ✅ Verified |
+| COL-07 | ❌ Needs Fix | ✅ Verified |
+| PAG-01, PAG-02 | ✅ Verified | ✅ Verified |
+| SUG-01, SUG-03 | ✅ Verified | ✅ Verified |
+| SUG-02 | ❌ Needs Fix | ✅ Verified |
+
+(O Verifier não edita `spec.md`; o orquestrador aplica esta tabela: todos os 27 ✅ Verified.)
+
+### Summary (rodada 1)
+
+**Overall**: ✅ Ready (verificação automatizada). Faltam o UAT interativo e a abertura num aparelho real (TD-004).
+
+**Spec-anchored check**: 27/27 ACs com o resultado do spec afirmado; 0 spec-precision gaps abertos; edge cases 7/7
+**Sensor**: rodada 1 com 12/12 mortos. Somando: 49 mutações válidas da rodada 0 + 4 checagens novas (M38c, M29b, M30c, M50), nenhum sobrevivente aberto
+**Gate**: exit 0. Motor 51 · app 171 · validador 6 passed, 0 failed; análise sem issues; format limpo
+
+**Não bloqueiam**:
+1. Linha "Revisões" do AC-01: apontar a ausência do cabeçalho e do texto como o observável da cifra (P10).
+2. Registrar o `TZ` fixo no item de CI.
+3. Registrar a interpretação do AD-004.
+4. Corrigir o exemplo da L-009.
