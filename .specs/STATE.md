@@ -28,8 +28,8 @@
 - **Status**: active
 
 ### AD-004
-- **Decision**: Todo teste derivado de requisito começa o nome com o ID (`'LER-07: …'`, `'BASE-02: …'`).
-- **Reason**: rastreio requisito → teste por busca textual, sem configuração de tags.
+- **Decision**: Todo teste derivado de requisito começa o nome com o ID (`'LER-07: …'`, `'BASE-02: …'`). Dentro de um `group` sem ID (ex.: `group('criar', …)`), o ID abre a descrição do teste; o nome completo fica `criar COL-01: …` e isso basta.
+- **Reason**: rastreio requisito → teste por busca textual, sem configuração de tags — o que conta é o ID estar no nome completo.
 - **Trade-off**: disciplina manual de nomes.
 - **Scope**: todos os testes (Dart, Flutter, Python)
 - **Date**: 2026-10-02
