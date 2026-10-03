@@ -101,7 +101,7 @@ TRANSVERSAL       acessibilidade · privacidade · design/tipografia · tom de v
 | Domínio | Papel | Código (atual → alvo) | Linguagem que possui |
 | --- | --- | --- | --- |
 | **leitura** | o que foi lido, de onde veio, por onde retomar | — → `ponto_motor/lib/src/leitura/` | Leitura · origem · progresso · continue de onde parou · leituras recentes |
-| **registro** | o que o leitor guardou | — → `ponto_motor/lib/src/registro/` | Reflexao/Anotacao · Favorito · ColecaoPessoal |
+| **registro** | o que o leitor guardou | `ponto_motor/lib/src/registro/` (tipos, regra do texto e do nome) + `ponto_mobile/lib/registro/` (banco drift, repositórios, telas) ✅ (v0.3) | Reflexao · Favorito · ColecaoPessoal · coleções sugeridas |
 
 ## Suporte
 
@@ -116,7 +116,7 @@ TRANSVERSAL       acessibilidade · privacidade · design/tipografia · tom de v
 
 | Domínio | Papel | Código (alvo) |
 | --- | --- | --- |
-| **infra** | banco local cifrado, guarda da chave, adaptador de notificação | `ponto_mobile/lib/infra/` |
+| **infra** | banco local cifrado, guarda da chave, adaptador de notificação | `ponto_mobile/lib/infra/` — banco cifrado e guarda da chave ✅ (v0.3, ADR-002) |
 
 ---
 

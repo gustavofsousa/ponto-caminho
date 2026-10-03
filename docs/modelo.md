@@ -199,6 +199,7 @@ Derivado das leituras, nunca escrito à mão:
 ### Anotação
 
 O registro pessoal sobre um ponto: pensamento, propósito, oração, resolução, contexto de vida.
+No código e na interface o termo é **reflexão** (`Reflexao`); "anotação" fica como sinônimo aqui.
 
 | Campo | Tipo | Notas |
 | --- | --- | --- |

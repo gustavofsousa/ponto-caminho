@@ -44,3 +44,34 @@
 - **`TextScaler` multiplies, not replaces.** A small wrapper keeps Android's nonlinear system
   scaling and applies the reader's factor on top.
 
+## 2026-10-03 — v0.3 "Guardar" with full spec-driven + independent verifier
+
+- **Encryption is proven by the bytes, not by the library's word.** `PRAGMA cipher` answers
+  `chacha20` even for a plaintext file, and a plaintext file opened with a key can't be read
+  either. Only "no stored text, no `SQLite format 3` header in the file" tells encrypted from
+  plain — the verifier's probes P9 and P10 caught both false proofs.
+- **A SQLite error message is a data leak.** `SqliteException.toString()` prints the statement
+  parameters — the reflection text. Registro failures log the error type only (AD-009).
+- **The secure store can silently forget.** `flutter_secure_storage` deletes a key it can't
+  decrypt (`resetOnError`). The guard that matters: never generate a key when the database
+  already exists, or the old file becomes unreadable forever (ADR-002).
+- **`sqlite3_flutter_libs` is EOL; encryption is a build hook now.** `hooks: user_defines:
+  sqlite3: source: sqlite3mc` bundles SQLite3MultipleCiphers for the APK *and* `flutter test`.
+  Flutter 3.41 pins `meta`, which caps `drift_dev` at 2.34.0 and `sqlite3` at 3.5.x (TD-006).
+- **drift in widget tests has two traps.** (1) Losing a stream's last listener schedules a
+  `Timer.run`; inside the fake clock the test ends with a pending timer and `close()` hangs —
+  end each test by dropping the tree and pumping 1 ms (`testWidgetsComRegistro`). (2) A stream
+  first listened to inside `runAsync` is cached in the real zone and the screen never updates —
+  check the database with `get()`, never `observar()`.
+- **`enterText` doesn't rebuild.** A button enabled by the text is still disabled until the next
+  `pump()`; tapping it does nothing and the test fails far from the cause.
+- **Two `tester.tap` calls are not a double tap.** The second press never reaches the handler;
+  call the captured `onPressed` twice before a rebuild (L-005).
+- **The author's tests proved the happy path; the verifier's mutants found the must-nots.** Six
+  survivors, all closed with tests only: seed a sibling row when a write targets one row (L-006),
+  make a later statement fail with an aborting trigger to prove all-or-nothing (L-007), test an
+  edge case on every screen that shows saved data (L-008). L-003 is now confirmed.
+- **`cmd | tail && git commit` commits on a red gate.** The pipe swallowed the test exit code and
+  one commit landed with a failing test (undone with `reset --soft`). Every gate since runs with
+  `set -o pipefail`.
+

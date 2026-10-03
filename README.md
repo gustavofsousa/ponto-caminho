@@ -13,9 +13,10 @@ texto → silêncio → reflexão → anotação → releitura → vida prática
 
 ## Estado
 
-**v0.2 — Ler.** Biblioteca → obra → capítulo → ponto, anterior/próximo, tema e tamanho de texto,
-tipografia provisória (Literata). Texto ainda **mock** e nunca rodado num aparelho real.
-Ver [`docs/roadmap.md`](docs/roadmap.md) e [`.specs/features/ler/`](.specs/features/ler/).
+**v0.3 — Guardar.** Sobre a leitura da v0.2 (biblioteca → obra → capítulo → ponto, tema e
+tamanho de texto): reflexões cifradas no aparelho, favoritos e coleções pessoais, tudo visível na
+página do ponto. Texto ainda **mock** e nunca rodado num aparelho real.
+Ver [`docs/roadmap.md`](docs/roadmap.md) e [`.specs/features/guardar/`](.specs/features/guardar/).
 
 ## Documentação
 

@@ -12,8 +12,9 @@ Verifier, discrimination sensor).
 ---
 
 **Design**: `.specs/features/guardar/design.md`
-**Status**: Execute concluído — T1–T21 (execução inline, sem workers por fase: o usuário pediu o
-fluxo completo sem pausas; nenhum sub-agente além do Verifier). Verificação: `validation.md`
+**Status**: Done — T1–T21 + fixes F1–F8; Verifier PASS na rodada 1 (`validation.md`). Execução
+inline, sem workers por fase: o usuário pediu o fluxo completo sem pausas; nenhum sub-agente além
+do Verifier.
 
 ---
 
@@ -440,6 +441,23 @@ T20 → T21 → Verifier
 **Commit**: `📚 docs: record registro debt and codegen commands`
 
 ---
+
+## Fixes da verificação (rodada 0 → rodada 1)
+
+Só testes e spec; nenhum código de produto mudou. Cada um fecha um gap do `validation.md`.
+
+| Fix | Gap | Commit |
+| --- | --- | --- |
+| F1 ✅ | AC-06 toque duplo nunca chegava ao handler (M38) | `9f1e8d8` |
+| F2 ✅ | REF-04 editar uma reflexão podia reescrever as outras (M22) | `76b04a6` |
+| F3 ✅ | AC-17 tirar um ponto podia esvaziar a coleção (M32) | `f1a4a07` |
+| F4 ✅ | AC-16/AC-24 "tudo ou nada" sem prova (M29, M30b) | `37e88b8` |
+| F5 ✅ | AC-27 página do ponto depois de excluir a coleção | `85a6617` |
+| F6 ✅ | A14 ponto ausente dos livros nas telas de coleção (M47) | `f70e52d` |
+| F7 ✅ | AC-01 "cifra ativa" sem observável (revisão r1; r2 em `b6bc08d`) | `388969e` |
+| F8 ✅ | edge case: reflexão longa no editor em 320 px | `a37523f` |
+
+**Test count final:** motor 51 · app 171 · validador 6.
 
 ## Task Granularity Check
 

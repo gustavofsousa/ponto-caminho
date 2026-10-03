@@ -462,33 +462,33 @@ reverter os commits; o arquivo cifrado fica sem uso e a v0.2 o ignora.
 
 | ID | Story | AC | Status |
 | --- | --- | --- | --- |
-| CIFRA-01 | P1 Cifrado | AC-01 | Implemented |
-| CIFRA-02 | P1 Cifrado | AC-02 | Implemented |
-| CIFRA-03 | P1 Cifrado | AC-03 | Implemented |
-| CIFRA-04 | P1 Cifrado | AC-04 | Implemented |
-| CIFRA-05 | P1 Cifrado | AC-05 | Implemented |
-| REF-01 | P1 Reflexão | AC-06 | Implemented |
-| REF-02 | P1 Reflexão | AC-07 | Implemented |
-| REF-03 | P1 Reflexão | AC-08 | Implemented |
-| REF-04 | P1 Reflexão | AC-09 | Implemented |
-| REF-05 | P1 Reflexão | AC-10 | Implemented |
-| REF-06 | P1 Reflexão | AC-11 | Implemented |
-| REF-07 | P1 Reflexão | AC-12 | Implemented |
-| REF-08 | P1 Reflexão | AC-13 | Implemented |
-| FAV-01 | P1 Favorito | AC-14 | Implemented |
-| FAV-02 | P1 Favorito | AC-15 | Implemented |
-| COL-01 | P1 Coleção | AC-16 | Implemented |
-| COL-02 | P1 Coleção | AC-17 | Implemented |
-| COL-03 | P1 Coleção | AC-18 | Implemented |
-| COL-04 | P1 Coleção | AC-19 | Implemented |
-| COL-05 | P1 Coleção | AC-20 | Implemented |
-| PAG-01 | P1 Página | AC-21 | Implemented |
-| PAG-02 | P1 Página | AC-22 | Implemented |
-| SUG-01 | P2 Sugestões | AC-23 | Implemented |
-| SUG-02 | P2 Sugestões | AC-24 | Implemented |
-| SUG-03 | P2 Sugestões | AC-25 | Implemented |
-| COL-06 | P2 Renomear/excluir | AC-26 | Implemented |
-| COL-07 | P2 Renomear/excluir | AC-27 | Implemented |
+| CIFRA-01 | P1 Cifrado | AC-01 | ✅ Verified |
+| CIFRA-02 | P1 Cifrado | AC-02 | ✅ Verified |
+| CIFRA-03 | P1 Cifrado | AC-03 | ✅ Verified |
+| CIFRA-04 | P1 Cifrado | AC-04 | ✅ Verified |
+| CIFRA-05 | P1 Cifrado | AC-05 | ✅ Verified |
+| REF-01 | P1 Reflexão | AC-06 | ✅ Verified |
+| REF-02 | P1 Reflexão | AC-07 | ✅ Verified |
+| REF-03 | P1 Reflexão | AC-08 | ✅ Verified |
+| REF-04 | P1 Reflexão | AC-09 | ✅ Verified |
+| REF-05 | P1 Reflexão | AC-10 | ✅ Verified |
+| REF-06 | P1 Reflexão | AC-11 | ✅ Verified |
+| REF-07 | P1 Reflexão | AC-12 | ✅ Verified |
+| REF-08 | P1 Reflexão | AC-13 | ✅ Verified |
+| FAV-01 | P1 Favorito | AC-14 | ✅ Verified |
+| FAV-02 | P1 Favorito | AC-15 | ✅ Verified |
+| COL-01 | P1 Coleção | AC-16 | ✅ Verified |
+| COL-02 | P1 Coleção | AC-17 | ✅ Verified |
+| COL-03 | P1 Coleção | AC-18 | ✅ Verified |
+| COL-04 | P1 Coleção | AC-19 | ✅ Verified |
+| COL-05 | P1 Coleção | AC-20 | ✅ Verified |
+| PAG-01 | P1 Página | AC-21 | ✅ Verified |
+| PAG-02 | P1 Página | AC-22 | ✅ Verified |
+| SUG-01 | P2 Sugestões | AC-23 | ✅ Verified |
+| SUG-02 | P2 Sugestões | AC-24 | ✅ Verified |
+| SUG-03 | P2 Sugestões | AC-25 | ✅ Verified |
+| COL-06 | P2 Renomear/excluir | AC-26 | ✅ Verified |
+| COL-07 | P2 Renomear/excluir | AC-27 | ✅ Verified |
 
 **ID format:** `CIFRA` (infra), `REF` (reflexão), `FAV` (favorito), `COL` (coleção pessoal),
 `PAG` (página do ponto), `SUG` (sugestões).

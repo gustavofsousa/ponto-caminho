@@ -25,7 +25,7 @@ começa quando a anterior está *boa* — não quando está tecnicamente pronta.
 |--------|------|--------------|----------|--------|
 | v0.1 | Fundações | o motor devolve um ponto mock num app que roda no celular | `colecao`, `selecao`, `— infra` | 🔄 |
 | v0.2 | Ler | navegar obra → capítulo → ponto e ler com prazer | `colecao`, `selecao`, `preferencias` | ⚠️ |
-| v0.3 | Guardar | guardar o que um ponto provocou | `registro` | 🗓️ |
+| v0.3 | Guardar | guardar o que um ponto provocou | `registro`, `— infra` | ⚠️ |
 | v0.4 | Voltar | um ponto para agora + continue de onde parou | `selecao`, `leitura` | 🗓️ |
 | v1.0 | Leitor real | duas semanas de uso real, texto real, acessível | todos acima, ⟂ acessibilidade | 🗓️ |
 | v1.1 | Ponto do dia | o app acompanha sem cobrar | `selecao`, `lembrete`, `preferencias` | ⚪ |
@@ -62,16 +62,18 @@ de um texto colado na tela.
 | tema claro/escuro/sistema + tamanho de fonte, guardados no aparelho | `preferencias` | PREF-01..04 | ✅ |
 | tipografia editorial provisória (Literata) + tokens base com contraste AA | ⟂ design | TIPO-01..02 | ⚠️ *(TD-003)* |
 
-## v0.3 — Guardar 🗓️
+## v0.3 — Guardar ⚠️ · *(código fechado 2026-10-03; falta UAT no aparelho — TD-004; iOS — TD-005)*
 **Alvo:** o leitor guarda, num ponto, o que ele provocou — e encontra de novo.
+**Spec e verificação:** `.specs/features/guardar/` (spec, design, tasks, `validation.md` — PASS na rodada 1).
 
 | Feature | Domínio | Slice | Status |
 |---------|---------|-------|--------|
-| reflexão: criar, editar, excluir, data e hora visíveis — **cifrada desde o primeiro byte** | `registro` | — | ⚪ |
-| favorito | `registro` | — | ⚪ |
-| coleção pessoal: um ponto em várias | `registro` | — | ⚪ |
-| coleções sugeridas no primeiro uso, recusáveis | `registro` | — | ⚪ |
-| reflexões e coleções do ponto exibidas na própria página | `registro` | — | ⚪ |
+| registro cifrado no aparelho: drift + sqlite3mc, chave no Keystore, fora do backup — [ADR-002](adr/002-registro-cifrado-chave-no-keystore.md) | `— infra` | CIFRA-01..05 | ✅ |
+| reflexão: criar, editar, excluir, data e hora visíveis — **cifrada desde o primeiro byte** | `registro` | REF-01..08 | ✅ |
+| favorito + lista de favoritos | `registro` | FAV-01..02 | ✅ |
+| coleção pessoal: um ponto em várias; renomear e excluir | `registro` | COL-01..07 | ✅ |
+| coleções sugeridas no primeiro contato, recusáveis | `registro` | SUG-01..03 | ✅ |
+| reflexões e coleções do ponto exibidas na própria página | `registro` | PAG-01..02 | ✅ |
 
 ## v0.4 — Voltar 🗓️
 **Alvo:** abrir o app sem saber por onde começar e chegar num ponto em um toque.
@@ -129,7 +131,9 @@ API do motor, segunda coleção (v3.0). Pool completo em [`backlog.md`](backlog.
 | TD-001 | v0.1 dado mock | open | antes de qualquer build fora do aparelho do Gustavo — `--estrito` precisa passar |
 | TD-002 | `livros/caminho.json` caps. 17–18 sem corte confirmado | open | com o livro impresso na mão (v1.0) |
 | TD-003 | v0.2 contraste testado só nos tokens | open | auditoria de acessibilidade (gate da v1.0) |
-| TD-004 | v0.1/v0.2 nunca rodou num aparelho real | open | próxima sessão com Android conectado |
+| TD-004 | v0.1–v0.3 nunca rodou num aparelho real (inclui abrir o registro no Keystore) | open | próxima sessão com Android conectado |
+| TD-005 | v0.3 registro sem configuração nem teste no iOS | open | pipeline de iOS, antes do primeiro TestFlight |
+| TD-006 | v0.3 `drift_dev`/`sqlite3` presos pela versão do Flutter | open | próximo upgrade do Flutter |
 
 Detalhe de cada débito: [`.specs/TECH-DEBT.md`](../.specs/TECH-DEBT.md).
 
@@ -148,7 +152,8 @@ Detalhe de cada débito: [`.specs/TECH-DEBT.md`](../.specs/TECH-DEBT.md).
 |-------|----------|
 | **Direitos autorais** — as três obras não são de domínio público | Desenvolvimento só com mock; `--estrito` impede publicar mock. Distribuição pública do texto real exige licença — decidir antes de qualquer build fora do círculo de teste. |
 | Sensibilidade das reflexões | Cifradas desde a v0.3; nenhuma telemetria de conteúdo. |
-| Migrar de banco em claro para cifrado depois | drift + `sqlite3mc` desde o primeiro registro (v0.3) — ADR-001. |
+| Migrar de banco em claro para cifrado depois | Resolvido: o registro nasceu cifrado na v0.3 (ADR-001, ADR-002). |
+| Perder a chave do registro (cofre corrompido, troca de aparelho) | O app avisa e nunca apaga nem sobrescreve o arquivo (ADR-002); recuperação só com conta/exportação (v2.0). |
 | Virar "mais um app de citações" | v0.3 (guardar) vem antes de qualquer feature de volume. |
 | Gamificação pela porta dos fundos | Regra de domínio em `leitura`; ver "Fora de escopo". |
 

@@ -49,14 +49,17 @@ pro spec* · *Dívida técnica*. Só aparecem as faixas com conteúdo.
 - **Guarda-corpo:** nenhum streak, meta ou "dias seguidos" (regra 4).
 
 ### registro
-- **Amadurecer:** reflexão cifrada (v0.3) ⚪ · favorito (v0.3) ⚪ · coleção pessoal (v0.3) ⚪ ·
-  coleções sugeridas recusáveis (v0.3) ⚪ · reflexões do ponto na própria página (v0.3) ⚪.
+- **Amadurecer:** reflexão cifrada (v0.3) ✅ · favorito (v0.3) ✅ · coleção pessoal, renomear e
+  excluir (v0.3) ✅ · coleções sugeridas recusáveis (v0.3) ✅ · reflexões e coleções do ponto na
+  própria página (v0.3) ✅.
 - **Novo / Visão:** linha do tempo de reflexões (v2.0) 💤 · "você escreveu sobre este ponto há um
   ano", só ao abrir o ponto (v2.0) 💤 · releitura por período/obra/coleção (v2.0) 💤 · exportação
-  Markdown/PDF/texto (v2.0) 💤 · compartilhar coleção = só `PontoId[]` (v3.0) 💤.
-- **Decisão ao puxar pro spec:** "reflexão" e "anotação" são o mesmo objeto? O
-  [`modelo.md`](modelo.md) §6 usa os dois — escolher **um** termo de código.
-  · Formato de exportação (v2.0) — condiciona a promessa de portabilidade.
+  Markdown/PDF/texto (v2.0) 💤 · compartilhar coleção = só `PontoId[]` (v3.0) 💤 · marcador na
+  lista de pontos de um capítulo (tem reflexão, é favorito) · reordenar coleções e os pontos dentro
+  delas · sugestão única "Se algo aqui ficou, escreva" depois do primeiro ponto (`tom-de-voz.md` §3).
+- **Decisão ao puxar pro spec:** formato de exportação (v2.0) — condiciona a promessa de
+  portabilidade. *(Resolvida na v0.3: o termo de código é `Reflexao`; "anotação" é sinônimo só no
+  `modelo.md`.)*
 - **Guarda-corpo:** reflexão nunca sai daqui sem pedido explícito (regra 5).
 
 ## Suporte
@@ -85,10 +88,12 @@ pro spec* · *Dívida técnica*. Só aparecem as faixas com conteúdo.
 ## Genérico
 
 ### infra
-- **Amadurecer:** stack Flutter (v0.1) ✅ ADR-001 · banco drift + `sqlite3mc` desde a v0.3 · CI (v0.1) 🗓️ ·
+- **Amadurecer:** stack Flutter (v0.1) ✅ ADR-001 · banco drift + `sqlite3mc`, chave no Keystore,
+  fora do backup (v0.3) ✅ ADR-002 · CI (v0.1) 🗓️ — rodar os testes com um fuso fora de UTC fixado
+  (`TZ=America/Sao_Paulo`): o teste de data só pega a falta de `toLocal()` fora de UTC ·
   pipeline iOS na nuvem (Codemagic ou runner macOS) antes do primeiro TestFlight ⚪.
-- **Decisão ao puxar pro spec:** onde guardar a chave do banco (Keystore/Keychain via secure
-  storage) — decidir na v0.3 · CI: GitHub Actions ou Codemagic para tudo — **decisão macro**, RFD.
+- **Decisão ao puxar pro spec:** CI: GitHub Actions ou Codemagic para tudo — **decisão macro**, RFD.
+- **Dívida técnica:** TD-005 registro sem iOS · TD-006 `drift_dev`/`sqlite3` presos pelo Flutter.
 
 ---
 

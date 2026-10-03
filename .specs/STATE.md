@@ -79,11 +79,11 @@
 
 ## Handoff
 
-- **Feature**: `.specs/features/guardar` (v0.3) — Execute concluído; falta o Verifier
-- **Phase / Task**: T1–T21 feitos
-- **Completed**: T1–T21
+- **Feature**: `.specs/features/guardar` (v0.3) — **verificada** (Verifier PASS, rodada 1)
+- **Phase / Task**: Execute concluído (T1–T21 + F1–F8); consolidação nos docs feita
+- **Completed**: T1–T21, F1–F8
 - **In-progress** (file:line): none
-- **Next step**: Verifier independente (`validation.md`); depois consolidar roadmap/backlog/dominios e LESSONS
-- **Blockers**: nenhum aparelho/emulador nesta máquina (TD-004)
+- **Next step**: UAT num Android real (TD-004), incluindo abrir o registro no Keystore e medir a abertura; push de `main` e da branch; depois puxar v0.4 "Voltar" (`leitura`, `selecao`)
+- **Blockers**: nenhum aparelho/emulador nesta máquina; iOS sem Mac (TD-005)
 - **Uncommitted files**: none
 - **Branch**: `feat/v0.3-guardar` (sobre `main` local com a v0.2; nada enviado ao remoto)
