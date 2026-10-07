@@ -2,9 +2,11 @@
 
 **Date**: 2026-10-07
 **Spec**: `.specs/features/voltar/spec.md`
-**Diff range**: `25b2296..6d92a44` (branch `feat/v0.4-voltar`, 12 commits: fa96a9c … 6d92a44)
+**Diff range**: `25b2296..6d92a44` (branch `feat/v0.4-voltar`, 12 commits: fa96a9c … 6d92a44) · fixes: `f8a1317..553e766` (rodada 1), `342d5b1..cc8a550` (rodada 2), `aa93d03..79b1630` (rodada 3)
 **Verifier**: independent sub-agent (author ≠ verifier)
-**Verdict**: ❌ FAIL (rodada 2, a última permitida → **escalar ao usuário**). A rodada 2 (`342d5b1..cc8a550`, 2 commits só de teste) matou M45 e M49, e o gate passa (228, também com `TZ=UTC`). Na varredura final, 5 de 6 mutantes novos morreram. Sobrou **um gap Minor**: nenhum teste prova a janela de **10** pontos do continue (A12). Os limites 2, 9 e 11 passam pela suíte inteira (M64, M64b, M64c). O comportamento no HEAD está certo (sonda P9). Correção: 1 teste, ~5 min. Ou o usuário aceita como risco registrado. Ver "Rodada 2" no fim.
+**Verdict**: ✅ PASS (rodada 3, final). A rodada 3 (`aa93d03..79b1630`, 1 commit só de teste) fechou o último gap: a janela de 10 do continue (A12) agora é provada dos dois lados do limite, e os limites 2, 9 e 11 morrem. Todos os sobreviventes não equivalentes das rodadas 0–2 estão mortos (o M22 é equivalente). O gate passa: motor 64, app 230 no fuso padrão e com `TZ=UTC`, validador 6, APK gerado. Pendente fora do Verifier: UAT no aparelho (TD-004) das decisões marcadas "não — revisar/UAT".
+
+**Verdict da rodada 2**: ❌ FAIL (rodada 2; o pedido de escalar foi resolvido pela rodada 3, sem decisão pendente do usuário). A rodada 2 (`342d5b1..cc8a550`, 2 commits só de teste) matou M45 e M49, e o gate passa (228, também com `TZ=UTC`). Na varredura final, 5 de 6 mutantes novos morreram. Sobrou **um gap Minor**: nenhum teste prova a janela de **10** pontos do continue (A12). Os limites 2, 9 e 11 passam pela suíte inteira (M64, M64b, M64c). O comportamento no HEAD está certo (sonda P9). Correção: 1 teste, ~5 min. Ou o usuário aceita como risco registrado. Ver "Rodada 2" no fim.
 
 **Verdict da rodada 1**: ❌ FAIL. A rodada 1 (`f8a1317..553e766`, 7 commits só de teste) fechou **todos** os gaps da rodada 0: M14, M27, M31 (e `limite: 9`), M36 e M44 morrem, os edge cases 4 e 5 têm teste, o AD-004 está em dia e o gate passa (227). O sensor ampliado achou **2 sobreviventes novos**, ambos Minor e só de teste (~15 min): M45 (gravação em voo descarta toques rápidos, edge case 5) e M49 (o app passa os recentes em ordem invertida, AC-18 na tela). Ver "Rodada 1" no fim.
 
@@ -446,3 +448,44 @@ LEI-03 e AGORA-04 passam a ✅ Verified. **CONT-05** fica ⚠️ (A12, Fix 9). O
 **Sensor (rodada 2)**: 8/11 mortos. Sobrevivem M64, M64b e M64c (uma família).
 **Sensor acumulado**: rodada 0, 38/44 (1 equivalente); rodada 1, 8/10; rodada 2, 8/11. Todos os sobreviventes das rodadas 0 e 1 foram mortos.
 **Gate**: motor 64 ✅ · app 228 ✅ (UTC−3 e `TZ=UTC`) · validador 6 ✅ · APK ✅.
+
+---
+
+## Rodada 3 (re-verificação do diff do fix, final)
+
+**Date**: 2026-10-07 · **Diff range**: `aa93d03..79b1630` (1 commit, só `test/leitura/continue_de_onde_parou_test.dart`; `git diff --stat aa93d03..79b1630 -- apps/ponto_mobile/lib packages/ponto_motor/lib` vazio). Escopo: só o diff do fix, sem nova varredura.
+
+### Gate
+
+`bash -c 'set -o pipefail; …'` com o Build gate do `tasks.md`, na árvore real: `validar OK` · validador `Ran 6 tests … OK` · motor format "26 files (0 changed)", analyze "No issues found!", `+64: All tests passed!` · app format "78 files (0 changed)", analyze "No issues found! (ran in 2.6s)", `00:30 +230: All tests passed!` · `✓ Built build/app/outputs/flutter-apk/app-debug.apk` · `GATE EXIT=0`. Com `TZ=UTC`: `00:30 +230: All tests passed!`. App 228 → **230** (+2). Árvore real limpa depois.
+
+### Integridade do diff
+
+`expect(` em `leitura/continue_de_onde_parou_test.dart`: 32 → 34. Nenhuma linha removida no commit (só inserções). Nenhuma mudança em `lib/`.
+
+### Gap da rodada 2 → evidência nova
+
+| Gap | Fix | `file:line` + assertion (em `79b1630`) | Spec-anchored? | Mutante reinjetado (worktree novo em `79b1630`, suíte inteira) |
+| --- | --- | --- | --- | --- |
+| 9 · janela de 10 do continue (A12, com AC-13) | 79b1630 | `leitura/continue_de_onde_parou_test.dart:258-275`, dois casos `CONT-05`. B (Caminho 2) lido em sequência e depois **9** pontos inexistentes → "Continue de onde parou" e a referência de B `findsOneWidget` (`:271-272`). Depois de **10** inexistentes → os dois `findsNothing` | ✅ A12: "dentre os 10 últimos pontos distintos lidos em sequência, o mais recente que exista; se nenhum, some". Com 9 ausentes, B é o 10º e aparece. Com 10, B é o 11º e o continue some. AC-13: o ausente é pulado e o continue aponta para B | M64 (`limite: 2`) ✅ morto · M64b (`limite: 9`) ✅ morto · M64c (`limite: 11`) ✅ morto |
+
+Antes de rodar, conferi que cada mutante estava aplicado: `git diff --stat -- apps/ponto_mobile/lib` → "1 file changed, 1 insertion(+), 1 deletion(-)". Cada um rodou contra a suíte inteira (230). M64 e M64b falham em "behind 9 points … still finds …". M64c falha em "behind 10 points … no longer looks for …". Depois de cada um, `git checkout -- .` e `git status --porcelain` vazio. No fim, `git worktree remove --force`. Nunca `git stash`.
+
+### Requirement Traceability (final)
+
+| Requirement | Status |
+| --- | --- |
+| LEI-01 … LEI-08 | ✅ Verified (LEI-07: M22 equivalente, sem efeito observável com um passo de migração) |
+| CONT-01 … CONT-06 | ✅ Verified |
+| AGORA-01 … AGORA-06 | ✅ Verified |
+| INI-01 … INI-03 | ✅ Verified |
+| COMP-01 … COMP-03 | ✅ Verified |
+
+### Summary (final)
+
+**Overall**: ✅ Ready (do lado do Verifier).
+**Spec-anchored check**: 26/26 ACs com o resultado do spec afirmado; edge cases 6/6; A12 provado nos dois lados; 0 spec-precision gaps.
+**Sensor acumulado**: rodada 0, 38/44 (M22 equivalente); rodada 1, 8/10; rodada 2, 8/11; rodada 3, 3/3. **Todos os sobreviventes não equivalentes estão mortos**: M14, M27, M31, M36, M44, M45, M49, M64, M64b, M64c.
+**Gate**: motor 64 ✅ · app 230 ✅ (UTC−3 e `TZ=UTC`) · validador 6 ✅ · analyze e format limpos · APK ✅.
+**Riscos que ficam (registrados, sem fix)**: (1) o `transaction()` do `onUpgrade` só poderá ser provado quando a migração tiver 2+ passos (AD-011, L-007); (2) uma linha com PontoId estragado entre as 10 mais recentes ocupa um lugar da janela (`lib/leitura/leituras_repositorio.dart:74-77`). O app nunca grava uma linha assim.
+**Next steps**: UAT no aparelho (TD-004): A7–A13, A18, A19, A22, e "ler três pontos, fechar, reabrir → continue no terceiro". Depois, a reconciliação de fechamento (`roadmap.md`, `backlog.md`, `dominios.md`, `docs/LESSONS.md`).
