@@ -77,13 +77,29 @@
 - **Date**: 2026-10-02
 - **Status**: active
 
+### AD-010
+- **Decision**: Leitura é um log de eventos (`leituras`) no banco cifrado do registro; "mais recente" = maior `id` autoincremento (ordem de gravação), nunca `lidoEm`.
+- **Reason**: regra 4 (progresso derivado de eventos); o relógio do aparelho pode voltar, a ordem de gravação não. `AUTOINCREMENT` nunca reusa id.
+- **Trade-off**: consultas de "distintos mais recentes" agrupam o histórico inteiro (TD-007).
+- **Scope**: `apps/ponto_mobile/lib/leitura`, qualquer cálculo futuro de progresso (v1.3)
+- **Date**: 2026-10-07
+- **Status**: active
+
+### AD-011
+- **Decision**: Toda migração do registro roda dentro de `transaction()` no `onUpgrade` e é testada contra o schema anterior congelado (`test/registro/schema_vN.dart`, cópia do `sqlite_master` capturada antes da mudança), com duas provas: as linhas antigas sobrevivem e o schema migrado é igual ao de um banco novo.
+- **Reason**: o drift não envolve o `onUpgrade` numa transação; e, depois que o código muda, não há outro jeito de criar um arquivo "da versão anterior" para testar.
+- **Trade-off**: um arquivo de fixture por versão de schema.
+- **Scope**: `apps/ponto_mobile/lib/registro/banco_registro.dart`, toda subida de `schemaVersion`
+- **Date**: 2026-10-07
+- **Status**: active
+
 ## Handoff
 
-- **Feature**: `.specs/features/guardar` (v0.3) — **verificada** (Verifier PASS, rodada 1)
-- **Phase / Task**: Execute concluído (T1–T21 + F1–F8); consolidação nos docs feita
-- **Completed**: T1–T21, F1–F8
+- **Feature**: `.specs/features/voltar` (v0.4) — spec, design e tasks escritos
+- **Phase / Task**: Execute — T1 (motor: origens e continue)
+- **Completed**: Specify, Design, Tasks
 - **In-progress** (file:line): none
-- **Next step**: UAT num Android real (TD-004), incluindo abrir o registro no Keystore e medir a abertura; push de `main` e da branch; depois puxar v0.4 "Voltar" (`leitura`, `selecao`)
+- **Next step**: T1 → T10, depois o Verifier; UAT da v0.3 e da v0.4 no aparelho (TD-004)
 - **Blockers**: nenhum aparelho/emulador nesta máquina; iOS sem Mac (TD-005)
 - **Uncommitted files**: none
-- **Branch**: `feat/v0.3-guardar` (sobre `main` local com a v0.2; nada enviado ao remoto)
+- **Branch**: `feat/v0.4-voltar` (sobre `feat/v0.3-guardar`; nada enviado ao remoto)

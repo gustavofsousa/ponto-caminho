@@ -101,3 +101,18 @@ Format: `TD-NNN` · Status: `open | in-progress | resolved | wontfix`.
 
 **Revisit trigger:** próximo upgrade do Flutter.
 
+---
+
+## TD-007 — Consultas de leitura agrupam o histórico inteiro
+
+**Status:** open
+**Opened:** 2026-10-07
+**Origin:** feature `voltar` (v0.4) — continue e recentes pedem os pontos **distintos** mais recentes (`GROUP BY pontoId ORDER BY MAX(id)`), o que percorre todas as leituras (AD-010).
+
+**What to investigate / change:**
+1. Medir a abertura da home com 200 mil leituras sintéticas no aparelho.
+2. Se passar de ~100 ms: índice em `(pontoId, id)` ou uma tabela derivada "último id por ponto" mantida na gravação.
+
+**Impact if ignored:** a home demora mais a mostrar o continue depois de anos de uso (estimativa: 50 leituras/dia por 10 anos ≈ 180 mil linhas, dezenas de ms em isolate à parte).
+
+**Revisit trigger:** consultas de progresso da v1.3, ou UAT medindo a home acima de 100 ms.
