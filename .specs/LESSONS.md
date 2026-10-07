@@ -69,8 +69,8 @@ Seen once or not yet corroborated. Tracked, not trusted.
 ### L-010 — When the engine owns a rule, add one app-level test with enough data to prove the app passes the engine the rule's full input, such as the query limit.
 - signal: `surviving_mutant` · recurrence: 1 feature(s) · scope: `app` · harmful: 0
 - features: voltar
-- evidence: apps/ponto_mobile/lib/selecao/um_ponto_para_agora.dart:94 (M31, AC-16) (app)
-- last seen: 2026-10-07T17:54:07Z
+- evidence: apps/ponto_mobile/lib/selecao/um_ponto_para_agora.dart:94 (M31, AC-16) (app) (+1 more)
+- last seen: 2026-10-07T18:17:23Z
 
 ### L-011 — When a page changes the shown item in place, test each action that depends on the shown item after a change, not only on first open.
 - signal: `surviving_mutant` · recurrence: 1 feature(s) · scope: `app` · harmful: 0
@@ -95,6 +95,12 @@ Seen once or not yet corroborated. Tracked, not trusted.
 - features: voltar
 - evidence: apps/ponto_mobile/test/leitura/leitura_na_pagina_test.dart:133-134 (edge case 5) (app)
 - last seen: 2026-10-07T17:54:08Z
+
+### L-015 — To prove writes keep pace with quick actions, slow each write in the test, for example with a delaying query interceptor, because an in-memory database finishes before the next frame.
+- signal: `surviving_mutant` · recurrence: 1 feature(s) · scope: `app` · harmful: 0
+- features: voltar
+- evidence: apps/ponto_mobile/lib/colecao/ponto_page.dart:114-117 (M45, edge case 5, round 1) (app)
+- last seen: 2026-10-07T18:17:23Z
 
 ## Quarantined (failed when applied — ignore)
 

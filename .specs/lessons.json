@@ -3,7 +3,7 @@
   "promote_threshold": 2,
   "window_days": 45,
   "quarantine_threshold": 2,
-  "next_id": 15,
+  "next_id": 16,
   "lessons": [
     {
       "id": "L-001",
@@ -186,10 +186,11 @@
       "recurrence": 1,
       "harmful": 0,
       "evidence": [
-        "apps/ponto_mobile/lib/selecao/um_ponto_para_agora.dart:94 (M31, AC-16) (app)"
+        "apps/ponto_mobile/lib/selecao/um_ponto_para_agora.dart:94 (M31, AC-16) (app)",
+        "apps/ponto_mobile/lib/selecao/um_ponto_para_agora.dart:74 (M49, AC-18, round 1) (app)"
       ],
       "created": "2026-10-07T17:54:07Z",
-      "last_seen": "2026-10-07T17:54:07Z"
+      "last_seen": "2026-10-07T18:17:23Z"
     },
     {
       "id": "L-011",
@@ -262,6 +263,24 @@
       ],
       "created": "2026-10-07T17:54:08Z",
       "last_seen": "2026-10-07T17:54:08Z"
+    },
+    {
+      "id": "L-015",
+      "key": "surviving_mutant::to prove writes keep pace with quick actions slow each write in the test for example with a delaying query interceptor because an in memory database finishes before the next frame",
+      "text": "To prove writes keep pace with quick actions, slow each write in the test, for example with a delaying query interceptor, because an in-memory database finishes before the next frame.",
+      "signal": "surviving_mutant",
+      "scope": "app",
+      "status": "candidate",
+      "features": [
+        "voltar"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "apps/ponto_mobile/lib/colecao/ponto_page.dart:114-117 (M45, edge case 5, round 1) (app)"
+      ],
+      "created": "2026-10-07T18:17:23Z",
+      "last_seen": "2026-10-07T18:17:23Z"
     }
   ]
 }

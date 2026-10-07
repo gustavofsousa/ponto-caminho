@@ -4,7 +4,9 @@
 **Spec**: `.specs/features/voltar/spec.md`
 **Diff range**: `25b2296..6d92a44` (branch `feat/v0.4-voltar`, 12 commits: fa96a9c … 6d92a44)
 **Verifier**: independent sub-agent (author ≠ verifier)
-**Verdict**: ❌ FAIL (rodada 0). O comportamento está certo no HEAD: o gate passa, as 26 ACs têm o resultado do spec afirmado e as 6 sondas passam. Mas **5 mutantes não equivalentes sobreviveram à suíte inteira** (M14, M27, M31, M36, M44). Também ficaram parciais o AC-09 ("abaixo") e os edge cases 4 e 5. Todas as correções são só de teste (~35 min no total). Ver "Fix Plans".
+**Verdict**: ❌ FAIL (rodada 1). A rodada 1 (`f8a1317..553e766`, 7 commits só de teste) fechou **todos** os gaps da rodada 0: M14, M27, M31 (e `limite: 9`), M36 e M44 morrem, os edge cases 4 e 5 têm teste, o AD-004 está em dia e o gate passa (227). O sensor ampliado achou **2 sobreviventes novos**, ambos Minor e só de teste (~15 min): M45 (gravação em voo descarta toques rápidos, edge case 5) e M49 (o app passa os recentes em ordem invertida, AC-18 na tela). Ver "Rodada 1" no fim.
+
+**Verdict da rodada 0**: ❌ FAIL. O comportamento está certo no HEAD: o gate passa, as 26 ACs têm o resultado do spec afirmado e as 6 sondas passam. Mas **5 mutantes não equivalentes sobreviveram à suíte inteira** (M14, M27, M31, M36, M44). Também ficaram parciais o AC-09 ("abaixo") e os edge cases 4 e 5. Todas as correções são só de teste (~35 min no total). Ver "Fix Plans".
 
 ---
 
@@ -283,3 +285,85 @@ Todos só de teste. O código do HEAD está certo (P1–P6 passam). Total ≈ 35
 **Issues found**: Fix 1–6 acima (~35 min, só testes).
 
 **Next steps**: aplicar Fix 1–6 → re-verificar (rodada 1: reaplicar M14, M27, M31, M36, M44 e o gate) → UAT no aparelho (TD-004) com as decisões A7–A22 marcadas "não".
+
+---
+
+## Rodada 1 (re-verificação com escopo)
+
+**Date**: 2026-10-07 · **Diff range**: `f8a1317..553e766` (7 commits, só `test/`; `git diff --stat f8a1317..553e766 -- apps/ponto_mobile/lib packages/ponto_motor/lib` vazio)
+
+### Gate
+
+`bash -c 'set -o pipefail; …'` com o Build gate do `tasks.md`, na árvore real: `validar OK` · validador `Ran 6 tests … OK` · motor format "26 files (0 changed)", analyze "No issues found!", `+64: All tests passed!` · app format "78 files (0 changed)", analyze "No issues found!", `00:38 +227: All tests passed!` · `✓ Built build/app/outputs/flutter-apk/app-debug.apk` · `GATE EXIT=0`. A suíte do app também rodou com `TZ=UTC`: `+227: All tests passed!`. O fuso padrão da máquina é UTC−3 (America/Sao_Paulo). Contagem: motor 64 (só renomes) · app 222 → **227** (+5). Árvore real limpa depois.
+
+### Integridade do diff
+
+- `expect(` por arquivo só cresceu: compartilhar 16→18, continue 29→32, página 20→22, repositório 18→20, aleatório 31→33, motor 11→11
+- As únicas linhas removidas são os três testes renomeados (F7). Eles voltam com as **mesmas** asserções, só com a quebra de linha do formatador
+- Nenhuma mudança em `lib/`
+
+### Gaps da rodada 0 → evidência nova
+
+| Gap | Fix | `file:line` + assertion (em `553e766`) | Spec-anchored? | Mutante reinjetado (worktree novo, suíte inteira) |
+| --- | --- | --- | --- | --- |
+| 1 · AC-16 na tela | feeea96 | `selecao/um_ponto_para_agora_test.dart:127-181`: 12 pontos, lidos 1…11 → `fonte.limites == [2]` (`:179`) e "Ponto 1." aberto (`:180`) | ✅ P1–P10 = pontos 11…2 de fora, P11 = ponto 1 sorteável; exatamente 10 excluídos de 12 | M31 (`limite: 1`) ✅ morto · M31b (`limite: 9`) ✅ morto |
+| 2 · AC-24 depois de Próximo | 0bb9e9c | `colecao/compartilhar_test.dart:81-94`: topo "…Oração, ponto 81" e `compartilhados == ['Caminho, capítulo Oração, ponto 81']` (`:92`) | ✅ "exatamente a referência mostrada no topo" | M36 ✅ morto |
+| 3 · AC-09 "abaixo" | a01b505 | `leitura/continue_de_onde_parou_test.dart:84-88`: `dy(referência) > dy(rótulo)` | ✅ | M27 ✅ morto |
+| 4 · AC-01 UTC | 44f2801 | `leitura/leituras_repositorio_test.dart:47-56`: relógio local `DateTime(2026,10,7,6,15)` → `isUtc` (`:54`) e `== local.toUtc()` (`:55`) | ✅ mesmo instante, gravado em UTC | M14 ✅ morto no fuso padrão (UTC−3) **e** com `TZ=UTC` |
+| 5 · edge case 4 no continue | cbd69f1 | `leitura/continue_de_onde_parou_test.dart:102-147`: capítulo `titulo: null` → "Continue de onde parou" e `'Caminho, ponto 390'` (`:145`) | ✅ igual ao topo da página | M44 ✅ morto |
+| 6 · edge case 5 | 5ad7377 | `leitura/leitura_na_pagina_test.dart:144-165`: 3× Próximo com só `pump()` entre os toques (`:151`, `:153`) → 4 leituras em ordem (`:158-164`) | ⚠️ parcial: prova a ordem, mas a gravação em memória termina dentro do quadro, então descartar uma gravação "em voo" passa (M45, abaixo) | — |
+| AD-004 | 553e766 | `CONT-01: the order is …` (`leitura/leituras_repositorio_test.dart:96`), `CONT-05: a reading with a broken point id …`, motor `AGORA-04: a single-point work …` | ✅ todos os nomes do diff começam com o ID | — |
+
+### Sensor da rodada 1
+
+Worktree novo em `553e766` (`git worktree add --detach …/verificar-voltar-r1 553e766`; baseline `+227: All tests passed!`). Uma mutação por vez, por substituição exata. Cada mutante rodou contra a **suíte inteira do app**. Depois de cada um: `git checkout -- .` e `git status --porcelain` vazio. No fim, `git worktree remove --force`. Nunca `git stash`.
+
+| # | File:line | Description | Killed? |
+| --- | --- | --- | --- |
+| M31 | `lib/selecao/um_ponto_para_agora.dart:94` | `limite: 1` | ✅ AGORA-02 (home, 10 recentes) |
+| M31b | idem | `limite: 9` | ✅ AGORA-02 (home, 10 recentes) |
+| M36 | `lib/colecao/ponto_page.dart:64` | compartilha a referência do ponto inicial | ✅ COMP-01 (depois de Próximo) |
+| M27 | `lib/leitura/continue_de_onde_parou.dart:56-58` | título ↔ subtítulo | ✅ CONT-01 (abaixo) |
+| M14 | `lib/leitura/leituras_repositorio.dart:23` | sem `toUtc()`, fuso UTC−3 | ✅ LEI-01 (relógio local) |
+| M14-UTC | idem | sem `toUtc()`, `TZ=UTC` | ✅ LEI-01 (relógio local) |
+| M44 | `lib/leitura/continue_de_onde_parou.dart:58` | referência montada à mão, sem o ramo "sem capítulo" | ✅ CONT-01 (sem título) |
+| M45 *(novo)* | `lib/colecao/ponto_page.dart:114-117` | `_ir` ignora a gravação enquanto a anterior está em voo (um "anti-duplicata" de gravação) | ❌ **Survived** (227 passaram). P7 mata → Fix 7 |
+| M48 *(novo)* | `lib/selecao/um_ponto_para_agora.dart:94` | o aleatório usa a consulta "em sequência" como recentes | ✅ 7 testes (AGORA-01 ×2, AGORA-02 ×2, AGORA-05 …) |
+| M49 *(novo)* | `lib/selecao/um_ponto_para_agora.dart:74` | o app passa os recentes do mais antigo ao mais novo (`recentes.reversed`) | ❌ **Survived** (227 passaram). P8 mata → Fix 8 |
+
+**Result**: 8/10 mortos. Os 5 sobreviventes da rodada 0 (+ M31b, M14-UTC) morrem. Os 2 sobreviventes são novos: M45 e M49.
+
+### Sondas da rodada 1 (descartáveis, só no worktree)
+
+| # | Sonda | No HEAD | Mata |
+| --- | --- | --- | --- |
+| P7 | Banco em memória com `QueryInterceptor` que atrasa cada `INSERT` em 50 ms (como um arquivo cifrado num aparelho). Página no Caminho 1, 3× Próximo só com `pump()` e depois `pump(1 s)` → leituras `[1, 2, 81, 82]` | ✅ passa | M45 (só `[1, 2]`) |
+| P8 | Home; lidos 81, 1, 82, 2 (toda a obra Caminho na janela); filtro "Caminho"; `_FonteFixa(0)` → `limites == [1]` e abre o 81 (o lido há mais tempo) | ✅ passa | M49 (abre o 2, o último lido, que é o Must-not do AC-18) |
+
+### Fix Plans (rodada 1)
+
+#### Fix 7: edge case 5 com gravação lenta (M45)
+
+- **Root cause**: no banco em memória, a gravação termina antes do próximo quadro. O teste de toques rápidos (`leitura/leitura_na_pagina_test.dart:144-165`) não distingue "gravar cada ponto" de "pular a gravação enquanto outra está em voo".
+- **Fix task**: no mesmo arquivo, variante do LEI-03 com `BancoRegistro(NativeDatabase.memory().interceptWith(<interceptor que faz await Future.delayed(50 ms) em runInsert>))`. Fazer 3× Próximo com `pump()`, depois `pump(const Duration(seconds: 1))`, e afirmar a lista exata de leituras (sonda P7).
+- **Verify**: reaplicar M45 em `lib/colecao/ponto_page.dart:114-117` → falha com `[1, 2]`.
+- **Priority**: Minor · ~10 min
+
+#### Fix 8: AC-18 na tela: a ordem dos recentes que o app passa ao motor (M49)
+
+- **Root cause**: F1 provou o **limite** da consulta, mas não a **ordem**. A janela só encolhe pelo lado certo se o app passar os recentes do mais novo ao mais antigo.
+- **Fix task**: em `selecao/um_ponto_para_agora_test.dart`, `'AGORA-04: a work fully within the window gives its oldest read point'`. Ler 81, 1, 82, 2; escolher "Caminho"; tocar "Um ponto para agora" com `_FonteFixa(0)`; afirmar `limites == [1]` e "Primeiro ponto da oração." aberto (sonda P8).
+- **Verify**: reaplicar M49 (`lib/selecao/um_ponto_para_agora.dart:74`, `recentes.reversed`) → falha.
+- **Priority**: Minor · ~5 min
+
+### Requirement Traceability (rodada 1)
+
+LEI-01, CONT-01, AGORA-02 e COMP-01 passam a ✅ Verified. Ficam ⚠️ **LEI-03** (Fix 7) e **AGORA-04** (Fix 8). O resto segue ✅ Verified. M22 continua equivalente.
+
+### Summary (rodada 1)
+
+**Overall**: ❌ Not Ready por 2 testes Minor (~15 min). Comportamento certo no HEAD (P7, P8). Todos os gaps da rodada 0 estão fechados e provados.
+**Spec-anchored check**: 26/26 ACs com o resultado do spec afirmado. Edge case 5 parcial (M45). 0 spec-precision gaps.
+**Sensor (rodada 1)**: 8/10 mortos. Sobreviventes novos: M45, M49.
+**Gate**: motor 64 ✅ · app 227 ✅ (UTC−3 e `TZ=UTC`) · validador 6 ✅ · APK ✅.
+**Next steps**: Fix 7 + Fix 8 → rodada 2 (reaplicar M45, M49 e o gate). É a 2ª de no máximo 3 iterações. Se o usuário preferir, os dois podem ser aceitos como risco registrado: nenhum muda o comportamento atual.
