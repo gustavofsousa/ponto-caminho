@@ -99,6 +99,53 @@ void main() {
     },
   );
 
+  testWidgetsComRegistro(
+    'CONT-01: in a chapter with no title yet, continue shows the reference without it',
+    (tester) async {
+      final semTitulo = lerColecao(
+        {
+          'id': 'teste',
+          'titulo': 'Teste',
+          'versaoDados': '0.1.0',
+          'obras': ['caminho'],
+        },
+        {
+          'caminho': {
+            'id': 'caminho',
+            'obra': {'titulo': 'Caminho'},
+            'capitulos': [
+              {
+                'numero': 17,
+                'titulo': null,
+                'pontoInicial': 387,
+                'pontoFinal': null,
+              },
+            ],
+            'pontos': [
+              {
+                'numero': 390,
+                'capituloNumero': 17,
+                'ordem': 390,
+                'texto': 'Um ponto de capítulo sem título.',
+              },
+            ],
+          },
+        },
+      );
+      await ler(tester, [(idDe('caminho', 390), OrigemDaLeitura.biblioteca)]);
+
+      await montarTela(
+        tester,
+        InicioPage(colecao: semTitulo),
+        registro: registro,
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text(_continue), findsOneWidget);
+      expect(find.text('Caminho, ponto 390'), findsOneWidget);
+    },
+  );
+
   testWidgetsComRegistro('LEI-02: a point opened by continue says so', (
     tester,
   ) async {
