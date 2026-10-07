@@ -79,6 +79,21 @@ void main() {
   );
 
   testWidgetsComRegistro(
+    'COMP-01: after Próximo, it shares the point now shown',
+    (tester) async {
+      await abrir(tester, obterPonto(colecaoDeTeste, caminho2)!);
+      await tester.tap(find.text('Próximo'));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byTooltip(_botao));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Caminho, capítulo Oração, ponto 81'), findsOneWidget);
+      expect(compartilhados, ['Caminho, capítulo Oração, ponto 81']);
+    },
+  );
+
+  testWidgetsComRegistro(
     'COMP-01: a chapter with no title yet shares the reference without it',
     (tester) async {
       final semTitulo = lerColecao(
