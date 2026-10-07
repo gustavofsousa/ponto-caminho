@@ -1,4 +1,6 @@
-import 'package:drift/drift.dart' show OrderingTerm;
+import 'package:drift/drift.dart'
+    show OrderingTerm, QueryExecutor, QueryInterceptor, ApplyInterceptor;
+import 'package:drift/native.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ponto_mobile/colecao/biblioteca_page.dart';
@@ -142,16 +144,21 @@ void main() {
   );
 
   testWidgetsComRegistro(
-    'LEI-03: quick Próximo taps record every point shown, in order',
+    'LEI-03: quick Próximo taps record every point shown, in order, even with slow writes',
     (tester) async {
+      banco = BancoRegistro(
+        NativeDatabase.memory().interceptWith(_GravacaoLenta()),
+      );
+      registro = Registro(banco, agora: relogio.call);
       await abrirPonto(tester, idDe('caminho', 1), OrigemDaLeitura.biblioteca);
 
-      // Um quadro entre os toques — sem esperar a gravação nem a tela assentar.
+      // Um quadro entre os toques: a gravação anterior ainda está em curso.
       await tester.tap(find.text('Próximo'));
       await tester.pump();
       await tester.tap(find.text('Próximo'));
       await tester.pump();
       await tester.tap(find.text('Próximo'));
+      await tester.pump(const Duration(milliseconds: 500));
       await tester.pumpAndSettle();
 
       expect(find.text('Segundo ponto da oração.'), findsOneWidget);
@@ -286,4 +293,18 @@ void main() {
       expect(valor, isNot(contains(caminho2.toString())));
     }
   });
+}
+
+/// Cada INSERT leva 50 ms, como num arquivo cifrado de verdade: a gravação
+/// anterior ainda não terminou quando o próximo toque chega.
+final class _GravacaoLenta extends QueryInterceptor {
+  @override
+  Future<int> runInsert(
+    QueryExecutor executor,
+    String statement,
+    List<Object?> args,
+  ) async {
+    await Future<void>.delayed(const Duration(milliseconds: 50));
+    return executor.runInsert(statement, args);
+  }
 }
