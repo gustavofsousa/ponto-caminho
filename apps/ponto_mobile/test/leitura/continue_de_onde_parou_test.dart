@@ -255,6 +255,25 @@ void main() {
     },
   );
 
+  for (final (sumidos, aparece) in [(9, true), (10, false)]) {
+    testWidgetsComRegistro(
+      'CONT-05: behind $sumidos points missing from the books, continue '
+      '${aparece ? 'still finds' : 'no longer looks for'} the last one that exists',
+      (tester) async {
+        // Continue olha os 10 últimos pontos distintos lidos em sequência (A12).
+        await ler(tester, [
+          (caminho2, OrigemDaLeitura.biblioteca),
+          for (var n = 1; n <= sumidos; n++)
+            (idDe('caminho', 900 + n), OrigemDaLeitura.biblioteca),
+        ]);
+        await abrirInicio(tester, com: registro);
+
+        expect(find.text(_continue), aparece ? findsOneWidget : findsNothing);
+        expect(find.text(referencia2), aparece ? findsOneWidget : findsNothing);
+      },
+    );
+  }
+
   testWidgets('CONT-06: without a registro, continue is gone with no warning', (
     tester,
   ) async {
