@@ -10,4 +10,5 @@ export 'src/leitura/leitura.dart';
 export 'src/registro/colecao_pessoal.dart';
 export 'src/registro/reflexao.dart';
 export 'src/selecao/obter_ponto.dart';
+export 'src/selecao/ponto_aleatorio.dart';
 export 'src/selecao/sequencia.dart';
