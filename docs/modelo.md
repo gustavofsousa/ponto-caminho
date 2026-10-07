@@ -145,7 +145,7 @@ O coração reutilizável. Recebe uma coleção e responde a um conjunto pequeno
 | Operação | Descrição |
 | --- | --- |
 | `obterPonto(id)` | Um ponto por ID. |
-| `pontoAleatorio(filtro?)` | "Um ponto para agora". Filtrável por obra, capítulo ou tema. |
+| `pontoAleatorio(filtro?)` | "Um ponto para agora". Filtrável por obra (v0.4); capítulo e tema estão no backlog. |
 | `pontoDoDia(data, preferencias)` | Determinístico: a mesma data e as mesmas preferências devolvem sempre o mesmo ponto. |
 | `proximoPonto(id)` / `pontoAnterior(id)` | Sequência de leitura, atravessando fronteiras de capítulo. |
 | `buscar(consulta, filtros)` | Busca textual sobre conteúdo autorizado. |
@@ -153,6 +153,8 @@ O coração reutilizável. Recebe uma coleção e responde a um conjunto pequeno
 **Sobre o ponto aleatório.** O objetivo não é gamificar a espiritualidade. É reduzir a fricção de
 um encontro breve com um texto quando a pessoa não sabe por onde começar. O motor evita repetir
 pontos lidos recentemente — não porque "já valeu", mas porque a surpresa é o que dá valor à ação.
+"Recentemente" são os **10 últimos pontos distintos** lidos, por qualquer caminho; quando a obra
+escolhida não tem ponto fora deles, a janela encolhe a partir dos mais antigos até sobrar um.
 
 **Sobre o ponto do dia.** Determinístico por `(data, semente do usuário, preferências)`. Duas
 consequências desejadas: o ponto não muda se o app for reaberto no mesmo dia, e o histórico pode ser
@@ -181,9 +183,13 @@ Evento: este ponto foi lido, neste momento.
 | --- | --- |
 | `pontoId` | PontoId |
 | `lidoEm` | timestamp |
-| `origem` | `biblioteca` · `ponto-do-dia` · `aleatorio` · `busca` · `colecao` |
+| `origem` | `biblioteca` · `continuacao` · `aleatorio` · `favoritos` · `colecao` (v0.4) — `pontoDoDia` e `busca` entram com a v1.1 e a v1.2 |
 
 A `origem` existe para entender como as pessoas efetivamente chegam ao texto — não para pontuá-las.
+Anterior/Próximo contam como `biblioteca`: quem segue adiante está lendo os livros em ordem.
+
+**Leitura em sequência** é a de origem `biblioteca` ou `continuacao` — o fio dos livros. Abrir um
+ponto pelo aleatório, por um favorito ou por uma coleção é um desvio: não muda o lugar do leitor.
 
 ### Progresso
 
@@ -192,7 +198,8 @@ Derivado das leituras, nunca escrito à mão:
 - **Progresso de capítulo** — pontos lidos / total do capítulo.
 - **Progresso de obra** — capítulos concluídos / total.
 - **Estado do capítulo** — `não iniciado` · `em leitura` · `concluído`.
-- **Última leitura** — o ponto para o qual "Continue de onde parou" aponta.
+- **Última leitura em sequência** — o ponto para o qual "Continue de onde parou" aponta: o mais
+  recente que ainda existe na coleção, pela ordem de gravação (não pelo relógio do aparelho).
 
 > O progresso é mostrado com discrição. É informação para quem quiser, não cobrança para quem não quiser.
 

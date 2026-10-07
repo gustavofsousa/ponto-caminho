@@ -30,6 +30,7 @@ Dart puro**, sem Flutter nem I/O, com uma pasta por domínio; o app só orquestr
 ```
 packages/ponto_motor/lib/src/<dominio>/  ← colecao, selecao, leitura, registro (lógica pura)
 apps/ponto_mobile/lib/<dominio>/         ← telas + I/O (assets, banco, notificação) por domínio
+apps/ponto_mobile/lib/inicio_page.dart   ← tela inicial: compõe domínios, não é domínio
 livros/                                  ← dado de conteúdo; o app o empacota via symlink
 ```
 
@@ -92,7 +93,7 @@ TRANSVERSAL       acessibilidade · privacidade · design/tipografia · tom de v
 | Domínio | Papel | Código (atual → alvo) | Linguagem que possui |
 | --- | --- | --- | --- |
 | **colecao** | carregar e expor o corpus versionado | `livros/` + `ponto_motor/lib/src/colecao/` (fronteira, carregamento, índice) + telas em `ponto_mobile/lib/colecao/` ✅ | Colecao · Obra · Capitulo · Ponto · Tema · PontoId · Referencia · versaoDados |
-| **selecao** | decidir qual ponto mostrar | `ponto_motor/lib/src/selecao/` (`obterPonto`, `proximoPonto`, `pontoAnterior`) ✅ | obterPonto · proximo/anterior · um ponto para agora · ponto do dia · semente |
+| **selecao** | decidir qual ponto mostrar | `ponto_motor/lib/src/selecao/` (`obterPonto`, `proximoPonto`, `pontoAnterior`, `pontoAleatorio`) + `ponto_mobile/lib/selecao/` (um ponto para agora na tela inicial) ✅ (v0.4) | obterPonto · proximo/anterior · um ponto para agora · ponto do dia · semente |
 
 ## Core · Memória
 
@@ -100,7 +101,7 @@ TRANSVERSAL       acessibilidade · privacidade · design/tipografia · tom de v
 
 | Domínio | Papel | Código (atual → alvo) | Linguagem que possui |
 | --- | --- | --- | --- |
-| **leitura** | o que foi lido, de onde veio, por onde retomar | — → `ponto_motor/lib/src/leitura/` | Leitura · origem · progresso · continue de onde parou · leituras recentes |
+| **leitura** | o que foi lido, de onde veio, por onde retomar | `ponto_motor/lib/src/leitura/` (`OrigemDaLeitura`, `pontoParaContinuar`) + `ponto_mobile/lib/leitura/` (tabela no banco cifrado do registro, repositório, continue na tela inicial) ✅ (v0.4) | Leitura · origem · progresso · continue de onde parou · leituras recentes |
 | **registro** | o que o leitor guardou | `ponto_motor/lib/src/registro/` (tipos, regra do texto e do nome) + `ponto_mobile/lib/registro/` (banco drift, repositórios, telas) ✅ (v0.3) | Reflexao · Favorito · ColecaoPessoal · coleções sugeridas |
 
 ## Suporte
