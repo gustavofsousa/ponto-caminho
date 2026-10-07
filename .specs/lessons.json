@@ -3,7 +3,7 @@
   "promote_threshold": 2,
   "window_days": 45,
   "quarantine_threshold": 2,
-  "next_id": 10,
+  "next_id": 15,
   "lessons": [
     {
       "id": "L-001",
@@ -53,13 +53,13 @@
         "guardar"
       ],
       "recurrence": 2,
-      "harmful": 0,
+      "harmful": 1,
       "evidence": [
         "apps/ponto_mobile/test/colecao/capitulo_page_test.dart:48-55 (AC-10) (app)",
         "apps/ponto_mobile/test/registro/colecoes_test.dart:289-314 (AC-27) (app)"
       ],
       "created": "2026-10-02T17:33:00Z",
-      "last_seen": "2026-10-02T19:53:06Z"
+      "last_seen": "2026-10-07T17:54:08Z"
     },
     {
       "id": "L-004",
@@ -141,17 +141,19 @@
       "text": "When an edge case applies to every screen that renders saved data, test it on each of those screens.",
       "signal": "surviving_mutant",
       "scope": "app",
-      "status": "candidate",
+      "status": "confirmed",
       "features": [
-        "guardar"
+        "guardar",
+        "voltar"
       ],
-      "recurrence": 1,
+      "recurrence": 2,
       "harmful": 0,
       "evidence": [
-        "apps/ponto_mobile/lib/registro/colecoes_page.dart:87 (M47, edge case A14) (app)"
+        "apps/ponto_mobile/lib/registro/colecoes_page.dart:87 (M47, edge case A14) (app)",
+        "apps/ponto_mobile/lib/leitura/continue_de_onde_parou.dart:58 (M44, edge case 4) (app)"
       ],
       "created": "2026-10-02T19:53:06Z",
-      "last_seen": "2026-10-02T19:53:06Z"
+      "last_seen": "2026-10-07T17:54:08Z"
     },
     {
       "id": "L-009",
@@ -170,6 +172,96 @@
       ],
       "created": "2026-10-02T19:53:06Z",
       "last_seen": "2026-10-02T19:53:06Z"
+    },
+    {
+      "id": "L-010",
+      "key": "surviving_mutant::when the engine owns a rule add one app level test with enough data to prove the app passes the engine the rule s full input such as the query limit",
+      "text": "When the engine owns a rule, add one app-level test with enough data to prove the app passes the engine the rule's full input, such as the query limit.",
+      "signal": "surviving_mutant",
+      "scope": "app",
+      "status": "candidate",
+      "features": [
+        "voltar"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "apps/ponto_mobile/lib/selecao/um_ponto_para_agora.dart:94 (M31, AC-16) (app)"
+      ],
+      "created": "2026-10-07T17:54:07Z",
+      "last_seen": "2026-10-07T17:54:07Z"
+    },
+    {
+      "id": "L-011",
+      "key": "surviving_mutant::when a page changes the shown item in place test each action that depends on the shown item after a change not only on first open",
+      "text": "When a page changes the shown item in place, test each action that depends on the shown item after a change, not only on first open.",
+      "signal": "surviving_mutant",
+      "scope": "app",
+      "status": "candidate",
+      "features": [
+        "voltar"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "apps/ponto_mobile/lib/colecao/ponto_page.dart:64 (M36, AC-24) (app)"
+      ],
+      "created": "2026-10-07T17:54:07Z",
+      "last_seen": "2026-10-07T17:54:07Z"
+    },
+    {
+      "id": "L-012",
+      "key": "surviving_mutant::assert relational words in an expected outcome such as below or before by comparing on screen positions",
+      "text": "Assert relational words in an expected outcome, such as below or before, by comparing on-screen positions.",
+      "signal": "surviving_mutant",
+      "scope": "app",
+      "status": "candidate",
+      "features": [
+        "voltar"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "apps/ponto_mobile/lib/leitura/continue_de_onde_parou.dart:56-58 (M27, AC-09) (app)"
+      ],
+      "created": "2026-10-07T17:54:08Z",
+      "last_seen": "2026-10-07T17:54:08Z"
+    },
+    {
+      "id": "L-013",
+      "key": "surviving_mutant::drive time zone conversion code with a local non utc clock in at least one test because a utc test clock hides the conversion",
+      "text": "Drive time-zone conversion code with a local, non-UTC clock in at least one test, because a UTC test clock hides the conversion.",
+      "signal": "surviving_mutant",
+      "scope": "app",
+      "status": "candidate",
+      "features": [
+        "voltar"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "apps/ponto_mobile/lib/leitura/leituras_repositorio.dart:23 (M14, AC-01) (app)"
+      ],
+      "created": "2026-10-07T17:54:08Z",
+      "last_seen": "2026-10-07T17:54:08Z"
+    },
+    {
+      "id": "L-014",
+      "key": "ac_gap::when an edge case says an action repeats quickly drive it without settling between actions",
+      "text": "When an edge case says an action repeats quickly, drive it without settling between actions.",
+      "signal": "ac_gap",
+      "scope": "app",
+      "status": "candidate",
+      "features": [
+        "voltar"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "apps/ponto_mobile/test/leitura/leitura_na_pagina_test.dart:133-134 (edge case 5) (app)"
+      ],
+      "created": "2026-10-07T17:54:08Z",
+      "last_seen": "2026-10-07T17:54:08Z"
     }
   ]
 }

@@ -9,10 +9,16 @@
 Corroborated across multiple features. Safe to apply as guidance.
 
 ### L-003 — When an AC's expected outcome lists several observable parts, assert each part, not only the most identifying one.
-- signal: `ac_gap` · recurrence: 2 feature(s) · scope: `app` · harmful: 0
+- signal: `ac_gap` · recurrence: 2 feature(s) · scope: `app` · harmful: 1
 - features: ler, guardar
 - evidence: apps/ponto_mobile/test/colecao/capitulo_page_test.dart:48-55 (AC-10) (app) (+1 more)
-- last seen: 2026-10-02T19:53:06Z
+- last seen: 2026-10-07T17:54:08Z
+
+### L-008 — When an edge case applies to every screen that renders saved data, test it on each of those screens.
+- signal: `surviving_mutant` · recurrence: 2 feature(s) · scope: `app` · harmful: 0
+- features: guardar, voltar
+- evidence: apps/ponto_mobile/lib/registro/colecoes_page.dart:87 (M47, edge case A14) (app) (+1 more)
+- last seen: 2026-10-07T17:54:08Z
 
 ## Candidates (under observation — do NOT load as guidance yet)
 
@@ -54,17 +60,41 @@ Seen once or not yet corroborated. Tracked, not trusted.
 - evidence: apps/ponto_mobile/lib/registro/colecoes_repositorio.dart:32-37 (M29, AC-16) (app) (+1 more)
 - last seen: 2026-10-02T19:53:06Z
 
-### L-008 — When an edge case applies to every screen that renders saved data, test it on each of those screens.
-- signal: `surviving_mutant` · recurrence: 1 feature(s) · scope: `app` · harmful: 0
-- features: guardar
-- evidence: apps/ponto_mobile/lib/registro/colecoes_page.dart:87 (M47, edge case A14) (app)
-- last seen: 2026-10-02T19:53:06Z
-
 ### L-009 — Define an encryption-is-active outcome by something that differs between an encrypted and a plain file, such as a missing header or a wrong key failing, not by a pragma the library answers either way.
 - signal: `spec_precision_gap` · recurrence: 1 feature(s) · scope: `infra` · harmful: 0
 - features: guardar
 - evidence: AC-01 / apps/ponto_mobile/test/infra/banco_cifrado_test.dart:66-69 (P9) (infra)
 - last seen: 2026-10-02T19:53:06Z
+
+### L-010 — When the engine owns a rule, add one app-level test with enough data to prove the app passes the engine the rule's full input, such as the query limit.
+- signal: `surviving_mutant` · recurrence: 1 feature(s) · scope: `app` · harmful: 0
+- features: voltar
+- evidence: apps/ponto_mobile/lib/selecao/um_ponto_para_agora.dart:94 (M31, AC-16) (app)
+- last seen: 2026-10-07T17:54:07Z
+
+### L-011 — When a page changes the shown item in place, test each action that depends on the shown item after a change, not only on first open.
+- signal: `surviving_mutant` · recurrence: 1 feature(s) · scope: `app` · harmful: 0
+- features: voltar
+- evidence: apps/ponto_mobile/lib/colecao/ponto_page.dart:64 (M36, AC-24) (app)
+- last seen: 2026-10-07T17:54:07Z
+
+### L-012 — Assert relational words in an expected outcome, such as below or before, by comparing on-screen positions.
+- signal: `surviving_mutant` · recurrence: 1 feature(s) · scope: `app` · harmful: 0
+- features: voltar
+- evidence: apps/ponto_mobile/lib/leitura/continue_de_onde_parou.dart:56-58 (M27, AC-09) (app)
+- last seen: 2026-10-07T17:54:08Z
+
+### L-013 — Drive time-zone conversion code with a local, non-UTC clock in at least one test, because a UTC test clock hides the conversion.
+- signal: `surviving_mutant` · recurrence: 1 feature(s) · scope: `app` · harmful: 0
+- features: voltar
+- evidence: apps/ponto_mobile/lib/leitura/leituras_repositorio.dart:23 (M14, AC-01) (app)
+- last seen: 2026-10-07T17:54:08Z
+
+### L-014 — When an edge case says an action repeats quickly, drive it without settling between actions.
+- signal: `ac_gap` · recurrence: 1 feature(s) · scope: `app` · harmful: 0
+- features: voltar
+- evidence: apps/ponto_mobile/test/leitura/leitura_na_pagina_test.dart:133-134 (edge case 5) (app)
+- last seen: 2026-10-07T17:54:08Z
 
 ## Quarantined (failed when applied — ignore)
 
