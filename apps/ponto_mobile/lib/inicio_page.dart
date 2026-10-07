@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ponto_motor/ponto_motor.dart';
 
 import 'colecao/biblioteca_page.dart';
+import 'leitura/continue_de_onde_parou.dart';
 import 'preferencias/botao_preferencias.dart';
 
 /// A primeira tela do app: por onde seguir, sem passar antes por uma lista de
@@ -19,6 +20,7 @@ class InicioPage extends StatelessWidget {
     ),
     body: ListView(
       children: [
+        ContinueDeOndeParou(colecao: colecao),
         ListTile(
           title: const Text('Biblioteca'),
           onTap: () => Navigator.of(context).push(
