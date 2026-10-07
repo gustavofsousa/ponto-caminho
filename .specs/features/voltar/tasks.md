@@ -12,7 +12,7 @@ Verifier, discrimination sensor).
 ---
 
 **Design**: `.specs/features/voltar/design.md`
-**Status**: Approved (delegado). Três fases → execução inline, sem workers por fase; o Verifier roda no fim.
+**Status**: Done — T1–T10 (verificação: `validation.md`). Três fases → execução inline, sem workers por fase.
 **Tools**: nenhuma MCP além do Context7 já consultado no Design (drift, share_plus). Skills: `spec-driven`.
 
 ---
@@ -52,7 +52,7 @@ As tarefas são sequenciais na prática: quase todas tocam `ponto_page.dart`, `b
 | Quick (app) | Tarefas do app | `cd apps/ponto_mobile && dart format --output=none --set-exit-if-changed lib test && flutter analyze --fatal-infos && flutter test` |
 | Build | Última tarefa de cada fase; tarefas sem teste | `python3 livros/validar.py && python3 -m unittest discover -s livros -p 'test_*.py' && (cd packages/ponto_motor && dart format --output=none --set-exit-if-changed . && dart analyze --fatal-infos && dart test) && (cd apps/ponto_mobile && dart format --output=none --set-exit-if-changed lib test && flutter analyze --fatal-infos && flutter test && flutter build apk --debug)` |
 
-**Test count antes da feature:** motor 51 · app 171 · validador 6.
+**Test count antes da feature:** motor 51 · app 171 · validador 6. **Depois:** motor 64 · app 222 · validador 6.
 
 ---
 
@@ -77,7 +77,7 @@ T5 → T6 → T7 → T8 → T9 → T10
 
 ## Task Breakdown
 
-### T1: Origem da leitura e "para onde o continue aponta"
+### T1: Origem da leitura e "para onde o continue aponta" ✅
 
 **What**: `OrigemDaLeitura` (com `emSequencia`) e `pontoParaContinuar`, exportados pelo motor.
 **Context**: Motor tem `colecao/`, `registro/`, `selecao/`; nenhum `leitura/`. Feito quando o enum
@@ -89,15 +89,15 @@ coleção, ou nulo. A filtragem por origem acontece na consulta do app (T4), com
 **Reuses**: `obterPonto`
 **Requirement**: LEI-02, CONT-01, CONT-04, CONT-05
 **Done when**:
-- [ ] `emSequencia` testado para cada um dos 5 valores
-- [ ] `pontoParaContinuar`: lista vazia → nulo; primeiro existente vence; id de outra coleção / número inexistente pulado; todos inexistentes → nulo
-- [ ] Gate quick (motor) verde
+- [x] `emSequencia` testado para cada um dos 5 valores
+- [x] `pontoParaContinuar`: lista vazia → nulo; primeiro existente vence; id de outra coleção / número inexistente pulado; todos inexistentes → nulo
+- [x] Gate quick (motor) verde
 **Tests**: unit · **Gate**: quick (motor)
 **Commit**: `✨ feat(motor): add reading origins and where to continue`
 
 ---
 
-### T2: Um ponto para agora
+### T2: Um ponto para agora ✅
 
 **What**: `pontoAleatorio` e `janelaDeRecentes = 10` em `selecao/`.
 **Context**: T1 feito. Feito quando o sorteio respeita a ordem estável de candidatos (obras na ordem
@@ -109,18 +109,18 @@ com `n` = número de candidatos. Testes enumeram todas as saídas de um `Random`
 **Reuses**: `Colecao.obras`, `Obra.pontos`
 **Requirement**: AGORA-01, AGORA-02, AGORA-03, AGORA-04, AGORA-05
 **Done when**:
-- [ ] AC-15: índice k → k-ésimo candidato; `nextInt` chamado com n
-- [ ] AC-16: 11 recentes distintos → P1..P10 fora, P11 dentro
-- [ ] AC-17: repetições contam uma vez
-- [ ] AC-18: obra de 5 pontos todos recentes → sempre o lido há mais tempo
-- [ ] AC-19 (motor): filtro por obra; obra sem ponto → nulo; obra de 1 ponto que é o último lido → ele mesmo
-- [ ] Gate build verde (fim da fase)
+- [x] AC-15: índice k → k-ésimo candidato; `nextInt` chamado com n
+- [x] AC-16: 11 recentes distintos → P1..P10 fora, P11 dentro
+- [x] AC-17: repetições contam uma vez
+- [x] AC-18: obra de 5 pontos todos recentes → sempre o lido há mais tempo
+- [x] AC-19 (motor): filtro por obra; obra sem ponto → nulo; obra de 1 ponto que é o último lido → ele mesmo
+- [x] Gate build verde (fim da fase)
 **Tests**: unit · **Gate**: build
 **Commit**: `✨ feat(motor): pick a point for now away from recent reads`
 
 ---
 
-### T3: Tabela de leituras e migração do registro para o schema 2
+### T3: Tabela de leituras e migração do registro para o schema 2 ✅
 
 **What**: capturar o schema 1 congelado **antes** de mexer no banco; tabela `Leituras`; `schemaVersion: 2`; `onUpgrade` numa transação.
 **Context**: T2 feito; banco no schema 1 (v0.3). Primeiro passo: abrir `BancoRegistro` atual em
@@ -135,17 +135,17 @@ linhas intactas.
 **Reuses**: `abrirRegistro`, `cofre_de_teste.dart`, `abrirBancoCifrado`
 **Requirement**: LEI-06, LEI-07
 **Done when**:
-- [ ] AC-06: cada campo de cada linha da v0.3 igual depois da migração; `user_version` = 2; leitura gravada e lida de volta
-- [ ] Schema migrado (`sqlite_master`) = schema de um banco novo
-- [ ] AC-07: abertura → `null`; arquivo com `user_version` = 1 e as mesmas linhas; nenhuma tabela pela metade
-- [ ] Os 171 testes anteriores continuam verdes
-- [ ] Gate quick (app) verde
+- [x] AC-06: cada campo de cada linha da v0.3 igual depois da migração; `user_version` = 2; leitura gravada e lida de volta
+- [x] Schema migrado (`sqlite_master`) = schema de um banco novo
+- [x] AC-07: abertura → `null`; arquivo com `user_version` = 1 e as mesmas linhas; nenhuma tabela pela metade
+- [x] Os 171 testes anteriores continuam verdes
+- [x] Gate quick (app) verde
 **Tests**: integration · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): migrate the registro to schema 2 with a readings table`
 
 ---
 
-### T4: Repositório de leituras
+### T4: Repositório de leituras ✅
 
 **What**: `LeiturasRepositorio` (`registrar`, `observarLidosEmSequencia`, `listarRecentes`) exposto como `registro.leituras`.
 **Context**: T3 feito (tabela existe). Feito quando gravar uma leitura guarda PontoId, origem e
@@ -157,18 +157,18 @@ reabrir o arquivo devolve o mesmo lugar (AC-11); e os bytes do arquivo cifrado n
 **Reuses**: `lerPontoIdGravado`, `RelogioDeTeste`, `abrirBancoDeTeste`
 **Requirement**: LEI-01, LEI-08, CONT-01, CONT-03, AGORA-03
 **Done when**:
-- [ ] `registrar`: PontoId, origem e `lidoEm` (= relógio, UTC) — cada parte afirmada (L-003)
-- [ ] Ordem por gravação mesmo com o relógio voltando; repetidos aparecem uma vez; limite respeitado
-- [ ] `observarLidosEmSequencia` ignora `aleatorio`/`favoritos`/`colecao`; emite de novo após gravar
-- [ ] Linha estragada ignorada e mantida no banco
-- [ ] AC-11 (persistência em arquivo) e AC-08 (bytes do arquivo cifrado)
-- [ ] Gate quick (app) verde
+- [x] `registrar`: PontoId, origem e `lidoEm` (= relógio, UTC) — cada parte afirmada (L-003)
+- [x] Ordem por gravação mesmo com o relógio voltando; repetidos aparecem uma vez; limite respeitado
+- [x] `observarLidosEmSequencia` ignora `aleatorio`/`favoritos`/`colecao`; emite de novo após gravar
+- [x] Linha estragada ignorada e mantida no banco
+- [x] AC-11 (persistência em arquivo) e AC-08 (bytes do arquivo cifrado)
+- [x] Gate quick (app) verde
 **Tests**: integration · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): record readings and list recent and sequential ones`
 
 ---
 
-### T5: A página do ponto grava a leitura com a origem
+### T5: A página do ponto grava a leitura com a origem ✅
 
 **What**: `registrarLeitura`; `PontoPage(origem:)` grava ao abrir (uma vez) e a cada Anterior/Próximo (`biblioteca`); `CapituloPage` → `biblioteca`; `PontoGuardadoTile(origem:)` → `favoritos` / `colecao`.
 **Context**: T4 feito. Todos os construtores de `PontoPage` (lib e testes) passam a origem. Feito
@@ -180,16 +180,16 @@ erro do banco, erro que não é do banco) não aparece ao leitor e vai ao log s�
 **Reuses**: `relatarFalhaNoRegistro`, `montarTela`, `testWidgetsComRegistro`
 **Requirement**: LEI-01, LEI-02 (biblioteca, favoritos, colecao), LEI-03, LEI-04, LEI-05, LEI-08 (preferências)
 **Done when**:
-- [ ] AC-01 pela tela (obra → capítulo → ponto)
-- [ ] AC-02 para Favoritos e coleção pessoal
-- [ ] AC-03, AC-04, AC-05 (a/b/c), AC-08 (preferências)
-- [ ] Gate build verde (fim da fase)
+- [x] AC-01 pela tela (obra → capítulo → ponto)
+- [x] AC-02 para Favoritos e coleção pessoal
+- [x] AC-03, AC-04, AC-05 (a/b/c), AC-08 (preferências)
+- [x] Gate build verde (fim da fase)
 **Tests**: widget · **Gate**: build
 **Commit**: `✨ feat(mobile): record each point the reader opens and how they got there`
 
 ---
 
-### T6: Tela inicial
+### T6: Tela inicial ✅
 
 **What**: `InicioPage` com "Biblioteca"; `abrirApp` abre nela; `LER-01` substituído por `INI-01`.
 **Context**: T5 feito. Feito quando o app abre na home (título da coleção, preferências, "Biblioteca"
@@ -200,16 +200,16 @@ O teste `LER-01: a successful load opens on the library` muda de expectativa por
 **Reuses**: `BibliotecaPage`, `BotaoPreferencias`
 **Requirement**: INI-01 (parte), INI-02
 **Done when**:
-- [ ] App abre na home; "Biblioteca" leva às obras, Favoritos e Coleções
-- [ ] AC-22: favorito no terceiro toque
-- [ ] Nenhum teste anterior perdido: `LER-01` reescrito como `INI-01`
-- [ ] Gate quick (app) verde
+- [x] App abre na home; "Biblioteca" leva às obras, Favoritos e Coleções
+- [x] AC-22: favorito no terceiro toque
+- [x] Nenhum teste anterior perdido: `LER-01` reescrito como `INI-01`
+- [x] Gate quick (app) verde
 **Tests**: widget · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): open the app on a home screen`
 
 ---
 
-### T7: Continue de onde parou na home
+### T7: Continue de onde parou na home ✅
 
 **What**: `ContinueDeOndeParou` no topo da home.
 **Context**: T6 feito. Feito quando a home mostra "Continue de onde parou" + referência do último ponto
@@ -220,15 +220,15 @@ voltar, some sem leitura em sequência, sem registro ou com stream em erro (log 
 **Reuses**: `pontoParaContinuar`, `observarLidosEmSequencia`, `RegistroEscopo`
 **Requirement**: CONT-01..06, LEI-02 (continuacao)
 **Done when**:
-- [ ] AC-09, AC-10, AC-11 (tela sobre banco reaberto), AC-12 (a/b), AC-13, AC-14
-- [ ] AC-02 para `continuacao`
-- [ ] Gate quick (app) verde
+- [x] AC-09, AC-10, AC-11 (tela sobre banco reaberto), AC-12 (a/b), AC-13, AC-14
+- [x] AC-02 para `continuacao`
+- [x] Gate quick (app) verde
 **Tests**: widget · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): continue from the last point read in sequence`
 
 ---
 
-### T8: Um ponto para agora na home
+### T8: Um ponto para agora na home ✅
 
 **What**: `UmPontoParaAgora` (filtro de obra + botão) na home, com `Random` injetado.
 **Context**: T7 feito. Feito quando um toque abre o ponto sorteado pelo motor com os recentes do banco
@@ -240,16 +240,16 @@ continue → aleatório → Biblioteca sem contagem nem ausência, e cabe em 320
 **Reuses**: `pontoAleatorio`, `janelaDeRecentes`, `listarRecentes`, `usarTelaEstreita`
 **Requirement**: AGORA-01, AGORA-05, AGORA-06, INI-01, INI-03, LEI-02 (aleatorio)
 **Done when**:
-- [ ] AC-15 e AC-19 pela tela; AC-20 (a/b); AC-02 para `aleatorio`
-- [ ] AC-21 (ordem + nenhuma contagem/ausência) e AC-23 (320 px, escala 2,0, "Muito grande")
-- [ ] Nenhum id de obra em `apps/ponto_mobile/lib` (regra 1)
-- [ ] Gate quick (app) verde
+- [x] AC-15 e AC-19 pela tela; AC-20 (a/b); AC-02 para `aleatorio`
+- [x] AC-21 (ordem + nenhuma contagem/ausência) e AC-23 (320 px, escala 2,0, "Muito grande")
+- [x] Nenhum id de obra em `apps/ponto_mobile/lib` (regra 1)
+- [x] Gate quick (app) verde
 **Tests**: widget · **Gate**: quick (app)
 **Commit**: `✨ feat(mobile): offer a point for now with an optional work filter`
 
 ---
 
-### T9: Compartilhar a referência
+### T9: Compartilhar a referência ✅
 
 **What**: dependência `share_plus`; `Compartilhar` + `compartilharPeloSistema`; ícone na barra da página; falha com aviso.
 **Context**: T8 feito. Feito quando o toque entrega à porta exatamente `Referencia.texto` (sem texto
@@ -261,15 +261,15 @@ APK (subindo o AGP para 8.12.x só se o build exigir).
 **Reuses**: `Referencia.texto`
 **Requirement**: COMP-01, COMP-02, COMP-03
 **Done when**:
-- [ ] AC-24 (cada "Must not" afirmado), AC-25, AC-26; capítulo sem título compartilha a referência sem capítulo
-- [ ] APK de debug gerado
-- [ ] Gate build verde
+- [x] AC-24 (cada "Must not" afirmado), AC-25, AC-26; capítulo sem título compartilha a referência sem capítulo
+- [x] APK de debug gerado
+- [x] Gate build verde
 **Tests**: widget · **Gate**: build
 **Commit**: `✨ feat(mobile): share a point's reference, never its text`
 
 ---
 
-### T10: Docs do domínio
+### T10: Docs do domínio ✅
 
 **What**: `modelo.md` §4 (origens, continue em sequência), `dominios.md` (`leitura` e `selecao` no app, regra 4 com o continue), `livros`/AGENTS sem mudança.
 **Context**: T9 feito. O vocabulário mudou (A7, A9); `modelo.md` é o dono dos termos. Roadmap e
@@ -278,9 +278,9 @@ backlog só mudam depois do Verifier (reconciliação de fechamento).
 **Depends on**: T9
 **Requirement**: — (rastreio de vocabulário)
 **Done when**:
-- [ ] Origem da leitura com os 5 valores da v0.4 + os 2 futuros marcados
-- [ ] "Última leitura" do Progresso diz "em sequência" e cita a regra
-- [ ] `dominios.md` aponta o código real de `leitura` e `selecao`
+- [x] Origem da leitura com os 5 valores da v0.4 + os 2 futuros marcados
+- [x] "Última leitura" do Progresso diz "em sequência" e cita a regra
+- [x] `dominios.md` aponta o código real de `leitura` e `selecao`
 **Tests**: none · **Gate**: build
 **Commit**: `📚 docs: describe reading origins and the sequence the reader continues`
 
