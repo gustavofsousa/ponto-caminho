@@ -7,6 +7,7 @@ import '../leitura/registrar_leitura.dart';
 import '../preferencias/botao_preferencias.dart';
 import '../registro/registro_do_ponto.dart';
 import '../registro/registro_escopo.dart';
+import 'compartilhar_referencia.dart';
 
 /// Página do ponto. Anterior/próximo trocam o ponto no lugar, sem empilhar
 /// rotas: "voltar" sempre leva à tela de onde a leitura começou.
@@ -19,11 +20,13 @@ class PontoPage extends StatefulWidget {
     required this.colecao,
     required this.inicial,
     required this.origem,
+    this.compartilhar = compartilharPeloSistema,
   });
 
   final Colecao colecao;
   final Ponto inicial;
   final OrigemDaLeitura origem;
+  final Compartilhar compartilhar;
 
   @override
   State<PontoPage> createState() => _PontoPageState();
@@ -53,7 +56,16 @@ class _PontoPageState extends State<PontoPage> {
     final estilos = Theme.of(context).textTheme;
 
     return Scaffold(
-      appBar: AppBar(actions: const [BotaoPreferencias()]),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.share_outlined),
+            tooltip: 'Compartilhar referência',
+            onPressed: () => _compartilhar(referencia.texto),
+          ),
+          const BotaoPreferencias(),
+        ],
+      ),
       body: ListView(
         key: ValueKey(_ponto.id),
         padding: const EdgeInsets.fromLTRB(28, 16, 28, 32),
@@ -102,6 +114,18 @@ class _PontoPageState extends State<PontoPage> {
   void _ir(Ponto ponto) {
     setState(() => _ponto = ponto);
     _gravarLeitura(ponto, OrigemDaLeitura.biblioteca);
+  }
+
+  Future<void> _compartilhar(String referencia) async {
+    try {
+      await widget.compartilhar(referencia);
+    } on Object catch (erro, pilha) {
+      relatarFalhaAoCompartilhar(erro, pilha);
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Não foi possível compartilhar.')),
+      );
+    }
   }
 
   void _gravarLeitura(Ponto ponto, OrigemDaLeitura origem) =>

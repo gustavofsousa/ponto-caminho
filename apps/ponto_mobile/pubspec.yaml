@@ -14,6 +14,7 @@ dependencies:
   path_provider: ^2.1.6
   ponto_motor:
     path: ../../packages/ponto_motor
+  share_plus: ^13.3.1
   shared_preferences: ^2.5.5
   sqlite3: ^3.5.0
   uuid: ^4.6.0
