@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ponto_mobile/app.dart';
 import 'package:ponto_mobile/colecao/biblioteca_page.dart';
+import 'package:ponto_mobile/colecao/ponto_page.dart';
+import 'package:ponto_mobile/inicio_page.dart';
 import 'package:ponto_mobile/preferencias/preferencias.dart';
 import 'package:ponto_mobile/preferencias/preferencias_repositorio.dart';
 import 'package:ponto_mobile/registro/falha_no_registro.dart';
@@ -12,6 +14,7 @@ import 'package:ponto_motor/ponto_motor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'colecao_de_teste.dart';
+import 'registro/banco_de_teste.dart';
 
 /// Abre o app como o `main` abre, com preferências já gravadas, um carregador
 /// de livros e uma abertura de registro (por padrão, registro indisponível).
@@ -36,7 +39,12 @@ Future<void> _abrirApp(
 }
 
 Brightness _brilho(WidgetTester tester) =>
-    Theme.of(tester.element(find.byType(BibliotecaPage))).brightness;
+    Theme.of(tester.element(find.byType(InicioPage))).brightness;
+
+Future<void> _irParaBiblioteca(WidgetTester tester) async {
+  await tester.tap(find.text('Biblioteca'));
+  await tester.pumpAndSettle();
+}
 
 void main() {
   testWidgets(
@@ -89,10 +97,36 @@ void main() {
     },
   );
 
-  testWidgets('LER-01: a successful load opens on the library', (tester) async {
+  testWidgets('INI-01: a successful load opens on the home screen', (
+    tester,
+  ) async {
     await _abrirApp(tester);
 
-    expect(find.byType(BibliotecaPage), findsOneWidget);
+    expect(find.byType(InicioPage), findsOneWidget);
+    expect(find.byType(BibliotecaPage), findsNothing);
+    expect(find.text('Biblioteca'), findsOneWidget);
+  });
+
+  testWidgetsComRegistro('INI-02: a favourite is three taps from opening', (
+    tester,
+  ) async {
+    final banco = abrirBancoDeTela();
+    final registro = Registro(banco);
+    await tester.runAsync(() => registro.favoritos.favoritar(idDe('sulco', 1)));
+    await _abrirApp(tester, abrirRegistro: () async => registro);
+
+    for (final toque in [
+      'Biblioteca',
+      'Favoritos',
+      'Sulco, capítulo Sinceridade, ponto 1',
+    ]) {
+      expect(find.byType(PontoPage), findsNothing, reason: 'antes de $toque');
+      await tester.tap(find.text(toque));
+      await tester.pumpAndSettle();
+    }
+
+    expect(find.byType(PontoPage), findsOneWidget);
+    expect(find.text('O único ponto do sulco.'), findsOneWidget);
   });
 
   testWidgets(
@@ -102,6 +136,7 @@ void main() {
         tester,
         carregarLivros: () => carregarColecao(lerLivroEmpacotado),
       );
+      await _irParaBiblioteca(tester);
 
       for (final obra in ['Caminho', 'Sulco', 'Forja']) {
         expect(find.text(obra), findsOneWidget, reason: obra);
@@ -151,7 +186,7 @@ void main() {
     );
 
     final escala = MediaQuery.textScalerOf(
-      tester.element(find.byType(BibliotecaPage)),
+      tester.element(find.byType(InicioPage)),
     );
     expect(escala.scale(10), closeTo(17.25, 1e-9));
   });
@@ -160,6 +195,7 @@ void main() {
     tester,
   ) async {
     await _abrirApp(tester);
+    await _irParaBiblioteca(tester);
 
     await tester.tap(find.text('Caminho'));
     await tester.pumpAndSettle();
@@ -191,6 +227,7 @@ void main() {
       tester,
     ) async {
       await _abrirApp(tester, abrirRegistro: abrirRegistro);
+      await _irParaBiblioteca(tester);
 
       await tester.tap(find.text('Caminho'));
       await tester.pumpAndSettle();

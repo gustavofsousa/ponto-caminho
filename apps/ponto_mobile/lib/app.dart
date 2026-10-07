@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ponto_motor/ponto_motor.dart';
 
-import 'colecao/biblioteca_page.dart';
+import 'inicio_page.dart';
 import 'preferencias/preferencias_controller.dart';
 import 'preferencias/preferencias_repositorio.dart';
 import 'registro/falha_no_registro.dart';
@@ -25,7 +25,7 @@ void registrarLicencas() {
 }
 
 /// Carrega tudo antes do primeiro quadro (a splash nativa cobre a espera) e
-/// decide a tela de abertura: a biblioteca, ou uma mensagem humana se os livros falharem.
+/// decide a tela de abertura: a tela inicial, ou uma mensagem humana se os livros falharem.
 /// O registro que não abre não impede a leitura (ADR-002).
 Future<Widget> abrirApp({
   required Future<Colecao> Function() carregarLivros,
@@ -39,7 +39,7 @@ Future<Widget> abrirApp({
     return _Moldura(
       preferencias: preferencias,
       registro: registro,
-      inicio: BibliotecaPage(colecao: colecao),
+      inicio: InicioPage(colecao: colecao),
     );
   } on Object catch (erro, pilha) {
     // Fronteira mais externa: qualquer falha vira tela humana para o leitor e

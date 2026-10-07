@@ -6,7 +6,7 @@ import '../registro/colecoes_page.dart';
 import '../registro/favoritos_page.dart';
 import 'obra_page.dart';
 
-/// Porta de entrada: as obras da coleção, na ordem da coleção, e o que o leitor guardou.
+/// As obras da coleção, na ordem da coleção, e o que o leitor guardou.
 class BibliotecaPage extends StatelessWidget {
   const BibliotecaPage({super.key, required this.colecao});
 
