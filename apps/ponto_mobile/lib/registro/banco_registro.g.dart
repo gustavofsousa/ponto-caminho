@@ -1325,6 +1325,309 @@ class MarcosCompanion extends UpdateCompanion<LinhaDeMarco> {
   }
 }
 
+class $LeiturasTable extends Leituras
+    with TableInfo<$LeiturasTable, LinhaDeLeitura> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LeiturasTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _pontoIdMeta = const VerificationMeta(
+    'pontoId',
+  );
+  @override
+  late final GeneratedColumn<String> pontoId = GeneratedColumn<String>(
+    'ponto_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lidoEmMeta = const VerificationMeta('lidoEm');
+  @override
+  late final GeneratedColumn<DateTime> lidoEm = GeneratedColumn<DateTime>(
+    'lido_em',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<OrigemDaLeitura, String> origem =
+      GeneratedColumn<String>(
+        'origem',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<OrigemDaLeitura>($LeiturasTable.$converterorigem);
+  @override
+  List<GeneratedColumn> get $columns => [id, pontoId, lidoEm, origem];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'leituras';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<LinhaDeLeitura> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('ponto_id')) {
+      context.handle(
+        _pontoIdMeta,
+        pontoId.isAcceptableOrUnknown(data['ponto_id']!, _pontoIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_pontoIdMeta);
+    }
+    if (data.containsKey('lido_em')) {
+      context.handle(
+        _lidoEmMeta,
+        lidoEm.isAcceptableOrUnknown(data['lido_em']!, _lidoEmMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_lidoEmMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  LinhaDeLeitura map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return LinhaDeLeitura(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      pontoId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}ponto_id'],
+      )!,
+      lidoEm: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}lido_em'],
+      )!,
+      origem: $LeiturasTable.$converterorigem.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}origem'],
+        )!,
+      ),
+    );
+  }
+
+  @override
+  $LeiturasTable createAlias(String alias) {
+    return $LeiturasTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<OrigemDaLeitura, String, String> $converterorigem =
+      const EnumNameConverter<OrigemDaLeitura>(OrigemDaLeitura.values);
+}
+
+class LinhaDeLeitura extends DataClass implements Insertable<LinhaDeLeitura> {
+  final int id;
+  final String pontoId;
+  final DateTime lidoEm;
+  final OrigemDaLeitura origem;
+  const LinhaDeLeitura({
+    required this.id,
+    required this.pontoId,
+    required this.lidoEm,
+    required this.origem,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['ponto_id'] = Variable<String>(pontoId);
+    map['lido_em'] = Variable<DateTime>(lidoEm);
+    {
+      map['origem'] = Variable<String>(
+        $LeiturasTable.$converterorigem.toSql(origem),
+      );
+    }
+    return map;
+  }
+
+  LeiturasCompanion toCompanion(bool nullToAbsent) {
+    return LeiturasCompanion(
+      id: Value(id),
+      pontoId: Value(pontoId),
+      lidoEm: Value(lidoEm),
+      origem: Value(origem),
+    );
+  }
+
+  factory LinhaDeLeitura.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return LinhaDeLeitura(
+      id: serializer.fromJson<int>(json['id']),
+      pontoId: serializer.fromJson<String>(json['pontoId']),
+      lidoEm: serializer.fromJson<DateTime>(json['lidoEm']),
+      origem: $LeiturasTable.$converterorigem.fromJson(
+        serializer.fromJson<String>(json['origem']),
+      ),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'pontoId': serializer.toJson<String>(pontoId),
+      'lidoEm': serializer.toJson<DateTime>(lidoEm),
+      'origem': serializer.toJson<String>(
+        $LeiturasTable.$converterorigem.toJson(origem),
+      ),
+    };
+  }
+
+  LinhaDeLeitura copyWith({
+    int? id,
+    String? pontoId,
+    DateTime? lidoEm,
+    OrigemDaLeitura? origem,
+  }) => LinhaDeLeitura(
+    id: id ?? this.id,
+    pontoId: pontoId ?? this.pontoId,
+    lidoEm: lidoEm ?? this.lidoEm,
+    origem: origem ?? this.origem,
+  );
+  LinhaDeLeitura copyWithCompanion(LeiturasCompanion data) {
+    return LinhaDeLeitura(
+      id: data.id.present ? data.id.value : this.id,
+      pontoId: data.pontoId.present ? data.pontoId.value : this.pontoId,
+      lidoEm: data.lidoEm.present ? data.lidoEm.value : this.lidoEm,
+      origem: data.origem.present ? data.origem.value : this.origem,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LinhaDeLeitura(')
+          ..write('id: $id, ')
+          ..write('pontoId: $pontoId, ')
+          ..write('lidoEm: $lidoEm, ')
+          ..write('origem: $origem')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, pontoId, lidoEm, origem);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is LinhaDeLeitura &&
+          other.id == this.id &&
+          other.pontoId == this.pontoId &&
+          other.lidoEm == this.lidoEm &&
+          other.origem == this.origem);
+}
+
+class LeiturasCompanion extends UpdateCompanion<LinhaDeLeitura> {
+  final Value<int> id;
+  final Value<String> pontoId;
+  final Value<DateTime> lidoEm;
+  final Value<OrigemDaLeitura> origem;
+  const LeiturasCompanion({
+    this.id = const Value.absent(),
+    this.pontoId = const Value.absent(),
+    this.lidoEm = const Value.absent(),
+    this.origem = const Value.absent(),
+  });
+  LeiturasCompanion.insert({
+    this.id = const Value.absent(),
+    required String pontoId,
+    required DateTime lidoEm,
+    required OrigemDaLeitura origem,
+  }) : pontoId = Value(pontoId),
+       lidoEm = Value(lidoEm),
+       origem = Value(origem);
+  static Insertable<LinhaDeLeitura> custom({
+    Expression<int>? id,
+    Expression<String>? pontoId,
+    Expression<DateTime>? lidoEm,
+    Expression<String>? origem,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (pontoId != null) 'ponto_id': pontoId,
+      if (lidoEm != null) 'lido_em': lidoEm,
+      if (origem != null) 'origem': origem,
+    });
+  }
+
+  LeiturasCompanion copyWith({
+    Value<int>? id,
+    Value<String>? pontoId,
+    Value<DateTime>? lidoEm,
+    Value<OrigemDaLeitura>? origem,
+  }) {
+    return LeiturasCompanion(
+      id: id ?? this.id,
+      pontoId: pontoId ?? this.pontoId,
+      lidoEm: lidoEm ?? this.lidoEm,
+      origem: origem ?? this.origem,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (pontoId.present) {
+      map['ponto_id'] = Variable<String>(pontoId.value);
+    }
+    if (lidoEm.present) {
+      map['lido_em'] = Variable<DateTime>(lidoEm.value);
+    }
+    if (origem.present) {
+      map['origem'] = Variable<String>(
+        $LeiturasTable.$converterorigem.toSql(origem.value),
+      );
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LeiturasCompanion(')
+          ..write('id: $id, ')
+          ..write('pontoId: $pontoId, ')
+          ..write('lidoEm: $lidoEm, ')
+          ..write('origem: $origem')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$BancoRegistro extends GeneratedDatabase {
   _$BancoRegistro(QueryExecutor e) : super(e);
   $BancoRegistroManager get managers => $BancoRegistroManager(this);
@@ -1337,6 +1640,7 @@ abstract class _$BancoRegistro extends GeneratedDatabase {
     this,
   );
   late final $MarcosTable marcos = $MarcosTable(this);
+  late final $LeiturasTable leituras = $LeiturasTable(this);
   late final Index reflexoesPorPonto = Index(
     'reflexoes_por_ponto',
     'CREATE INDEX reflexoes_por_ponto ON reflexoes (ponto_id)',
@@ -1351,6 +1655,7 @@ abstract class _$BancoRegistro extends GeneratedDatabase {
     colecoesPessoais,
     pontosDaColecao,
     marcos,
+    leituras,
     reflexoesPorPonto,
   ];
   @override
@@ -2422,6 +2727,182 @@ typedef $$MarcosTableProcessedTableManager =
       LinhaDeMarco,
       PrefetchHooks Function()
     >;
+typedef $$LeiturasTableCreateCompanionBuilder =
+    LeiturasCompanion Function({
+      Value<int> id,
+      required String pontoId,
+      required DateTime lidoEm,
+      required OrigemDaLeitura origem,
+    });
+typedef $$LeiturasTableUpdateCompanionBuilder =
+    LeiturasCompanion Function({
+      Value<int> id,
+      Value<String> pontoId,
+      Value<DateTime> lidoEm,
+      Value<OrigemDaLeitura> origem,
+    });
+
+class $$LeiturasTableFilterComposer
+    extends Composer<_$BancoRegistro, $LeiturasTable> {
+  $$LeiturasTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get pontoId => $composableBuilder(
+    column: $table.pontoId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get lidoEm => $composableBuilder(
+    column: $table.lidoEm,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<OrigemDaLeitura, OrigemDaLeitura, String>
+  get origem => $composableBuilder(
+    column: $table.origem,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+}
+
+class $$LeiturasTableOrderingComposer
+    extends Composer<_$BancoRegistro, $LeiturasTable> {
+  $$LeiturasTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get pontoId => $composableBuilder(
+    column: $table.pontoId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lidoEm => $composableBuilder(
+    column: $table.lidoEm,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get origem => $composableBuilder(
+    column: $table.origem,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LeiturasTableAnnotationComposer
+    extends Composer<_$BancoRegistro, $LeiturasTable> {
+  $$LeiturasTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get pontoId =>
+      $composableBuilder(column: $table.pontoId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lidoEm =>
+      $composableBuilder(column: $table.lidoEm, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<OrigemDaLeitura, String> get origem =>
+      $composableBuilder(column: $table.origem, builder: (column) => column);
+}
+
+class $$LeiturasTableTableManager
+    extends
+        RootTableManager<
+          _$BancoRegistro,
+          $LeiturasTable,
+          LinhaDeLeitura,
+          $$LeiturasTableFilterComposer,
+          $$LeiturasTableOrderingComposer,
+          $$LeiturasTableAnnotationComposer,
+          $$LeiturasTableCreateCompanionBuilder,
+          $$LeiturasTableUpdateCompanionBuilder,
+          (
+            LinhaDeLeitura,
+            BaseReferences<_$BancoRegistro, $LeiturasTable, LinhaDeLeitura>,
+          ),
+          LinhaDeLeitura,
+          PrefetchHooks Function()
+        > {
+  $$LeiturasTableTableManager(_$BancoRegistro db, $LeiturasTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LeiturasTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LeiturasTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$LeiturasTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> pontoId = const Value.absent(),
+                Value<DateTime> lidoEm = const Value.absent(),
+                Value<OrigemDaLeitura> origem = const Value.absent(),
+              }) => LeiturasCompanion(
+                id: id,
+                pontoId: pontoId,
+                lidoEm: lidoEm,
+                origem: origem,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String pontoId,
+                required DateTime lidoEm,
+                required OrigemDaLeitura origem,
+              }) => LeiturasCompanion.insert(
+                id: id,
+                pontoId: pontoId,
+                lidoEm: lidoEm,
+                origem: origem,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$LeiturasTableProcessedTableManager =
+    ProcessedTableManager<
+      _$BancoRegistro,
+      $LeiturasTable,
+      LinhaDeLeitura,
+      $$LeiturasTableFilterComposer,
+      $$LeiturasTableOrderingComposer,
+      $$LeiturasTableAnnotationComposer,
+      $$LeiturasTableCreateCompanionBuilder,
+      $$LeiturasTableUpdateCompanionBuilder,
+      (
+        LinhaDeLeitura,
+        BaseReferences<_$BancoRegistro, $LeiturasTable, LinhaDeLeitura>,
+      ),
+      LinhaDeLeitura,
+      PrefetchHooks Function()
+    >;
 
 class $BancoRegistroManager {
   final _$BancoRegistro _db;
@@ -2436,4 +2917,6 @@ class $BancoRegistroManager {
       $$PontosDaColecaoTableTableManager(_db, _db.pontosDaColecao);
   $$MarcosTableTableManager get marcos =>
       $$MarcosTableTableManager(_db, _db.marcos);
+  $$LeiturasTableTableManager get leituras =>
+      $$LeiturasTableTableManager(_db, _db.leituras);
 }

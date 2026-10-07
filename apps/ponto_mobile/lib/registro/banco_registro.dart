@@ -1,4 +1,7 @@
 import 'package:drift/drift.dart';
+import 'package:ponto_motor/ponto_motor.dart';
+
+import '../leitura/tabela_leituras.dart';
 
 part 'banco_registro.g.dart';
 
@@ -61,7 +64,14 @@ class Marcos extends Table {
 }
 
 @DriftDatabase(
-  tables: [Reflexoes, Favoritos, ColecoesPessoais, PontosDaColecao, Marcos],
+  tables: [
+    Reflexoes,
+    Favoritos,
+    ColecoesPessoais,
+    PontosDaColecao,
+    Marcos,
+    Leituras,
+  ],
 )
 final class BancoRegistro extends _$BancoRegistro {
   BancoRegistro(super.executor);
@@ -69,10 +79,15 @@ final class BancoRegistro extends _$BancoRegistro {
   // Mudar o schema = subir a versão e escrever o `onUpgrade`; nunca recriar o
   // banco, porque isso apagaria as reflexões do leitor.
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
+    // O drift não envolve a migração numa transação: sem ela, um passo que
+    // falhasse deixaria o schema pela metade (AD-011).
+    onUpgrade: (m, de, _) => transaction(() async {
+      if (de < 2) await m.createTable(leituras);
+    }),
     beforeOpen: (_) => customStatement('PRAGMA foreign_keys = ON'),
   );
 }
