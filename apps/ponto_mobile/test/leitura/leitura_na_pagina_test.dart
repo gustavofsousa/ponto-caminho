@@ -142,6 +142,29 @@ void main() {
   );
 
   testWidgetsComRegistro(
+    'LEI-03: quick Próximo taps record every point shown, in order',
+    (tester) async {
+      await abrirPonto(tester, idDe('caminho', 1), OrigemDaLeitura.biblioteca);
+
+      // Um quadro entre os toques — sem esperar a gravação nem a tela assentar.
+      await tester.tap(find.text('Próximo'));
+      await tester.pump();
+      await tester.tap(find.text('Próximo'));
+      await tester.pump();
+      await tester.tap(find.text('Próximo'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Segundo ponto da oração.'), findsOneWidget);
+      expect(await leituras(tester), [
+        (idDe('caminho', 1).toString(), OrigemDaLeitura.biblioteca),
+        (caminho2.toString(), OrigemDaLeitura.biblioteca),
+        (caminho81.toString(), OrigemDaLeitura.biblioteca),
+        (idDe('caminho', 82).toString(), OrigemDaLeitura.biblioteca),
+      ]);
+    },
+  );
+
+  testWidgetsComRegistro(
     'LEI-04: theme, text size and a saved reflection record nothing more',
     (tester) async {
       // O tema troca acima da página, como o MaterialApp faz quando o leitor
