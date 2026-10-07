@@ -124,6 +124,64 @@ void main() {
   });
 
   testWidgetsComRegistro(
+    'AGORA-02: the home leaves out exactly the ten most recent points read',
+    (tester) async {
+      final doze = lerColecao(
+        {
+          'id': 'teste',
+          'titulo': 'Teste',
+          'versaoDados': '0.1.0',
+          'obras': ['caminho'],
+        },
+        {
+          'caminho': {
+            'id': 'caminho',
+            'obra': {'titulo': 'Caminho'},
+            'capitulos': [
+              {
+                'numero': 1,
+                'titulo': 'Caráter',
+                'pontoInicial': 1,
+                'pontoFinal': 12,
+              },
+            ],
+            'pontos': [
+              for (var n = 1; n <= 12; n++)
+                {
+                  'numero': n,
+                  'capituloNumero': 1,
+                  'ordem': n,
+                  'texto': 'Ponto $n.',
+                },
+            ],
+          },
+        },
+      );
+      // Lidos de 1 a 11: a janela são os pontos 2–11; sobram 1 e 12.
+      await tester.runAsync(() async {
+        for (var n = 1; n <= 11; n++) {
+          await registro.leituras.registrar(
+            idDe('caminho', n),
+            OrigemDaLeitura.biblioteca,
+          );
+        }
+      });
+      final fonte = _FonteFixa(0);
+      await montarTela(
+        tester,
+        InicioPage(colecao: doze, aleatorio: fonte),
+        registro: registro,
+      );
+      await tester.pumpAndSettle();
+
+      await tocarAgora(tester);
+
+      expect(fonte.limites, [2]);
+      expect(find.text('Ponto 1.'), findsOneWidget);
+    },
+  );
+
+  testWidgetsComRegistro(
     'AGORA-05: the filter offers every work with a point, in collection order',
     (tester) async {
       await abrirInicio(tester, _FonteFixa(0), com: registro);
