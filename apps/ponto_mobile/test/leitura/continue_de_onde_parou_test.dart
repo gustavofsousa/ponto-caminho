@@ -81,6 +81,11 @@ void main() {
 
       expect(find.text(_continue), findsOneWidget);
       expect(find.text(referencia2), findsOneWidget);
+      expect(
+        tester.getTopLeft(find.text(referencia2)).dy,
+        greaterThan(tester.getTopLeft(find.text(_continue)).dy),
+        reason: 'a referência fica abaixo do rótulo',
+      );
       expect(textosNaTela(tester), isNot(contains(contains('ponto 81'))));
       expect(textosNaTela(tester), isNot(contains(contains('ponto 82'))));
       expect(textosNaTela(tester), isNot(contains(contains('Sulco,'))));
