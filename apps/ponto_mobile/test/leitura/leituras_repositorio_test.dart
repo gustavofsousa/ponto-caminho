@@ -93,7 +93,7 @@ void main() {
   );
 
   test(
-    'the order is the order of recording, even if the clock goes back',
+    'CONT-01: the order is the order of recording, even if the clock goes back',
     () async {
       await ler(a, OrigemDaLeitura.biblioteca);
       relogio.agora = relogio.agora.subtract(const Duration(days: 3));
@@ -160,19 +160,23 @@ void main() {
     await esperado;
   });
 
-  test('a reading with a broken point id is skipped and kept', () async {
-    await ler(a, OrigemDaLeitura.biblioteca);
-    await banco.customStatement(
-      "INSERT INTO leituras (ponto_id, lido_em, origem) "
-      "VALUES ('estragado', '2026-10-07T09:16:00.000Z', 'biblioteca')",
-    );
+  test(
+    'CONT-05: a reading with a broken point id is skipped and kept',
+    () async {
+      await ler(a, OrigemDaLeitura.biblioteca);
+      await banco.customStatement(
+        "INSERT INTO leituras (ponto_id, lido_em, origem) "
+        "VALUES ('estragado', '2026-10-07T09:16:00.000Z', 'biblioteca')",
+      );
 
-    expect(await registro.leituras.listarRecentes(limite: 10), [a]);
-    expect(await registro.leituras.observarLidosEmSequencia(limite: 10).first, [
-      a,
-    ]);
-    expect(await banco.select(banco.leituras).get(), hasLength(2));
-  });
+      expect(await registro.leituras.listarRecentes(limite: 10), [a]);
+      expect(
+        await registro.leituras.observarLidosEmSequencia(limite: 10).first,
+        [a],
+      );
+      expect(await banco.select(banco.leituras).get(), hasLength(2));
+    },
+  );
 
   test('CONT-03: the place survives closing and reopening the file', () async {
     final pasta = await Directory.systemTemp.createTemp('leituras');

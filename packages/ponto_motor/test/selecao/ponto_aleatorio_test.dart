@@ -138,9 +138,14 @@ void main() {
     );
   });
 
-  test('a single-point work gives that point even if it was the last read', () {
-    expect(_todosOsSorteios(obra: 'c', recentes: [_id('c', 1)]), [_id('c', 1)]);
-  });
+  test(
+    'AGORA-04: a single-point work gives that point even if it was the last read',
+    () {
+      expect(_todosOsSorteios(obra: 'c', recentes: [_id('c', 1)]), [
+        _id('c', 1),
+      ]);
+    },
+  );
 }
 
 Map<String, Object?> _obra(String id, List<int> numeros, {int? fim}) => {
