@@ -1,16 +1,29 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:ponto_motor/ponto_motor.dart';
 
+import '../leitura/registrar_leitura.dart';
 import '../preferencias/botao_preferencias.dart';
 import '../registro/registro_do_ponto.dart';
+import '../registro/registro_escopo.dart';
 
 /// Página do ponto. Anterior/próximo trocam o ponto no lugar, sem empilhar
-/// rotas: "voltar" sempre leva ao capítulo de onde a leitura começou.
+/// rotas: "voltar" sempre leva à tela de onde a leitura começou.
+///
+/// Cada ponto mostrado é uma leitura: o primeiro com a [origem] de quem abriu a
+/// página; os seguintes, por Anterior/Próximo, como leitura dos livros em ordem.
 class PontoPage extends StatefulWidget {
-  const PontoPage({super.key, required this.colecao, required this.inicial});
+  const PontoPage({
+    super.key,
+    required this.colecao,
+    required this.inicial,
+    required this.origem,
+  });
 
   final Colecao colecao;
   final Ponto inicial;
+  final OrigemDaLeitura origem;
 
   @override
   State<PontoPage> createState() => _PontoPageState();
@@ -18,6 +31,17 @@ class PontoPage extends StatefulWidget {
 
 class _PontoPageState extends State<PontoPage> {
   late Ponto _ponto = widget.inicial;
+  var _aberturaGravada = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Uma leitura por abertura: tema, tamanho do texto e teclado chamam isto
+    // de novo a cada mudança.
+    if (_aberturaGravada) return;
+    _aberturaGravada = true;
+    _gravarLeitura(widget.inicial, widget.origem);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,5 +99,11 @@ class _PontoPageState extends State<PontoPage> {
     );
   }
 
-  void _ir(Ponto ponto) => setState(() => _ponto = ponto);
+  void _ir(Ponto ponto) {
+    setState(() => _ponto = ponto);
+    _gravarLeitura(ponto, OrigemDaLeitura.biblioteca);
+  }
+
+  void _gravarLeitura(Ponto ponto, OrigemDaLeitura origem) =>
+      unawaited(registrarLeitura(RegistroEscopo.of(context), ponto.id, origem));
 }

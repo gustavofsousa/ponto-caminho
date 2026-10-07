@@ -141,7 +141,11 @@ class _Pontos extends StatelessWidget {
     return ListView(
       children: [
         for (final ponto in pontos)
-          PontoGuardadoTile(colecao: colecao, ponto: ponto),
+          PontoGuardadoTile(
+            colecao: colecao,
+            ponto: ponto,
+            origem: OrigemDaLeitura.colecao,
+          ),
       ],
     );
   }

@@ -49,6 +49,7 @@ void main() {
       PontoPage(
         colecao: colecaoDeTeste,
         inicial: obterPonto(colecaoDeTeste, idDe('caminho', 2))!,
+        origem: OrigemDaLeitura.biblioteca,
       ),
       registro: registro,
     );

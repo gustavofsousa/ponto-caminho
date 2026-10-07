@@ -14,10 +14,14 @@ class PontoGuardadoTile extends StatelessWidget {
     super.key,
     required this.colecao,
     required this.ponto,
+    required this.origem,
   });
 
   final Colecao colecao;
   final Ponto ponto;
+
+  /// De qual lista do leitor o ponto foi aberto.
+  final OrigemDaLeitura origem;
 
   @override
   Widget build(BuildContext context) => ListTile(
@@ -26,7 +30,8 @@ class PontoGuardadoTile extends StatelessWidget {
     subtitle: Text(ponto.texto, maxLines: 2, overflow: TextOverflow.ellipsis),
     onTap: () => Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) => PontoPage(colecao: colecao, inicial: ponto),
+        builder: (_) =>
+            PontoPage(colecao: colecao, inicial: ponto, origem: origem),
       ),
     ),
   );

@@ -30,6 +30,7 @@ void main() {
         PontoPage(
           colecao: colecaoDeTeste,
           inicial: obterPonto(colecaoDeTeste, idDe(obra, numero))!,
+          origem: OrigemDaLeitura.biblioteca,
         ),
         registro: registro,
       );

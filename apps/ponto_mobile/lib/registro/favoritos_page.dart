@@ -56,7 +56,11 @@ class _ListaDeFavoritosState extends State<_ListaDeFavoritos> {
       return ListView(
         children: [
           for (final ponto in pontos)
-            PontoGuardadoTile(colecao: widget.colecao, ponto: ponto),
+            PontoGuardadoTile(
+              colecao: widget.colecao,
+              ponto: ponto,
+              origem: OrigemDaLeitura.favoritos,
+            ),
         ],
       );
     },

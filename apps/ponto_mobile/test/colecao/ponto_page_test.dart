@@ -12,6 +12,7 @@ Future<void> _abrir(WidgetTester tester, String obra, int numero) => montarTela(
   PontoPage(
     colecao: colecaoDeTeste,
     inicial: obterPonto(colecaoDeTeste, idDe(obra, numero))!,
+    origem: OrigemDaLeitura.biblioteca,
   ),
 );
 

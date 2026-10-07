@@ -36,8 +36,11 @@ class CapituloPage extends StatelessWidget {
                     ),
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute<void>(
-                        builder: (_) =>
-                            PontoPage(colecao: colecao, inicial: ponto),
+                        builder: (_) => PontoPage(
+                          colecao: colecao,
+                          inicial: ponto,
+                          origem: OrigemDaLeitura.biblioteca,
+                        ),
                       ),
                     ),
                   ),
