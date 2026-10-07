@@ -414,32 +414,32 @@ AC-26: O botão é acessível
 
 | Requirement | Story | AC | Status |
 | --- | --- | --- | --- |
-| LEI-01 | P1 Leitura | AC-01 | Implemented |
-| LEI-02 | P1 Leitura | AC-02 | Implemented |
-| LEI-03 | P1 Leitura | AC-03 | Implemented |
-| LEI-04 | P1 Leitura | AC-04 | Implemented |
-| LEI-05 | P1 Leitura | AC-05 | Implemented |
-| LEI-06 | P1 Leitura | AC-06 | Implemented |
-| LEI-07 | P1 Leitura | AC-07 | Implemented |
-| LEI-08 | P1 Leitura | AC-08 | Implemented |
-| CONT-01 | P1 Continue | AC-09 | Implemented |
-| CONT-02 | P1 Continue | AC-10 | Implemented |
-| CONT-03 | P1 Continue | AC-11 | Implemented |
-| CONT-04 | P1 Continue | AC-12 | Implemented |
-| CONT-05 | P1 Continue | AC-13 | Implemented |
-| CONT-06 | P1 Continue | AC-14 | Implemented |
-| AGORA-01 | P1 Agora | AC-15 | Implemented |
-| AGORA-02 | P1 Agora | AC-16 | Implemented |
-| AGORA-03 | P1 Agora | AC-17 | Implemented |
-| AGORA-04 | P1 Agora | AC-18 | Implemented |
-| AGORA-05 | P1 Agora | AC-19 | Implemented |
-| AGORA-06 | P1 Agora | AC-20 | Implemented |
-| INI-01 | P1 Tela inicial | AC-21 | Implemented |
-| INI-02 | P1 Tela inicial | AC-22 | Implemented |
-| INI-03 | P1 Tela inicial | AC-23 | Implemented |
-| COMP-01 | P2 Compartilhar | AC-24 | Implemented |
-| COMP-02 | P2 Compartilhar | AC-25 | Implemented |
-| COMP-03 | P2 Compartilhar | AC-26 | Implemented |
+| LEI-01 | P1 Leitura | AC-01 | ✅ Verified |
+| LEI-02 | P1 Leitura | AC-02 | ✅ Verified |
+| LEI-03 | P1 Leitura | AC-03 | ✅ Verified |
+| LEI-04 | P1 Leitura | AC-04 | ✅ Verified |
+| LEI-05 | P1 Leitura | AC-05 | ✅ Verified |
+| LEI-06 | P1 Leitura | AC-06 | ✅ Verified |
+| LEI-07 | P1 Leitura | AC-07 | ✅ Verified |
+| LEI-08 | P1 Leitura | AC-08 | ✅ Verified |
+| CONT-01 | P1 Continue | AC-09 | ✅ Verified |
+| CONT-02 | P1 Continue | AC-10 | ✅ Verified |
+| CONT-03 | P1 Continue | AC-11 | ✅ Verified |
+| CONT-04 | P1 Continue | AC-12 | ✅ Verified |
+| CONT-05 | P1 Continue | AC-13 | ✅ Verified |
+| CONT-06 | P1 Continue | AC-14 | ✅ Verified |
+| AGORA-01 | P1 Agora | AC-15 | ✅ Verified |
+| AGORA-02 | P1 Agora | AC-16 | ✅ Verified |
+| AGORA-03 | P1 Agora | AC-17 | ✅ Verified |
+| AGORA-04 | P1 Agora | AC-18 | ✅ Verified |
+| AGORA-05 | P1 Agora | AC-19 | ✅ Verified |
+| AGORA-06 | P1 Agora | AC-20 | ✅ Verified |
+| INI-01 | P1 Tela inicial | AC-21 | ✅ Verified |
+| INI-02 | P1 Tela inicial | AC-22 | ✅ Verified |
+| INI-03 | P1 Tela inicial | AC-23 | ✅ Verified |
+| COMP-01 | P2 Compartilhar | AC-24 | ✅ Verified |
+| COMP-02 | P2 Compartilhar | AC-25 | ✅ Verified |
+| COMP-03 | P2 Compartilhar | AC-26 | ✅ Verified |
 
 **Coverage:** 26 requisitos, 26 mapeados para tarefas (`tasks.md`).
 

@@ -52,7 +52,7 @@ As tarefas são sequenciais na prática: quase todas tocam `ponto_page.dart`, `b
 | Quick (app) | Tarefas do app | `cd apps/ponto_mobile && dart format --output=none --set-exit-if-changed lib test && flutter analyze --fatal-infos && flutter test` |
 | Build | Última tarefa de cada fase; tarefas sem teste | `python3 livros/validar.py && python3 -m unittest discover -s livros -p 'test_*.py' && (cd packages/ponto_motor && dart format --output=none --set-exit-if-changed . && dart analyze --fatal-infos && dart test) && (cd apps/ponto_mobile && dart format --output=none --set-exit-if-changed lib test && flutter analyze --fatal-infos && flutter test && flutter build apk --debug)` |
 
-**Test count antes da feature:** motor 51 · app 171 · validador 6. **Depois:** motor 64 · app 222 · validador 6.
+**Test count antes da feature:** motor 51 · app 171 · validador 6. **Depois das tarefas:** motor 64 · app 222 · validador 6 (230 no app depois dos fixes).
 
 ---
 
@@ -285,6 +285,25 @@ backlog só mudam depois do Verifier (reconciliação de fechamento).
 **Commit**: `📚 docs: describe reading origins and the sequence the reader continues`
 
 ---
+
+## Fixes da verificação (rodadas 0 → 3)
+
+Só testes; nenhum código de produto mudou. Cada um fecha um gap do `validation.md`.
+
+| Fix | Gap | Rodada | Commit |
+| --- | --- | --- | --- |
+| F1 ✅ | AC-16 na tela: o app podia pedir 1 recente em vez de 10 (M31) | 0 | `feeea96` |
+| F2 ✅ | AC-24 depois de Próximo compartilhava o ponto inicial (M36) | 0 | `0bb9e9c` |
+| F3 ✅ | AC-09 "abaixo" sem asserção de posição (M27) | 0 | `a01b505` |
+| F4 ✅ | AC-01 `toUtc()` nunca exercido: todo relógio de teste era UTC (M14) | 0 | `44f2801` |
+| F5 ✅ | edge case: continue em capítulo sem título (M44) | 0 | `cbd69f1` |
+| F6 ✅ | edge case: toques rápidos sem assentar | 0 | `5ad7377` |
+| F7 ✅ | AD-004: três testes sem ID de requisito | 0 | `553e766` |
+| F8 ✅ | AC-18 na tela: recentes entregues do mais antigo ao mais novo (M49) | 1 | `e0b59d0` |
+| F9 ✅ | edge case 5 com gravação lenta: leitura descartada em voo (M45) | 1 | `cc8a550` |
+| F10 ✅ | A12: janela do continue sem teste nas duas bordas (M64, M64b, M64c) | 2 | `79b1630` |
+
+**Test count final:** motor 64 · app 230 · validador 6.
 
 ## Task Granularity Check
 

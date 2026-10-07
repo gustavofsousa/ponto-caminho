@@ -17,7 +17,7 @@ pro spec* · *Dívida técnica*. Só aparecem as faixas com conteúdo.
 - **Amadurecer:** schema + validador (v0.1) ✅ · pontos mock + `--estrito` (v0.1) ✅ · fronteira firme
   dos livros (v0.2) ✅ · biblioteca obra → capítulo → ponto (v0.2) ✅ · página do ponto com
   referência completa (v0.2) ✅ ·
-  compartilhar referência (v0.4) ⚪ · texto e índice reais (v1.0) ⚪.
+  compartilhar referência (v0.4) ✅ · texto e índice reais (v1.0) ⚪.
 - **Novo / Visão:** temas como dado de conteúdo, transversais às três obras (alimenta `busca`) ·
   referências bíblicas por ponto · segunda coleção provando a troca (v3.0) 💤 · outros idiomas 💤.
 - **Decisão ao puxar pro spec:** edição de referência (editora, ano, tradutor) para o texto real —
@@ -29,23 +29,29 @@ pro spec* · *Dívida técnica*. Só aparecem as faixas com conteúdo.
 
 ### selecao
 - **Amadurecer:** `obterPonto(id)` (v0.1) ✅ · anterior/próximo atravessando capítulos (v0.2) ✅ ·
-  um ponto para agora, evitando recentes, filtro por obra (v0.4) ⚪ · ponto do dia determinístico
+  um ponto para agora, evitando recentes, filtro por obra (v0.4) ✅ · ponto do dia determinístico
   (v1.1) ⚪ · histórico do ponto do dia reconstruído (v1.1) ⚪.
 - **Novo / Visão:** filtro do aleatório por capítulo ou tema · gesto de deslizar para anterior/próximo
-  na página do ponto (fora da v0.2: os botões resolvem e são acessíveis).
-- **Decisão ao puxar pro spec:** janela de "recentes" para o aleatório (N pontos ou N dias) ·
-  semente do ponto do dia antes de existir conta — recomendação: gerada no primeiro uso, local.
+  na página do ponto (fora da v0.2: os botões resolvem e são acessíveis) · "outro ponto para agora"
+  na própria página do ponto (fora da v0.4: voltar e tocar de novo resolve) · lembrar a obra do
+  filtro entre aberturas (casa provável: preferências da v1.1).
+- **Decisão ao puxar pro spec:** semente do ponto do dia antes de existir conta — recomendação:
+  gerada no primeiro uso, local. *(Resolvida na v0.4: a janela de "recentes" são os 10 últimos
+  pontos distintos lidos, de qualquer origem; encolhe se a obra filtrada tiver poucos.)*
 - **Guarda-corpo:** determinismo onde prometido; aleatoriedade injetada (regra 6).
 
 ## Core · Memória
 
 ### leitura
-- **Amadurecer:** evento de leitura com origem (v0.4) ⚪ · continue de onde parou (v0.4) ⚪ ·
+- **Amadurecer:** evento de leitura com origem (v0.4) ✅ · continue de onde parou (v0.4) ✅ ·
   progresso por capítulo e obra (v1.3) ⚪ · estado do capítulo (v1.3) ⚪.
 - **Decisão ao puxar pro spec:** **marcação manual de capítulo concluído** — o roadmap antigo
   pedia; o [`modelo.md`](modelo.md) diz que progresso "nunca é escrito à mão". Recomendação:
   registrar como *evento* (`capituloConcluido`) que o cálculo respeita — mantém a regra 4.
-  · O que conta como "lido": abrir, rolar até o fim ou tempo mínimo na página?
+  *(Resolvida na v0.4: "lido" = abrir a página do ponto; o continue segue só a leitura em
+  sequência — biblioteca ou continue.)*
+- **Novo / Visão:** ver e apagar o histórico de leitura (hoje ele só alimenta o continue e os recentes).
+- **Dívida técnica:** TD-007 consultas de leitura agrupam o histórico inteiro.
 - **Guarda-corpo:** nenhum streak, meta ou "dias seguidos" (regra 4).
 
 ### registro
@@ -117,6 +123,6 @@ pro spec* · *Dívida técnica*. Só aparecem as faixas com conteúdo.
 - **Grupos de formação e círculos de estudo** — quem, exatamente? Sem usuário definido ainda.
 
 - **Telas de boas-vindas** (`tom-de-voz.md` §2: três telas puláveis + "Comece pelo ponto 1") — fora
-  da v0.2; provável casa: app, junto do "continue de onde parou" (v0.4).
+  da v0.4 por decisão; a tela inicial já existe para recebê-las.
 
 **Cru — a destilar:** API do motor · deep link `ponto:` abrindo o app.

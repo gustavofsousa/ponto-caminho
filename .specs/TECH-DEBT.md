@@ -63,6 +63,9 @@ Format: `TD-NNN` · Status: `open | in-progress | resolved | wontfix`.
 2. Criar um AVD (`flutter emulators --create`) se for útil para o dia a dia.
 3. (v0.3) Abrir o registro no aparelho: chave criada no Keystore, `PRAGMA cipher` ativo,
    reabrir depois de fechar o app, e medir quanto a derivação da chave atrasa a abertura.
+4. (v0.4) Tela inicial num aparelho estreito com fonte grande; ler três pontos em sequência,
+   fechar o app e reabrir — o continue aponta para o terceiro; a folha de compartilhamento nativa
+   recebe só a referência.
 
 **Impact if ignored:** comportamento nativo (splash, fonte variável, escala do sistema) nunca visto.
 

@@ -26,7 +26,7 @@ começa quando a anterior está *boa* — não quando está tecnicamente pronta.
 | v0.1 | Fundações | o motor devolve um ponto mock num app que roda no celular | `colecao`, `selecao`, `— infra` | 🔄 |
 | v0.2 | Ler | navegar obra → capítulo → ponto e ler com prazer | `colecao`, `selecao`, `preferencias` | ⚠️ |
 | v0.3 | Guardar | guardar o que um ponto provocou | `registro`, `— infra` | ⚠️ |
-| v0.4 | Voltar | um ponto para agora + continue de onde parou | `selecao`, `leitura` | 🗓️ |
+| v0.4 | Voltar | um ponto para agora + continue de onde parou | `selecao`, `leitura` | ⚠️ |
 | v1.0 | Leitor real | duas semanas de uso real, texto real, acessível | todos acima, ⟂ acessibilidade | 🗓️ |
 | v1.1 | Ponto do dia | o app acompanha sem cobrar | `selecao`, `lembrete`, `preferencias` | ⚪ |
 | v1.2 | Busca | reencontrar um ponto pela palavra | `busca` | ⚪ |
@@ -75,15 +75,17 @@ de um texto colado na tela.
 | coleções sugeridas no primeiro contato, recusáveis | `registro` | SUG-01..03 | ✅ |
 | reflexões e coleções do ponto exibidas na própria página | `registro` | PAG-01..02 | ✅ |
 
-## v0.4 — Voltar 🗓️
+## v0.4 — Voltar ⚠️ · *(código fechado 2026-10-07; falta UAT no aparelho — TD-004)*
 **Alvo:** abrir o app sem saber por onde começar e chegar num ponto em um toque.
+**Spec e verificação:** `.specs/features/voltar/` (spec, design, tasks, `validation.md` — PASS na rodada 3).
 
 | Feature | Domínio | Slice | Status |
 |---------|---------|-------|--------|
-| registro de leitura (evento + origem) | `leitura` | — | ⚪ |
-| continue de onde parou | `leitura` | — | ⚪ |
-| um ponto para agora, evitando leituras recentes, filtro por obra | `selecao` | — | ⚪ |
-| compartilhar **referência** (não o texto) | `colecao` | — | ⚪ |
+| registro de leitura (evento + origem) no banco cifrado — schema 2, migração testada contra o schema da v0.3 (AD-011) | `leitura` | LEI-01..08 | ✅ |
+| tela inicial: continue · um ponto para agora · biblioteca | `leitura`, `selecao` | INI-01..03 | ✅ |
+| continue de onde parou — a última leitura **em sequência** | `leitura` | CONT-01..06 | ✅ |
+| um ponto para agora, fora dos 10 últimos pontos lidos, filtro por obra | `selecao` | AGORA-01..06 | ✅ |
+| compartilhar **referência** (não o texto) | `colecao` | COMP-01..03 | ✅ |
 
 ## v1.0 — Leitor real 🗓️
 **Alvo:** um leitor real usa por duas semanas sem pedir nada que não esteja lá.
@@ -131,9 +133,10 @@ API do motor, segunda coleção (v3.0). Pool completo em [`backlog.md`](backlog.
 | TD-001 | v0.1 dado mock | open | antes de qualquer build fora do aparelho do Gustavo — `--estrito` precisa passar |
 | TD-002 | `livros/caminho.json` caps. 17–18 sem corte confirmado | open | com o livro impresso na mão (v1.0) |
 | TD-003 | v0.2 contraste testado só nos tokens | open | auditoria de acessibilidade (gate da v1.0) |
-| TD-004 | v0.1–v0.3 nunca rodou num aparelho real (inclui abrir o registro no Keystore) | open | próxima sessão com Android conectado |
+| TD-004 | v0.1–v0.4 nunca rodou num aparelho real (inclui abrir o registro no Keystore e a folha de compartilhamento) | open | próxima sessão com Android conectado |
 | TD-005 | v0.3 registro sem configuração nem teste no iOS | open | pipeline de iOS, antes do primeiro TestFlight |
 | TD-006 | v0.3 `drift_dev`/`sqlite3` presos pela versão do Flutter | open | próximo upgrade do Flutter |
+| TD-007 | v0.4 consultas de leitura agrupam o histórico inteiro | open | consultas de progresso da v1.3, ou UAT medindo a tela inicial acima de 100 ms |
 
 Detalhe de cada débito: [`.specs/TECH-DEBT.md`](../.specs/TECH-DEBT.md).
 

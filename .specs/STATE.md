@@ -95,11 +95,11 @@
 
 ## Handoff
 
-- **Feature**: `.specs/features/voltar` (v0.4) — spec, design e tasks escritos
-- **Phase / Task**: Execute — T1 (motor: origens e continue)
-- **Completed**: Specify, Design, Tasks
+- **Feature**: `.specs/features/voltar` (v0.4) — **verificada** (Verifier PASS, rodada 3)
+- **Phase / Task**: Execute concluído (T1–T10 + F1–F10); consolidação nos docs feita
+- **Completed**: T1–T10, F1–F10
 - **In-progress** (file:line): none
-- **Next step**: T1 → T10, depois o Verifier; UAT da v0.3 e da v0.4 no aparelho (TD-004)
+- **Next step**: UAT num Android real (TD-004) da v0.2–v0.4 — inclui as decisões A7–A22 marcadas "não — revisar/UAT" no spec da v0.4; depois push de `main` e das branches `feat/v0.3-guardar` e `feat/v0.4-voltar`; a seguir, v1.0 "Leitor real"
 - **Blockers**: nenhum aparelho/emulador nesta máquina; iOS sem Mac (TD-005)
 - **Uncommitted files**: none
-- **Branch**: `feat/v0.4-voltar` (sobre `feat/v0.3-guardar`; nada enviado ao remoto)
+- **Branch**: `feat/v0.4-voltar` (sobre `feat/v0.3-guardar`, que está sobre `main` local com a v0.2; nada enviado ao remoto)

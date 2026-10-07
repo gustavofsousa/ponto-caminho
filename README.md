@@ -13,10 +13,12 @@ texto → silêncio → reflexão → anotação → releitura → vida prática
 
 ## Estado
 
-**v0.3 — Guardar.** Sobre a leitura da v0.2 (biblioteca → obra → capítulo → ponto, tema e
-tamanho de texto): reflexões cifradas no aparelho, favoritos e coleções pessoais, tudo visível na
-página do ponto. Texto ainda **mock** e nunca rodado num aparelho real.
-Ver [`docs/roadmap.md`](docs/roadmap.md) e [`.specs/features/guardar/`](.specs/features/guardar/).
+**v0.4 — Voltar.** O app abre numa tela inicial com duas portas de um toque: *continue de onde
+parou* (o último ponto lido em sequência) e *um ponto para agora* (sorteado fora dos 10 últimos
+lidos, com filtro por obra). Cada ponto aberto vira uma leitura no registro cifrado, e a página do
+ponto compartilha a referência — nunca o texto. Por baixo, a leitura da v0.2 e o registro da v0.3
+(reflexões, favoritos, coleções). Texto ainda **mock** e nunca rodado num aparelho real.
+Ver [`docs/roadmap.md`](docs/roadmap.md) e [`.specs/features/voltar/`](.specs/features/voltar/).
 
 ## Documentação
 
