@@ -176,6 +176,7 @@ void main() {
         await abrirInicio(tester, com: registro);
 
         expect(find.text(_continue), findsNothing);
+        expect(find.text('Um ponto para agora'), findsOneWidget);
         expect(find.text('Biblioteca'), findsOneWidget);
         expect(_textosDaTelaInicial, containsAll(textosNaTela(tester)));
       },
