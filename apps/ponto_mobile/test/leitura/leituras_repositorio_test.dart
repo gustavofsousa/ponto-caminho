@@ -44,6 +44,17 @@ void main() {
     },
   );
 
+  test('LEI-01: a reading made on a local clock is stored in UTC', () async {
+    final local = DateTime(2026, 10, 7, 6, 15);
+    final emHoraLocal = Registro(banco, agora: () => local);
+
+    await emHoraLocal.leituras.registrar(b, OrigemDaLeitura.biblioteca);
+
+    final linha = (await banco.select(banco.leituras).get()).single;
+    expect(linha.lidoEm.isUtc, isTrue);
+    expect(linha.lidoEm, local.toUtc());
+  });
+
   test('LEI-01: reading the same point again is a new reading', () async {
     await ler(b, OrigemDaLeitura.biblioteca);
     await ler(b, OrigemDaLeitura.biblioteca);
