@@ -102,6 +102,12 @@ Seen once or not yet corroborated. Tracked, not trusted.
 - evidence: apps/ponto_mobile/lib/colecao/ponto_page.dart:114-117 (M45, edge case 5, round 1) (app)
 - last seen: 2026-10-07T18:17:23Z
 
+### L-016 — Test a count window at its exact edge from both sides, because data smaller than the window lets any nearby cap pass.
+- signal: `surviving_mutant` · recurrence: 1 feature(s) · scope: `app` · harmful: 0
+- features: voltar
+- evidence: apps/ponto_mobile/lib/leitura/continue_de_onde_parou.dart:37 (M64/M64b/M64c, A12/AC-13, round 2) (app)
+- last seen: 2026-10-07T18:36:40Z
+
 ## Quarantined (failed when applied — ignore)
 
 A confirmed lesson that recurred alongside failure. Kept for the maintainer to review.

@@ -4,7 +4,9 @@
 **Spec**: `.specs/features/voltar/spec.md`
 **Diff range**: `25b2296..6d92a44` (branch `feat/v0.4-voltar`, 12 commits: fa96a9c … 6d92a44)
 **Verifier**: independent sub-agent (author ≠ verifier)
-**Verdict**: ❌ FAIL (rodada 1). A rodada 1 (`f8a1317..553e766`, 7 commits só de teste) fechou **todos** os gaps da rodada 0: M14, M27, M31 (e `limite: 9`), M36 e M44 morrem, os edge cases 4 e 5 têm teste, o AD-004 está em dia e o gate passa (227). O sensor ampliado achou **2 sobreviventes novos**, ambos Minor e só de teste (~15 min): M45 (gravação em voo descarta toques rápidos, edge case 5) e M49 (o app passa os recentes em ordem invertida, AC-18 na tela). Ver "Rodada 1" no fim.
+**Verdict**: ❌ FAIL (rodada 2, a última permitida → **escalar ao usuário**). A rodada 2 (`342d5b1..cc8a550`, 2 commits só de teste) matou M45 e M49, e o gate passa (228, também com `TZ=UTC`). Na varredura final, 5 de 6 mutantes novos morreram. Sobrou **um gap Minor**: nenhum teste prova a janela de **10** pontos do continue (A12). Os limites 2, 9 e 11 passam pela suíte inteira (M64, M64b, M64c). O comportamento no HEAD está certo (sonda P9). Correção: 1 teste, ~5 min. Ou o usuário aceita como risco registrado. Ver "Rodada 2" no fim.
+
+**Verdict da rodada 1**: ❌ FAIL. A rodada 1 (`f8a1317..553e766`, 7 commits só de teste) fechou **todos** os gaps da rodada 0: M14, M27, M31 (e `limite: 9`), M36 e M44 morrem, os edge cases 4 e 5 têm teste, o AD-004 está em dia e o gate passa (227). O sensor ampliado achou **2 sobreviventes novos**, ambos Minor e só de teste (~15 min): M45 (gravação em voo descarta toques rápidos, edge case 5) e M49 (o app passa os recentes em ordem invertida, AC-18 na tela). Ver "Rodada 1" no fim.
 
 **Verdict da rodada 0**: ❌ FAIL. O comportamento está certo no HEAD: o gate passa, as 26 ACs têm o resultado do spec afirmado e as 6 sondas passam. Mas **5 mutantes não equivalentes sobreviveram à suíte inteira** (M14, M27, M31, M36, M44). Também ficaram parciais o AC-09 ("abaixo") e os edge cases 4 e 5. Todas as correções são só de teste (~35 min no total). Ver "Fix Plans".
 
@@ -367,3 +369,80 @@ LEI-01, CONT-01, AGORA-02 e COMP-01 passam a ✅ Verified. Ficam ⚠️ **LEI-03
 **Sensor (rodada 1)**: 8/10 mortos. Sobreviventes novos: M45, M49.
 **Gate**: motor 64 ✅ · app 227 ✅ (UTC−3 e `TZ=UTC`) · validador 6 ✅ · APK ✅.
 **Next steps**: Fix 7 + Fix 8 → rodada 2 (reaplicar M45, M49 e o gate). É a 2ª de no máximo 3 iterações. Se o usuário preferir, os dois podem ser aceitos como risco registrado: nenhum muda o comportamento atual.
+
+---
+
+## Rodada 2 (re-verificação com escopo, a última permitida)
+
+**Date**: 2026-10-07 · **Diff range**: `342d5b1..cc8a550` (2 commits, só `test/`; `git diff --stat 342d5b1..cc8a550 -- apps/ponto_mobile/lib packages/ponto_motor/lib` vazio)
+
+### Gate
+
+`bash -c 'set -o pipefail; …'` com o Build gate do `tasks.md`, na árvore real: `validar OK` · validador `Ran 6 tests … OK` · motor format "26 files (0 changed)", analyze "No issues found!", `+64: All tests passed!` · app format "78 files (0 changed)", analyze "No issues found! (ran in 5.3s)", `00:37 +228: All tests passed!` · `✓ Built build/app/outputs/flutter-apk/app-debug.apk` · `GATE EXIT=0`. Com `TZ=UTC`: `00:37 +228: All tests passed!`. App 227 → **228** (+1). Árvore real limpa depois.
+
+### Integridade do diff
+
+- `expect(`: `leitura/leitura_na_pagina_test.dart` 22→22, `selecao/um_ponto_para_agora_test.dart` 33→36
+- Linhas removidas: o `import` do drift (agora com mais nomes), o nome antigo do teste LEI-03 e um comentário. Nenhuma asserção saiu
+- O LEI-03 de toques rápidos ganhou o banco lento e um `pump(500 ms)`, e manteve as mesmas asserções de ordem e de texto. Isso fortalece o teste, não o enfraquece
+
+### Gaps da rodada 1 → evidência nova
+
+| Gap | Fix | `file:line` + assertion (em `cc8a550`) | Spec-anchored? | Mutante reinjetado (worktree novo, suíte inteira) |
+| --- | --- | --- | --- | --- |
+| 7 · edge case 5 com gravação lenta | cc8a550 | `leitura/leitura_na_pagina_test.dart:146-171`: `BancoRegistro(NativeDatabase.memory().interceptWith(_GravacaoLenta()))` (`:149-151`, 50 ms por INSERT, `:300`), 3× Próximo com `pump()`, `pump(500 ms)` (`:161`) → leituras `[1, 2, 81, 82]`, todas `biblioteca` | ✅ "uma leitura por ponto mostrado, na ordem", com a gravação anterior ainda em curso | M45 ✅ morto (fuso padrão e `TZ=UTC`) |
+| 8 · AC-18 na tela | e0b59d0 | `selecao/um_ponto_para_agora_test.dart:184-207`: lidos 81, 1, 82, 2; filtro "Caminho" → `limites == [1]` (`:203`), abre "Primeiro ponto da oração." e **não** "Segundo ponto do caráter." (`:205`) | ✅ Expected (o lido há mais tempo) e Must-not (nunca o último lido), os dois afirmados | M49 ✅ morto |
+
+### Sensor da rodada 2
+
+Worktree novo em `cc8a550` (baseline `+228: All tests passed!`). Uma mutação por vez, cada uma contra a **suíte inteira do app**. Depois de cada uma: `git checkout -- .` e `git status --porcelain` vazio. No fim, `git worktree remove --force`. Nunca `git stash`.
+
+| # | File:line | Description | Killed? |
+| --- | --- | --- | --- |
+| M45 | `lib/colecao/ponto_page.dart:114-117` | `_ir` ignora a gravação enquanto a anterior está em voo | ✅ LEI-03 (gravação lenta) |
+| M45-UTC | idem, `TZ=UTC` | idem | ✅ LEI-03 (gravação lenta) |
+| M49 | `lib/selecao/um_ponto_para_agora.dart:74` | recentes do mais antigo ao mais novo | ✅ AGORA-04 (tela) |
+| M50 *(varredura)* | `lib/colecao/ponto_page.dart:114-117` | grava só o último ponto depois de 300 ms (debounce) | ✅ LEI-03 (gravação lenta) |
+| M57 *(varredura)* | `lib/leitura/registrar_leitura.dart:14` | sem a guarda "registro nulo" (`registro!`) | ✅ 16 testes (CIFRA-04 ×2, LEI-05 (a) …) |
+| M59 *(varredura)* | `lib/selecao/um_ponto_para_agora.dart:63` | o chip marcado é sempre "Todas as obras" | ✅ AGORA-05 (continua escolhida) |
+| M62 *(varredura)* | `lib/inicio_page.dart:30` | a home cria um `Random()` em vez de usar o injetado (regra 6) | ✅ 8 testes (AGORA-01 ×2, AGORA-02 ×2 …) |
+| M65 *(varredura)* | `lib/colecao/ponto_page.dart:123` | falha ao compartilhar sem ir ao log | ✅ COMP-02 |
+| M64 *(varredura)* | `lib/leitura/continue_de_onde_parou.dart:37` | continue procura só nos **2** últimos pontos em sequência (A12 diz 10) | ❌ **Survived** (228 passaram). P9 mata → Fix 9 |
+| M64b | idem | limite **9** | ❌ **Survived** (228). P9 mata |
+| M64c | idem | limite **11** | ❌ **Survived** (228). P9 mata |
+
+**Result**: 8/11 mortos. M45 e M49 estão fechados. Sobrevive uma família só: o limite do continue (M64, M64b, M64c). O AC-13 testa **um** ponto ausente, então qualquer limite ≥ 2 passa. O round 0 já tinha morto o limite 1 (M28).
+
+### Sonda da rodada 2 (descartável, só no worktree)
+
+| # | Sonda | No HEAD | Mata |
+| --- | --- | --- | --- |
+| P9 | (a) leitura `biblioteca` do Caminho 2 e depois de 9 pontos inexistentes (Caminho 901…909) → home mostra "Continue de onde parou" e "Caminho, capítulo Caráter, ponto 2". (b) o mesmo com 10 inexistentes (o B fica em 11º) → continue some | ✅ (a) e (b) passam | limite 2 e 9 (falha a), limite 11 (falha b) |
+
+### Fix Plans (rodada 2)
+
+#### Fix 9: A12: a janela de 10 do continue, nos dois lados do limite (M64, M64b, M64c)
+
+- **Root cause**: o único cenário com ponto ausente (AC-13, `leitura/continue_de_onde_parou_test.dart:238-257`, CONT-05) tem 1 ausente. Qualquer limite ≥ 2 passa.
+- **Fix task**: em `leitura/continue_de_onde_parou_test.dart`, dois casos `'CONT-05: …'` (sonda P9). B lido em sequência e depois 9 pontos inexistentes → continue mostra B. Com 10 inexistentes → continue some.
+- **Verify**: reaplicar o limite 2, 9 e 11 em `lib/leitura/continue_de_onde_parou.dart:37` → cada um falha num dos dois casos.
+- **Priority**: Minor (só aparece com 2+ pontos lidos que somem do conteúdo; o AC-13 está coberto) · ~5 min
+
+### Escalada
+
+Esta é a 3ª iteração (rodadas 0, 1 e 2), o limite do fluxo fix → re-verify. **Decisão do usuário**:
+
+- **(A) Recomendado**: aplicar o Fix 9 (~5 min, só teste, a sonda P9 pronta). Depois, uma checagem curta: reaplicar os limites 2, 9 e 11 e rodar o gate.
+- **(B)** Aceitar como risco registrado em `.specs/TECH-DEBT.md`. O comportamento no HEAD está certo (P9 passa), e o requisito AC-13 está coberto.
+
+### Requirement Traceability (rodada 2)
+
+LEI-03 e AGORA-04 passam a ✅ Verified. **CONT-05** fica ⚠️ (A12, Fix 9). Os outros 25 seguem ✅ Verified. M22 continua equivalente.
+
+### Summary (rodada 2)
+
+**Overall**: ❌ Not Ready só pelo Fix 9 (Minor, ~5 min), escalado ao usuário. O comportamento está certo no HEAD em tudo o que foi sondado (P1–P9).
+**Spec-anchored check**: 26/26 ACs com o resultado do spec afirmado; edge cases 6/6; 0 spec-precision gaps. Sem prova: só a janela de 10 da A12 no continue.
+**Sensor (rodada 2)**: 8/11 mortos. Sobrevivem M64, M64b e M64c (uma família).
+**Sensor acumulado**: rodada 0, 38/44 (1 equivalente); rodada 1, 8/10; rodada 2, 8/11. Todos os sobreviventes das rodadas 0 e 1 foram mortos.
+**Gate**: motor 64 ✅ · app 228 ✅ (UTC−3 e `TZ=UTC`) · validador 6 ✅ · APK ✅.

@@ -3,7 +3,7 @@
   "promote_threshold": 2,
   "window_days": 45,
   "quarantine_threshold": 2,
-  "next_id": 16,
+  "next_id": 17,
   "lessons": [
     {
       "id": "L-001",
@@ -281,6 +281,24 @@
       ],
       "created": "2026-10-07T18:17:23Z",
       "last_seen": "2026-10-07T18:17:23Z"
+    },
+    {
+      "id": "L-016",
+      "key": "surviving_mutant::test a count window at its exact edge from both sides because data smaller than the window lets any nearby cap pass",
+      "text": "Test a count window at its exact edge from both sides, because data smaller than the window lets any nearby cap pass.",
+      "signal": "surviving_mutant",
+      "scope": "app",
+      "status": "candidate",
+      "features": [
+        "voltar"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "apps/ponto_mobile/lib/leitura/continue_de_onde_parou.dart:37 (M64/M64b/M64c, A12/AC-13, round 2) (app)"
+      ],
+      "created": "2026-10-07T18:36:40Z",
+      "last_seen": "2026-10-07T18:36:40Z"
     }
   ]
 }
