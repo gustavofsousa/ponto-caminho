@@ -182,6 +182,31 @@ void main() {
   );
 
   testWidgetsComRegistro(
+    'AGORA-04: with every point of the chosen work recent, the one read longest ago opens',
+    (tester) async {
+      // Lidos do mais antigo para o mais novo: 81, 1, 82, 2 — o Caminho inteiro.
+      await tester.runAsync(() async {
+        for (final numero in [81, 1, 82, 2]) {
+          await registro.leituras.registrar(
+            idDe('caminho', numero),
+            OrigemDaLeitura.biblioteca,
+          );
+        }
+      });
+      final fonte = _FonteFixa(0);
+      await abrirInicio(tester, fonte, com: registro);
+
+      await tester.tap(opcao('Caminho'));
+      await tester.pumpAndSettle();
+      await tocarAgora(tester);
+
+      expect(fonte.limites, [1]);
+      expect(find.text('Primeiro ponto da oração.'), findsOneWidget);
+      expect(find.text('Segundo ponto do caráter.'), findsNothing);
+    },
+  );
+
+  testWidgetsComRegistro(
     'AGORA-05: the filter offers every work with a point, in collection order',
     (tester) async {
       await abrirInicio(tester, _FonteFixa(0), com: registro);
