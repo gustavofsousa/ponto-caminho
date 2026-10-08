@@ -41,12 +41,12 @@ roda sozinho a cada push.
 | # | Decisão | Default escolhido | Motivo | Confirmado? |
 | --- | --- | --- | --- | --- |
 | A1 | **Onde roda o CI** (backlog › `infra`: decisão macro) | **GitHub Actions**, runner `ubuntu-latest` | Repo é público → minutos ilimitados nos runners padrão; mesmo lugar do código; Codemagic só se paga com assinatura iOS, que não está no roadmap próximo | sim (usuário, RFD, 2026-10-08) — AD-012 |
-| A2 | Quando roda | `push` em qualquer branch + `workflow_dispatch` (rodar à mão) | Fluxo solo com branches empilhadas; PR do próprio repo já é coberto pelo push | não — revisar |
-| A3 | Onde mora a lógica do portão | Script `tool/check.sh` (convenção `tool/` do Dart); o workflow só chama o script, um passo por portão | Ponto de entrada fino: o YAML orquestra, o script decide. Permite provar o portão localmente sem push | não — revisar |
-| A4 | Onde o fuso é fixado | **Dentro do script** (`TZ=America/Sao_Paulo`), não só no YAML | Assim o portão local num aparelho em UTC também pega o erro; o fuso é o do público real (sem horário de verão desde 2019, deslocamento fixo −3) | não — revisar |
-| A5 | Versão do Flutter no CI | **3.41.7** fixa (a do ambiente de dev) | TD-006: subir o Flutter é um commit explícito, nunca uma troca silenciosa do runner | não — revisar |
-| A6 | Python no CI | `python3` do próprio runner, sem `setup-python` | `validar.py` e seus testes só usam a stdlib | não — revisar |
-| A7 | Como provar o CI vermelho | Sensor de discriminação **local** sobre `tool/check.sh` (mutantes, nunca commitados); no GitHub, **um** run verde observado | Empurrar branches com defeito a um repo público só para ver vermelho é ruído; o YAML só repassa o código de saída do script | não — revisar |
+| A2 | Quando roda | `push` em qualquer branch + `workflow_dispatch` (rodar à mão) | Fluxo solo com branches empilhadas; PR do próprio repo já é coberto pelo push | sim (aceito ao aprovar o spec) |
+| A3 | Onde mora a lógica do portão | Script `tool/check.sh` (convenção `tool/` do Dart); o workflow só chama o script, um passo por portão | Ponto de entrada fino: o YAML orquestra, o script decide. Permite provar o portão localmente sem push | sim (aceito ao aprovar o spec) |
+| A4 | Onde o fuso é fixado | **Dentro do script** (`TZ=America/Sao_Paulo`), não só no YAML | Assim o portão local num aparelho em UTC também pega o erro; o fuso é o do público real (sem horário de verão desde 2019, deslocamento fixo −3). Se o fuso não pegar (sem tzdata, a libc cai em UTC calada), o script falha antes de qualquer portão | sim (aceito ao aprovar o spec) |
+| A5 | Versão do Flutter no CI | **3.41.7** fixa (a do ambiente de dev) | TD-006: subir o Flutter é um commit explícito, nunca uma troca silenciosa do runner | sim (aceito ao aprovar o spec) |
+| A6 | Python no CI | `python3` do próprio runner, sem `setup-python` | `validar.py` e seus testes só usam a stdlib | sim (aceito ao aprovar o spec) |
+| A7 | Como provar o CI vermelho | Sensor de discriminação **local** sobre `tool/check.sh` (mutantes, nunca commitados); no GitHub, **um** run verde observado | Empurrar branches com defeito a um repo público só para ver vermelho é ruído; o YAML só repassa o código de saída do script | sim (aceito ao aprovar o spec) |
 
 **Open questions:** nenhuma. A1 decidida no RFD; A2–A7 são defaults do agente, aceitos sem objeção ao aprovar o spec.
 
@@ -68,7 +68,7 @@ que uma regressão não dependa de eu lembrar de rodar os testes.
    · *Verification:* run verde observado no GitHub (`gh run watch`) com os quatro passos listados ·
    *Priority:* Required
 2. **CI-02** — WHEN qualquer comando do portão sai com código ≠ 0 THEN o run SHALL terminar com
-   falha, e o nome do passo que falhou SHALL dizer qual portão (livros, motor, app, código gerado).
+   falha, e o nome do passo que falhou SHALL dizer qual portão (`livros`, `motor`, `app`, `codegen`).
    Nenhum passo é pulado nem marcado `continue-on-error`. · *Verification:* sensor local (Edge Cases)
    + leitura do YAML · *Priority:* Required
 3. **CI-03** — WHEN o workflow roda THEN SHALL usar Flutter **3.41.7** exatamente (A5). ·
@@ -85,10 +85,13 @@ código gerado, para que as duas falhas conhecidas não cheguem à `main`.
    `America/Sao_Paulo`, mesmo que a máquina esteja em UTC. · *Verification:* sensor — com
    `momento.toLocal()` trocado por `momento` em `data_da_reflexao.dart`, `tool/check.sh app` sai ≠ 0
    numa shell com `TZ=UTC` · *Priority:* Required
-2. **CI-05** — WHEN `banco_registro.dart` muda e o `.g.dart` commitado não foi regenerado THEN o
-   portão SHALL falhar no passo de código gerado e imprimir o diff; localmente, o `.g.dart` fica
-   regenerado na árvore de trabalho, pronto para commit. WHEN o `.g.dart` está em dia THEN o passo
-   SHALL passar e a árvore SHALL continuar limpa (`git status --porcelain` vazio).
+2. **CI-05** *[revised r1]* — WHEN o `.g.dart` da árvore de trabalho difere do que o `build_runner`
+   gera a partir de `banco_registro.dart` THEN o portão `codegen` SHALL falhar e imprimir o diff,
+   deixando o `.g.dart` regenerado na árvore, pronto para commit. WHEN o `.g.dart` está em dia THEN o
+   passo SHALL passar e a árvore SHALL continuar limpa (`git status --porcelain` vazio). No CI a
+   árvore é o commit, então o verde do CI prova o arquivo **commitado**; localmente, uma segunda
+   rodada passa porque o arquivo já foi regenerado — o verde local só vale para o que for commitado.
+   *(r1: o texto dizia "o `.g.dart` commitado", mas o script compara com a árvore — Verifier, gap 2.)*
    · *Verification:* sensor — acrescentar uma coluna a uma tabela sem regenerar → vermelho; árvore
    limpa → verde · *Priority:* Required
 

@@ -3,7 +3,7 @@
   "promote_threshold": 2,
   "window_days": 45,
   "quarantine_threshold": 2,
-  "next_id": 17,
+  "next_id": 19,
   "lessons": [
     {
       "id": "L-001",
@@ -299,6 +299,42 @@
       ],
       "created": "2026-10-07T18:36:40Z",
       "last_seen": "2026-10-07T18:36:40Z"
+    },
+    {
+      "id": "L-017",
+      "key": "spec_precision_gap::when a check regenerates files in place the ac states whether green means the working tree or the committed state",
+      "text": "When a check regenerates files in place, the AC states whether green means the working tree or the committed state.",
+      "signal": "spec_precision_gap",
+      "scope": "ci",
+      "status": "candidate",
+      "features": [
+        "ci"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "CI-05 (validation.md gap 2) (ci)"
+      ],
+      "created": "2026-10-08T15:46:02Z",
+      "last_seen": "2026-10-08T15:46:02Z"
+    },
+    {
+      "id": "L-018",
+      "key": "spec_precision_gap::name each gate or component with one identifier across acs step names and scripts",
+      "text": "Name each gate or component with one identifier across ACs, step names and scripts.",
+      "signal": "spec_precision_gap",
+      "scope": "specs",
+      "status": "candidate",
+      "features": [
+        "ci"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "CI-02 (validation.md gap 3) (specs)"
+      ],
+      "created": "2026-10-08T15:46:02Z",
+      "last_seen": "2026-10-08T15:46:02Z"
     }
   ]
 }

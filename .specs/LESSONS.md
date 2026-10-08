@@ -108,6 +108,18 @@ Seen once or not yet corroborated. Tracked, not trusted.
 - evidence: apps/ponto_mobile/lib/leitura/continue_de_onde_parou.dart:37 (M64/M64b/M64c, A12/AC-13, round 2) (app)
 - last seen: 2026-10-07T18:36:40Z
 
+### L-017 — When a check regenerates files in place, the AC states whether green means the working tree or the committed state.
+- signal: `spec_precision_gap` · recurrence: 1 feature(s) · scope: `ci` · harmful: 0
+- features: ci
+- evidence: CI-05 (validation.md gap 2) (ci)
+- last seen: 2026-10-08T15:46:02Z
+
+### L-018 — Name each gate or component with one identifier across ACs, step names and scripts.
+- signal: `spec_precision_gap` · recurrence: 1 feature(s) · scope: `specs` · harmful: 0
+- features: ci
+- evidence: CI-02 (validation.md gap 3) (specs)
+- last seen: 2026-10-08T15:46:02Z
+
 ## Quarantined (failed when applied — ignore)
 
 A confirmed lesson that recurred alongside failure. Kept for the maintainer to review.
