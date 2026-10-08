@@ -1,0 +1,43 @@
+# The quality gate on every push. The rules live in tool/check.sh; each step runs one gate so a
+# red run names the gate that failed.
+name: CI
+
+on:
+  push:
+  workflow_dispatch:
+
+# SECURITY: read-only token and no secrets — a third-party action can't write to this public repo.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      # SECURITY: third-party action pinned by commit SHA.
+      # COMPAT: Flutter matches the dev machine (TD-006); upgrading it is an explicit commit.
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2.23.0
+        with:
+          channel: stable
+          flutter-version: 3.41.7
+          cache: true
+
+      - name: livros — validar.py + Python tests
+        run: tool/check.sh livros
+
+      - name: motor — analyze + tests
+        run: tool/check.sh motor
+
+      - name: app — analyze + tests
+        run: tool/check.sh app
+
+      - name: codegen — drift code up to date
+        run: tool/check.sh codegen
