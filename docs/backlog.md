@@ -95,10 +95,11 @@ pro spec* · *Dívida técnica*. Só aparecem as faixas com conteúdo.
 
 ### infra
 - **Amadurecer:** stack Flutter (v0.1) ✅ ADR-001 · banco drift + `sqlite3mc`, chave no Keystore,
-  fora do backup (v0.3) ✅ ADR-002 · CI (v0.1) 🗓️ — rodar os testes com um fuso fora de UTC fixado
-  (`TZ=America/Sao_Paulo`): o teste de data só pega a falta de `toLocal()` fora de UTC ·
+  fora do backup (v0.3) ✅ ADR-002 · CI (v0.1) ✅ AD-012 — `tool/check.sh` no GitHub Actions, com
+  `TZ=America/Sao_Paulo` fixado no script ·
   pipeline iOS na nuvem (Codemagic ou runner macOS) antes do primeiro TestFlight ⚪.
-- **Decisão ao puxar pro spec:** CI: GitHub Actions ou Codemagic para tudo — **decisão macro**, RFD.
+- **Decisão ao puxar pro spec:** *(Resolvida na v0.1: CI no GitHub Actions — AD-012; Codemagic só volta à
+  mesa com o pipeline iOS.)*
 - **Dívida técnica:** TD-005 registro sem iOS · TD-006 `drift_dev`/`sqlite3` presos pelo Flutter.
 
 ---

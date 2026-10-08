@@ -104,11 +104,11 @@
 
 ## Handoff
 
-- **Feature**: `.specs/features/voltar` (v0.4) — **verificada** (Verifier PASS, rodada 3)
-- **Phase / Task**: Execute concluído (T1–T10 + F1–F10); consolidação nos docs feita
-- **Completed**: T1–T10, F1–F10
+- **Feature**: `.specs/features/ci` (v0.1) — **verificada** (Verifier PASS local, rodada 0; run verde no GitHub)
+- **Phase / Task**: Execute concluído (spec + AD-012, `tool/check.sh`, workflow, verificação); consolidação nos docs feita
+- **Completed**: todos os passos do plano inline (Medium, sem `tasks.md`)
 - **In-progress** (file:line): none
-- **Next step**: UAT num Android real (TD-004) da v0.2–v0.4 — inclui as decisões A7–A22 marcadas "não — revisar/UAT" no spec da v0.4; depois push de `main` e das branches `feat/v0.3-guardar` e `feat/v0.4-voltar`; a seguir, v1.0 "Leitor real"
-- **Blockers**: nenhum aparelho/emulador nesta máquina; iOS sem Mac (TD-005)
+- **Next step**: UAT num Android real (TD-004) da v0.2–v0.4 — inclui as decisões A7–A22 marcadas "não — revisar/UAT" no spec da v0.4; antes de puxar "texto real" (v1.0), decidir onde o texto mora: o repo no GitHub é público (roadmap › Riscos)
+- **Blockers**: nenhum aparelho conectado; o emulador do SDK não tem imagem de sistema nem `cmdline-tools`; iOS sem Mac (TD-005)
 - **Uncommitted files**: none
-- **Branch**: `feat/v0.4-voltar` (sobre `feat/v0.3-guardar`, que está sobre `main` local com a v0.2; nada enviado ao remoto)
+- **Branch**: `feat/v0.1-ci` (sobre `feat/v0.4-voltar` → `feat/v0.3-guardar` → `main` local). No remoto: `feat/v0.4-voltar` e `feat/v0.1-ci`; `main` local está 31 commits à frente de `origin/main`; `feat/v0.3-guardar` nunca foi enviada (está contida em `feat/v0.4-voltar`)

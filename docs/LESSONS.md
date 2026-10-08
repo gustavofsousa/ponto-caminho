@@ -117,3 +117,20 @@
   Próximo survived (M36).
 - **Relational words in an AC are assertions.** "The reference *below* the label" needs a
   position check; asserting both texts exist let a title/subtitle swap survive (M27).
+
+## 2026-10-08 — v0.1 CI
+
+- **Simulate the runner with a fresh clone, not the dev tree.** The gate was green in the repo and
+  red in a clean clone: `dart analyze` doesn't run `pub get`, and the motor's `pubspec.lock` isn't
+  committed, so a new checkout has no package config. The clone caught it before the first push.
+- **A test that depends on the machine's time zone needs the zone pinned by the gate itself.** The
+  whole app suite passed under `TZ=UTC` with `toLocal()` removed; under `America/Sao_Paulo`, 10
+  tests failed. Pinning TZ in `tool/check.sh` (not only in the YAML) makes every run catch it — and
+  without tzdata the libc silently falls back to UTC, so the script checks the offset took effect.
+- **Under `set -e`, an ERR trap doesn't fire when a subshell function fails** (bash 5.2). An EXIT
+  trap does, and keeps the exit status — that is what names the failed gate.
+- **Keep the CI entry point thin.** The workflow only calls `tool/check.sh <gate>`; the sensor ran
+  all six mutants locally against the same script, so no broken commit had to be pushed to a public
+  repo to prove the CI goes red.
+- **"Public repo" is a product fact, not only a CI detail.** It made Actions free — and it means the
+  real text of the three works can never be committed here (roadmap › Riscos).

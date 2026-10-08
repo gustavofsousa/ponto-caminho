@@ -47,7 +47,7 @@ de um texto colado na tela.
 | escolha de stack: Flutter + Dart, drift cifrável — [ADR-001](adr/001-stack-mobile-flutter.md) | `— infra` | — | ✅ |
 | motor como pacote Dart puro: `lerColecao`, `PontoId`, `obterPonto`, `referenciaDe` | `colecao`, `selecao` | — | ✅ |
 | app roda no celular vindo do motor — APK debug gerado; falta rodar num aparelho ([TD-004](../.specs/TECH-DEBT.md)) | `— infra` | — | 🔄 |
-| CI: `validar.py`, lint, testes do motor | `— infra` | — | 🗓️ |
+| CI: `validar.py`, lint, testes do motor e do app, código gerado — `tool/check.sh` no GitHub Actions, fuso fora de UTC (AD-012, `.specs/features/ci/`) | `— infra` | CI-01..09 | ✅ |
 
 ## v0.2 — Ler ⚠️ · *(código fechado 2026-10-02; falta UAT no aparelho — TD-004)*
 **Alvo:** alguém navega as três obras e lê um ponto inteiro sem nada atrapalhar.
@@ -153,7 +153,7 @@ Detalhe de cada débito: [`.specs/TECH-DEBT.md`](../.specs/TECH-DEBT.md).
 
 | Risco | Resposta |
 |-------|----------|
-| **Direitos autorais** — as três obras não são de domínio público | Desenvolvimento só com mock; `--estrito` impede publicar mock. Distribuição pública do texto real exige licença — decidir antes de qualquer build fora do círculo de teste. |
+| **Direitos autorais** — as três obras não são de domínio público | Desenvolvimento só com mock; `--estrito` impede publicar mock. Distribuição pública do texto real exige licença — decidir antes de qualquer build fora do círculo de teste. **O repositório no GitHub é público:** o texto real não pode ser commitado nele — decidir onde ele mora antes de puxar "texto real" (v1.0). |
 | Sensibilidade das reflexões | Cifradas desde a v0.3; nenhuma telemetria de conteúdo. |
 | Migrar de banco em claro para cifrado depois | Resolvido: o registro nasceu cifrado na v0.3 (ADR-001, ADR-002). |
 | Perder a chave do registro (cofre corrompido, troca de aparelho) | O app avisa e nunca apaga nem sobrescreve o arquivo (ADR-002); recuperação só com conta/exportação (v2.0). |

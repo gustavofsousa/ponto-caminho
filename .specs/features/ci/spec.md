@@ -18,9 +18,9 @@ roda sozinho a cada push.
 
 ## Goals
 
-- [ ] Todo push ao GitHub roda o portão inteiro e termina vermelho se qualquer verificação falhar.
-- [ ] O mesmo portão roda localmente com **um** comando, no mesmo fuso, com o mesmo resultado.
-- [ ] As duas falhas caladas de hoje (fuso, código gerado desatualizado) deixam o portão vermelho.
+- [x] Todo push ao GitHub roda o portão inteiro e termina vermelho se qualquer verificação falhar. *(vermelho provado pelo sensor local no mesmo script — A7)*
+- [x] O mesmo portão roda localmente com **um** comando, no mesmo fuso, com o mesmo resultado.
+- [x] As duas falhas caladas de hoje (fuso, código gerado desatualizado) deixam o portão vermelho.
 
 ## Out of Scope
 
@@ -159,20 +159,20 @@ commitado — e o portão SHALL sair ≠ 0 no passo indicado:
 
 | ID | Story | Fase | Status |
 | --- | --- | --- | --- |
-| CI-01 | P1 portão a cada push | Execute | Pending |
-| CI-02 | P1 portão a cada push | Execute | Pending |
-| CI-03 | P1 portão a cada push | Execute | Pending |
-| CI-04 | P1 falhas caladas | Execute | Pending |
-| CI-05 | P1 falhas caladas | Execute | Pending |
-| CI-06 | P2 comando local | Execute | Pending |
-| CI-07 | P2 comando local | Execute | Pending |
-| CI-08 | P2 sem porta nova | Execute | Pending |
-| CI-09 | P2 sem porta nova | Execute | Pending |
+| CI-01 | P1 portão a cada push | Execute | Verified |
+| CI-02 | P1 portão a cada push | Execute | Verified |
+| CI-03 | P1 portão a cada push | Execute | Verified |
+| CI-04 | P1 falhas caladas | Execute | Verified |
+| CI-05 | P1 falhas caladas | Execute | Verified |
+| CI-06 | P2 comando local | Execute | Verified |
+| CI-07 | P2 comando local | Execute | Verified |
+| CI-08 | P2 sem porta nova | Execute | Verified |
+| CI-09 | P2 sem porta nova | Execute | Verified |
 
-**Coverage:** 9 total, 0 mapeados a tarefas (Medium: tarefas implícitas no Execute).
+**Coverage:** 9 total, 9 verificados (`validation.md`; Medium: tarefas implícitas no Execute).
 
 ## Success Criteria
 
-- [ ] Um push de `feat/v0.1-ci` mostra um run verde no GitHub, em ≤ 10 min, com os quatro passos de portão.
-- [ ] Os seis mutantes da tabela de Edge Cases deixam `tool/check.sh` vermelho, cada um no passo certo.
-- [ ] `docs/roadmap.md` › v0.1 marca a linha de CI como ✅.
+- [x] Um push de `feat/v0.1-ci` mostra um run verde no GitHub, em ≤ 10 min, com os quatro passos de portão.
+- [x] Os seis mutantes da tabela de Edge Cases deixam `tool/check.sh` vermelho, cada um no passo certo.
+- [x] `docs/roadmap.md` › v0.1 marca a linha de CI como ✅.

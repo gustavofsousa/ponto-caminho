@@ -144,3 +144,20 @@ Não alterado neste relatório (o Verifier só escreve `validation.md`). Estado 
 **Issues found**: nenhum bloqueante. Gaps 1 e 2 são de redação do spec (~5 min cada); a pendência 4 é a reconciliação do roadmap (~2 min).
 
 **Next steps**: empurrar `feat/v0.1-ci` e observar `gh run watch` (4 passos verdes, log do setup com `Flutter 3.41.7`, run ≤ 10 min); então marcar a linha de CI do `docs/roadmap.md` como ✅ e os ACs como Verified.
+
+---
+
+## Remote evidence (orquestrador, depois do push autorizado)
+
+Run [37803142776](https://github.com/gustavofsousa/ponto-caminho/actions/runs/37803142776) — push de
+`feat/v0.1-ci` em `d0c901f`, **success**, job de 15:43:53Z a 15:47:31Z (**3 min 41 s**, Success Criteria 1: ≤ 10 min ✅).
+
+| AC | Evidência no log (`gh run view 37803142776 --log`) | Status |
+| --- | --- | --- |
+| CI-01 | Passos `livros — validar.py + Python tests`, `motor — analyze + tests`, `app — analyze + tests`, `codegen — drift code up to date`, nessa ordem, todos `success`; `Ran 6 tests` · `🎉 64 tests passed.` · `🎉 230 tests passed.` · `Built with build_runner/aot in 46s` + `== check: passed (codegen)` | ✅ PASS |
+| CI-03 | Setup: `flutter-version: 3.41.7`, `FLUTTER_ROOT: /opt/hostedtoolcache/flutter/stable-3.41.7-x64/flutter`, chave de cache com a revisão `cc0734ac716f…` — a mesma do `flutter --version` local (`revision cc0734ac71`) | ✅ PASS |
+
+**Verdict final**: ✅ PASS — 9/9 ACs com evidência, local e remota.
+
+Re-execução da afirmação mais arriscada (orquestrador, clone limpo): mutante `toLocal()` → `momento`,
+`TZ=UTC tool/check.sh app` → `+220 -10: Some tests failed.`, `== check: app FAILED`, exit 1 — confere com M5.

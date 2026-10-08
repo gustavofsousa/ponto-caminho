@@ -37,7 +37,6 @@ Ver [`docs/roadmap.md`](docs/roadmap.md) e [`.specs/features/voltar/`](.specs/fe
 | [`livros/`](livros/) | Dados das três obras: schema, índices, mock e validação |
 
 ```bash
-python3 livros/validar.py
-(cd packages/ponto_motor && dart test)
-(cd apps/ponto_mobile && flutter test && flutter run)
+tool/check.sh                        # o portão inteiro, o mesmo do CI
+(cd apps/ponto_mobile && flutter run)
 ```
