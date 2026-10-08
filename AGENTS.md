@@ -35,6 +35,8 @@ One fact, one owner — other docs link, they don't copy.
 ## Commands
 
 ```bash
+tool/check.sh                        # the whole gate, as CI runs it: livros, motor, app, codegen
+tool/check.sh app                    # one gate; it pins TZ=America/Sao_Paulo itself
 python3 livros/validar.py            # dev: mock data is a warning
 python3 livros/validar.py --estrito  # release: mock data is an error
 python3 -m unittest discover -s livros -p 'test_*.py'
@@ -46,6 +48,7 @@ python3 -m unittest discover -s livros -p 'test_*.py'
 
 ## Done means
 
+- `tool/check.sh` exits 0 — the same gate CI runs on every push.
 - `validar.py` exits 0 after any change under `livros/`.
 - Any content change bumps that file's `versaoDados`.
 - After a feature lands: reconcile `roadmap.md` status, `backlog.md` bands, `dominios.md` rows.
