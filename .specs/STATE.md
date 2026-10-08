@@ -93,6 +93,15 @@
 - **Date**: 2026-10-07
 - **Status**: active
 
+### AD-012
+- **Decision**: CI no GitHub Actions (`ubuntu-latest`, Flutter fixo na versão de dev). O portão mora em `tool/check.sh`; o workflow só chama o script, um passo por portão (`livros`, `motor`, `app`, `codegen`), e o script fixa `TZ=America/Sao_Paulo`.
+- **Reason**: repo público → minutos ilimitados nos runners padrão, sem conta nova; Codemagic só se paga com assinatura iOS, fora do roadmap próximo. Com o portão no script, o mesmo comando roda local e no CI, e o fuso fixado vale também numa máquina em UTC.
+- **Trade-off**: assinatura iOS/TestFlight dá mais trabalho manual no Actions do que no Codemagic.
+- **Scope**: `tool/`, `.github/workflows/`, todo portão de "Done means"
+- **Date**: 2026-10-08
+- **Status**: active
+- **Revisit trigger**: quando o pipeline iOS (TD-005) for puxado para uma versão.
+
 ## Handoff
 
 - **Feature**: `.specs/features/voltar` (v0.4) — **verificada** (Verifier PASS, rodada 3)
