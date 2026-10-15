@@ -5,7 +5,21 @@
 
 ## Constitution
 
-- **Mode: MVP.** No traction yet. The v1.0 gate is one real reader using the app for two weeks
+```yaml
+type: enxuto              # small and solid, straight to the store; named by the owner on 2026-10-14
+open-source: false
+rigor:                      # off | designed | enforced; types, defaults and events: _hq/ia/catalogs/project-types.md
+  auth: designed
+  privacy: designed
+  tests: enforced
+  ci: designed
+  observability: designed
+  scale: designed
+```
+
+- **Promotion is an event the owner names.** Never change `type` or raise an axis on your own.
+  Types, defaults and events: `_hq/ia/catalogs/project-types.md`.
+- **v1.0 gate.** One real reader uses the app for two weeks
   without asking for anything missing. Anything that doesn't serve that goes to `docs/backlog.md`.
 - **Mobile-first, local-first.** v1.0 has no account, no server, no sync, no notifications.
 - **Language.** Docs and UI copy: PT-BR (audience is Brazil only). Code structure, verbs, types,
