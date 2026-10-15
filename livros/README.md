@@ -61,9 +61,12 @@ Para cada capítulo da obra, na ordem:
 }
 ```
 
-Marque `"validado": true` **apenas** depois de conferir título, ordem e intervalo contra a edição
-impressa. Rode `validar.py` em seguida: ele checa que a numeração vai de 1 a N sem buracos, que os
-intervalos são contíguos e que o último ponto do índice bate com `obra.totalPontos`.
+Marque `"validado": true` **só** depois de conferir título, ordem e intervalo contra a edição
+impressa. Depois rode `validar.py`. Ele checa três coisas:
+
+- A numeração vai de 1 a N sem buracos.
+- Os intervalos são contíguos.
+- O último ponto do índice bate com `obra.totalPontos`.
 
 Ao mudar qualquer dado de conteúdo, **incremente `versaoDados`**. Uma coleção é imutável dentro de
 uma versão — é isso que mantém estáveis as referências já guardadas pelos usuários em anotações e

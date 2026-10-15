@@ -1,39 +1,33 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# ponto_motor
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages). 
+O motor de pontos do Ponto. É Dart puro: sem Flutter e sem I/O. Ele não conhece nenhuma obra em
+particular. Ele recebe uma `Colecao` e responde sobre ela.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages). 
--->
+## O que o motor faz
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+| Pasta (`lib/src/`) | Domínio | Responde |
+| --- | --- | --- |
+| `colecao/` | `colecao` | carregar e ler uma coleção (obra, capítulo, ponto) e o id de um ponto |
+| `selecao/` | `selecao` | qual ponto mostrar: por id, aleatório, anterior e próximo na sequência |
+| `leitura/` | `leitura` | o que foi lido e por onde continuar |
+| `registro/` | `registro` | reflexão e coleção pessoal |
 
-## Features
+O ponto de entrada é `lib/ponto_motor.dart`. Os domínios e as fronteiras estão em
+[`docs/dominios.md`](../../docs/dominios.md). O vocabulário está em [`docs/modelo.md`](../../docs/modelo.md).
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+## Regras
 
-## Getting started
+- O motor nunca importa Flutter nem faz I/O. O app (`apps/ponto_mobile`) orquestra as telas e faz o
+  I/O.
+- Os nomes do domínio ficam em português sem acento (`ponto`, `obra`, `capitulo`, `colecao`). Nunca
+  traduza.
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+## Testes
 
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
-```dart
-const like = 'sample';
+```sh
+cd packages/ponto_motor
+dart pub get
+dart test
 ```
 
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+`test/livros_contract_test.dart` checa o contrato dos dados reais em `livros/`.

@@ -31,8 +31,8 @@ o produto.
 
 Um corpus fechado e versionado de textos curtos. É a unidade que se pode trocar.
 
-A coleção inicial é `caminho-sulco-forja`, que agrupa as três obras. Uma coleção futura poderia ser
-`regra-de-sao-bento`, `pensamentos-pascal` ou uma compilação própria de um grupo de formação.
+A coleção inicial é `caminho-sulco-forja`, que agrupa as três obras. Exemplos de coleção
+futura: `regra-de-sao-bento`, `pensamentos-pascal` ou uma compilação própria de um grupo de formação.
 
 | Campo | Tipo | Notas |
 | --- | --- | --- |

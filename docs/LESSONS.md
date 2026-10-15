@@ -5,7 +5,7 @@
 - **Mock data needs a gate, not a promise.** Mocks live in the real files (so replacing them is
   an in-place edit) and carry `"nota": "mock"`; `validar.py --estrito` turns them into errors.
   Same pattern as the old licensing gate: make the rule mechanical so it doesn't depend on memory.
-- **A validator should check the invariant you just broke.** The first Forja mock put point 82 in
+- **A validator must check the invariant you just broke.** The first Forja mock put point 82 in
   chapter 2 while chapter 1 ran 1–82. The "point inside its chapter range" check was added after
   catching it by hand.
 - **Decide encryption with the storage, not later.** Both expo-sqlite (SQLCipher) and drift
@@ -89,8 +89,8 @@
   same name is silently skipped; an index with that name is an error. That is the conflicting
   object the rollback test plants.
 - **A test harness can make a test lie.** `montarTela` uses a fixed theme, so changing the
-  preferences controller in a test never reached the page — the "record once per opening" guard
-  could be deleted and the test still passed. Wrap the page in a `Theme` that really changes,
+  preferences controller in a test never reached the page. We deleted the "record once per opening"
+  guard and the test still passed. Wrap the page in a `Theme` that changes,
   the way `MaterialApp.themeMode` does, and the mutant dies.
 - **"Most recent" is insertion order, not the clock.** A phone's clock can go back; an
   `AUTOINCREMENT` id cannot (AD-010).
@@ -105,8 +105,8 @@
 - **A plugin's documented build floor is a claim; the APK build is the test.** `share_plus` 13.3.1
   says AGP ≥ 8.12.1; the debug APK builds on 8.11.1, so no Gradle upgrade was made.
 - **A rule proven in the motor is not proven in the app.** The motor's window tests were
-  exhaustive, yet the home could ask the registro for one recent point (M31) or hand them over
-  oldest first (M49) and every test stayed green. The screen needs its own test of the rule's
+  exhaustive. Yet two mutants in the home kept every test green: one asked the registro for one
+  recent point (M31), one handed them over oldest first (M49). The screen needs its own test of the rule's
   full input: enough points to tell 10 from 9, and an order that only the right end shrinks.
 - **An in-memory database is too fast to show a race.** "Quick taps record every point" passed
   even with a guard that dropped readings while a write was in flight, because each write finished

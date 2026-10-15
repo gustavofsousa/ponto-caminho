@@ -76,15 +76,15 @@ exportação, web e desktop — previstos na arquitetura, nenhum na primeira ent
 
 O diferencial **não** é ter os textos. É transformar a leitura em um percurso pessoal e organizado.
 
-O app ajuda a construir uma **memória espiritual pessoal** ao longo de meses e anos — algo que um
-PDF, um site de consulta ou um grupo de mensagens não fazem e não pretendem fazer.
+O app ajuda a construir uma **memória espiritual pessoal** ao longo de meses e anos. Um PDF, um site
+de consulta ou um grupo de mensagens não fazem isso e não pretendem fazer.
 
 ## Arquitetura: o motor de pontos
 
 O produto nasce desacoplado em três camadas: **conteúdo**, **motor de seleção** e **experiência de leitura**.
 
-O motor recebe qualquer coleção estruturada de textos curtos e sabe devolver um ponto por ID, um
-ponto aleatório, o ponto do dia e o próximo de uma sequência — além de registrar leituras, favoritos,
+O motor recebe qualquer coleção estruturada de textos curtos. Ele devolve um ponto por ID, um ponto
+aleatório, o ponto do dia e o próximo de uma sequência. Ele também registra leituras, favoritos,
 listas e anotações.
 
 Consequência prática: a coleção *Caminho, Sulco e Forja* pode ser substituída por outras — meditações,
